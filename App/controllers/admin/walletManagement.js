@@ -1,7 +1,7 @@
 const Wallet = require('../../models/WalletSchema');
 const User = require('../../models/userSchema');
 
-exports.getWalletTransactionsPage = async (req, res) => {
+exports.getWalletTransactionsPage = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = 5;
@@ -57,13 +57,12 @@ exports.getWalletTransactionsPage = async (req, res) => {
       search,
     });
   } catch (error) {
-    console.error('Error listing wallet transactions:', error);
-    return res.redirect('/admin/errorPage');
+    next(error);
   }
 };
 
 
-exports.getTransactionDetails = async (req, res) => {
+exports.getTransactionDetails = async (req, res, next) => {
   try {
     const transactionId = req.params.id; 
 
@@ -71,13 +70,13 @@ exports.getTransactionDetails = async (req, res) => {
       .populate('user', 'email');
     
     if (!wallet) {
-      return res.status(404).render('error', { message: 'Transaction not found' });
+      return res.status(404).render('error-404');
     }
 
     // Find the specific transaction by transactionId
     const transaction = wallet.transactions.find(t => t.transactionId === transactionId);
     if (!transaction) {
-      return res.status(404).render('error', { message: 'Transaction not found' });
+      return res.status(404).render('error-404');
     }
 
     res.render('transactionDetails', {
@@ -85,7 +84,6 @@ exports.getTransactionDetails = async (req, res) => {
       user: wallet.user
     });
   } catch (error) {
-    console.error('Error fetching transaction details:', error);
-    return res.redirect('/admin/errorPage');
+    next(error);
   }
 };

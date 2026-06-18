@@ -8,7 +8,7 @@ const bcrypt=require('bcrypt')
 
 // =============================================UserProfile-GET=====================================================================//
 
-exports. getUserProfile = async (req,res)=>{
+exports. getUserProfile = async (req,res,next)=>{
   try {
     if(!req.session.user){
       return res.redirect('/login')
@@ -20,28 +20,26 @@ exports. getUserProfile = async (req,res)=>{
     }
     return res.render('user-profile',{user})
   } catch (error) {
-    console.log("Error loading User profile page",error)
-    return res.redirect('/pageNotFound')
+    next(error);
   }
 }
 
 // =============================================UserChangePassword-GET=====================================================================//
 
-exports.getChangePassword = async (req,res) => {
+exports.getChangePassword = async (req,res,next) => {
   try {
     if(!req.session.user){
       return res.redirect('/login')
     }
     return res.render('user-changePassword')
   } catch (error) {
-    console.log("Error loading User change password page",error)
-    return res.redirect('/pageNotFound')
+    next(error);
   }
 }
 
 // =============================================UserChangePassword-POST=====================================================================//
 
-exports.putChangePassword = async (req,res) =>{
+exports.putChangePassword = async (req,res,next) =>{
   try {
     const { oldPassword, newPassword, confirmPassword } = req.body;
     const userId = req.session.user.id
@@ -69,13 +67,12 @@ exports.putChangePassword = async (req,res) =>{
 
     return res.status(200).json({ success:true,message: 'Password updated successfully' });
   } catch (error) {
-    console.error('Error changing password:', error);
-    return res.status(500).json({ success:false,message: 'Internal Server Error' }); 
+    next(error);
   }
 }
 
 // =============================================EditUserProfile-GET========================================================================//
-exports.getEditUserProfile = async (req,res) => {
+exports.getEditUserProfile = async (req,res,next) => {
   try {
     if(!req.session.user){
       return res.redirect('/login')
@@ -86,13 +83,12 @@ exports.getEditUserProfile = async (req,res) => {
     }
     return res.render('user-profile-edit',{user})
   } catch (error) {
-    console.log("Error loading User edit profile page",error)
-    return res.redirect('/pageNotFound')
+    next(error);
   }
 }
 
 // =============================================EditUserProfile-POST========================================================================//
-exports.putEditUserProfile = async (req,res) => {
+exports.putEditUserProfile = async (req,res,next) => {
   try {
     
     const{fullName,email,mobile} = req.body
@@ -119,8 +115,7 @@ exports.putEditUserProfile = async (req,res) => {
      await user.save();
      return res.status(200).json({success:true, message: 'Profile updated successfully', user });
   } catch (error) {
-    console.error('Error updating profile:', error);
-    return res.status(500).json({ success:false,message: 'Internal Server Error' });
+    next(error);
   }
 }
 
@@ -128,7 +123,7 @@ exports.putEditUserProfile = async (req,res) => {
 
 // ===============================================WalletPage-GET===================================================================//
 
-exports.getWallet = async (req, res) => {
+exports.getWallet = async (req, res, next) => {
   try {
     if (!req.session.user){
        return res.redirect('/login');
@@ -150,13 +145,12 @@ exports.getWallet = async (req, res) => {
 
     return res.render('user-wallet', { wallet });
   } catch (error) {
-    console.error('Error fetching wallet:', error);
-    return res.redirect('/pageNotFound');
+    next(error);
   }
 };
 
 // ===============================================WishlistPage-GET===================================================================//
-exports.getWishlistPage = async (req,res) => {
+exports.getWishlistPage = async (req,res,next) => {
   try {
     if(!req.session.user){
       return res.redirect('/login')
@@ -216,13 +210,12 @@ exports.getWishlistPage = async (req,res) => {
     }).filter((item) => item !== null)
     return res.render('user-wishlist', { wishlistItems })
   } catch (error) {
-    console.log("Error in loading Wishlist Page:", error);
-    res.redirect('/pageNotFound');
+    next(error);
   }
 }
 
 // ===============================================WishlistPage-POST===================================================================//
-exports.postaddToWishlist = async (req,res) => {
+exports.postaddToWishlist = async (req,res,next) => {
   try {
 
     const {productId,variantId} = req.body
@@ -257,15 +250,14 @@ exports.postaddToWishlist = async (req,res) => {
       return res.status(200).json({success:true,action:'added',message:'Added to wishlist'})
     }
   } catch (error) {
-    console.log("Error in addToWishlist:", error);
-    res.status(500).json({ success: false, message: "Server error" });
+    next(error);
   }
 }
 
 
 // ===============================================WishlistStatus-GET(home,products,productdetail)===================================================================//
 
-exports.getWishlistItemsStatus = async (req, res) => {
+exports.getWishlistItemsStatus = async (req, res, next) => {
   try {
       if(!req.session.user){
         return res.redirect('/login')
@@ -284,7 +276,6 @@ exports.getWishlistItemsStatus = async (req, res) => {
           }))
       });
   } catch (error) {
-      console.log("Error fetching wishlist items:", error);
-      res.status(500).json({ success: false, message: "Server error" });
+      next(error);
   }
 };

@@ -27,7 +27,7 @@ This project demonstrates modern backend capabilities including secure authentic
 * **View Engine:** EJS (Embedded JavaScript)
 * **Payment Gateway:** Razorpay API
 * **Cloud Storage:** Cloudinary API
-* **Email Service:** Resend API / Nodemailer
+* **Email Service:** Resend API 
 
 ---
 

@@ -10,6 +10,8 @@ const  mongoDB=require("./config/db")
 const userRoutes=require('./routes/userRoutes')
 const adminRoutes=require('./routes/adminRoutes');
 const setUserData = require('./middlewares/sessionAuth');
+const errorHandler = require('./middlewares/errorHandler');
+const notFoundHandler = require('./middlewares/notFoundHandler');
 
 const app=express()
 
@@ -46,6 +48,10 @@ app.use(express.static(path.join(__dirname,'public')))
 
 app.use('/admin',adminRoutes)
 app.use('/',setUserData,userRoutes)
+
+app.use(notFoundHandler);
+
+app.use(errorHandler);
 
 
 

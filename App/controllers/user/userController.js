@@ -6,24 +6,15 @@ const resend = new Resend(process.env.RESEND_API_KEY); // Initialize Resend
 const User=require('../../models/userSchema')
 const Otp = require('../../models/otpSchema')
 
-// =======================================UserErrorPage-GET===========================================================================//
-const getpageNotFound=async(req,res)=>{
-  try{
-   return res.render('page-404')
-  }
-  catch(error){
-   res.redirect('/pageNotFound')
-  }
-}
+
 
 // ==========================================UserSignup-GET=========================================================================//
-const getSignupPage=async(req,res)=>{
+const getSignupPage=async(req,res,next)=>{
   try{
     return res.render('signup',{errorMessage:null})
   }
   catch(error){
-    console.log("signup page is not found",error)
-    res.status(500).send("server error")
+    next(error);
   }
 }
 
@@ -86,7 +77,7 @@ async function sendVerificationEmail(email, otp, isDemoMode) {
 
 // ===============================================UserSignup-POST===================================================================//
 
-const postSignupPage=async(req,res)=>{
+const postSignupPage=async(req,res,next)=>{
   try{
   
   const {name,phone,email,password,confirmPassword}= req.body
@@ -136,15 +127,14 @@ const postSignupPage=async(req,res)=>{
   
 }
   catch(error){
-   console.error("Error during OTP verification",error)
-   res.redirect('/pageNotFound')
+   next(error);
   }
 }
 
 // ====================================================UserVerifyOTP-POST==============================================================//
 
 
-const postverifyOtp = async (req,res)=>{
+const postverifyOtp = async (req,res,next)=>{
   try{
    const {otp} = req.body;
    const {email} = req.session.userData
@@ -180,13 +170,12 @@ const postverifyOtp = async (req,res)=>{
   
   }
   catch(error){
-   console.log("Error verifying OTP",error)
-   res.status(500).json({success:false,message:"An error occured"})
+   next(error);
   }
 }
 
 // =============================================UserResendOTP-POST=====================================================================//
-const postResendOtp = async (req,res)=>{
+const postResendOtp = async (req,res,next)=>{
   try{
    const{email} = req.session.userData  
    console.log("Resending Otp to:",email) //debugging
@@ -230,25 +219,24 @@ const postResendOtp = async (req,res)=>{
     }
   }
   catch(error){
-    console.log("Error resending OTP",error)
-    res.status(500).json({success:false,message:"Internal Server Error.Please try again"})
+    next(error);
   }
 }
 
 // =============================================UserLogin-GET=====================================================================//
 
-const getLoginPage = async (req, res) => {
+const getLoginPage = async (req, res, next) => {
   try {
     const message = req.query.message || null;
     return res.render('login',{errorMessage:message});
   } catch (error) {
-     return  res.redirect('/pageNotFound');
+     next(error);
   }
 };
 
 
 // ===============================================UserLogin-POST===================================================================//
-const postLoginPage = async (req,res)=>{
+const postLoginPage = async (req,res,next)=>{
   try{
     const{email,password}=req.body
   
@@ -279,22 +267,20 @@ const postLoginPage = async (req,res)=>{
   }
 
   catch(error){
-    console.error("Login error",error)
-    return res.render('login',{errorMessage:"Login failed.Please try again later"})
+    next(error);
   }
 }
 
 // ===============================================GoogleLogin Callback Fn===================================================================//
 
-const googleLogin = async(req,res) => {
+const googleLogin = async(req,res,next) => {
   try{
     const user = await User.findById(req.user._id);      // req.user: The authenticated user object from Passport.  // here,~ Access the logged-in user’s Id
     req.session.user = {id:user._id};
     res.redirect('/');
   }
   catch(error){
-   console.error("Erro during Google Login",error)
-   return res.status(500).send("Internal Server Error")
+   next(error);
   }
   
 }
@@ -302,14 +288,14 @@ const googleLogin = async(req,res) => {
 
 // ==================================================UserLogout-POST================================================================//
 
-const postLogoutPage = async (req,res)=>{
+const postLogoutPage = async (req,res,next)=>{
 try {
 
   req.session.destroy((err)=>{
 
    if(err){
     console.log("Session Logout error",err.message);
-    return res.redirect('/pageNotFound') 
+    return next(err);
    }
 
    else{
@@ -318,8 +304,7 @@ try {
   }) 
 
 } catch (error) {
-  console.error("Error during Logout",error)
-  res.redirect('/pageNotFound')
+  next(error);
 }
 
 }
@@ -327,17 +312,16 @@ try {
 
 
 // ==========================================Forgot Password-GET=========================================================================//
-const getForgotPasswordPage = async (req, res) => {
+const getForgotPasswordPage = async (req, res, next) => {
   try {
     return res.render('forgot-password');
   } catch (error) {
-    console.log("Forgot password page is not found", error);
-    res.status(500).send("Server error");
+    next(error);
   }
 };
 
 // ==========================================Reset Password-POST=========================================================================//
-const postResetPassword = async (req, res) => {
+const postResetPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
 
@@ -374,23 +358,21 @@ const postResetPassword = async (req, res) => {
     console.log("OTP sent successfully", otp);
 
   } catch (error) {
-    console.error("Error during OTP verification", error);
-    res.redirect('/pageNotFound');
+    next(error);
   }
 };
 
 // ==========================================Forgot Verify OTP-GET=========================================================================//
-const getForgotVerifyOtpPage = async (req, res) => {
+const getForgotVerifyOtpPage = async (req, res, next) => {
   try {
     return res.render('forgot-verify-otp');
   } catch (error) {
-    console.log("Forgot verify OTP page is not found", error);
-    res.status(500).send("Server error");
+    next(error);
   }
 };
 
 // ==========================================Forgot Verify OTP-POST=========================================================================//
-const postForgotVerifyOtp = async (req, res) => {
+const postForgotVerifyOtp = async (req, res, next) => {
   try {
     const { otp } = req.body;
     const { email } = req.session.userData;
@@ -409,23 +391,21 @@ const postForgotVerifyOtp = async (req, res) => {
     res.status(200).json({ success: true, redirectUrl: "/forgot-confirm-password" });
 
   } catch (error) {
-    console.error("Error verifying OTP", error);
-    res.status(500).json({ success: false, message: "An error occurred" });
+    next(error);
   }
 };
 
 // ==========================================Forgot Confirm Password-GET=========================================================================//
-const getForgotConfirmPasswordPage = async (req, res) => {
+const getForgotConfirmPasswordPage = async (req, res, next) => {
   try {
     return res.render('forgot-reset-password');
   } catch (error) {
-    console.log("Forgot confirm password page is not found", error);
-    res.status(500).send("Server error");
+    next(error);
   }
 };
 
 // ==========================================Forgot Confirm Password-POST=========================================================================//
-const postForgotConfirmPassword = async (req, res) => {
+const postForgotConfirmPassword = async (req, res, next) => {
   try {
     const { newPassword, confirmPassword } = req.body;
     const { email } = req.session.userData;
@@ -447,14 +427,12 @@ const postForgotConfirmPassword = async (req, res) => {
     return res.status(200).json({ success: true, message: "Password reset successfully. Redirecting to login...", redirectUrl: "/login" });
 
   } catch (error) {
-    console.error("Error resetting password", error);
-    res.status(500).json({ success: false, message: "An error occurred" });
+    next(error);
   }
 };
 
 
 module.exports={
-   getpageNotFound,
    getSignupPage,
    postSignupPage,
    postverifyOtp,

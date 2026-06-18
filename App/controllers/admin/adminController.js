@@ -6,32 +6,21 @@ const bcrypt = require('bcrypt')
 
 
 
-//===============================================AdminErrorPage-GET===================================================================//
-
-exports.getAdminErrorPage=async(req,res)=>{
-  try{
-   return res.render('error-page.ejs')
-  }
-  catch(error){
-   res.redirect('/admin/errorPage')
-  }
-}
 // ===============================================AdminLogin--GET===================================================================//
 
- exports.getAdminLogin = async (req,res)=>{
+ exports.getAdminLogin = async (req,res,next)=>{
   try {   
      return res.render('admin-login',{errorMessage:null})
     }
     
   catch (error) {
-    console.error('Login page is not found',error)
-    res.status(500).send("Internal server error")
+    next(error);
   }
 }
 
 
 // ============================================== AdminLogin--POST==================================================================//
-exports.postAdminLogin = async (req,res)=>{
+exports.postAdminLogin = async (req,res,next)=>{
 
 try {
   const {email,password} = req.body
@@ -55,20 +44,19 @@ try {
   }
   
   catch (error) {
-  console.log("Login error",error)
-  res.status(500).send("Internal server error")
+    next(error);
   }
 
 }
 
 // ===============================================AdminLogout--POST===================================================================//
-exports.postAdminLogout = async (req,res)=>{
+exports.postAdminLogout = async (req,res,next)=>{
    
    try{
     req.session.destroy((err)=>{
      if(err){
       console.error("Session Logout Error",err)
-      return res.status(500).render('error-page.ejs', { errorMessage: "Failed to log out. Please try again." });
+      return next(err);
      }
      else{
      
@@ -77,8 +65,7 @@ exports.postAdminLogout = async (req,res)=>{
     })
   }
   catch(error){
-    console.error("Error during Logout",error)
-    res.redirect('/admin/errorPage')
+    next(error);
    }
 
 }

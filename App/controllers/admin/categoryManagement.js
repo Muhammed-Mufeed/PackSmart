@@ -3,7 +3,7 @@ const  cloudinary  = require('../../config/cloudinary');
 
 // ====================================================categoryManagement-GET========================================================================//
 
-exports.getCategoryManagement = async (req,res)=>{
+exports.getCategoryManagement = async (req,res,next)=>{
   try {
    // Get page and search parameters
    const page = parseInt(req.query.page) || 1;
@@ -29,26 +29,24 @@ exports.getCategoryManagement = async (req,res)=>{
      res.render('categories',{categories,currentPage:page,totalPages,search})
   } 
   catch (error) {
-    console.error("Error during loading category page",error)
-    res.redirect('/admin/errorPage')
+    next(error);
   }
 }
 
 
 // ===============================================AddCategory-GET===================================================================//
 
-exports.getAddCategory = (req,res)=>{
+exports.getAddCategory = (req,res,next)=>{
   try {
     res.render('add-category')
   } catch (error) {
-    console.error("Error during loading Add category page",error)
-    res.redirect('/admin/errorPage')
+    next(error);
   }
 }
 
 // ===============================================AddCategory-POST===================================================================//
 
-exports.postAddCategory = async (req, res) => {
+exports.postAddCategory = async (req, res, next) => {
   try {
     const{name,description} = req.body
 
@@ -83,32 +81,30 @@ exports.postAddCategory = async (req, res) => {
     res.status(200).json({success:true, message:"Category added successfully"})
 
   } catch (error) {
-    console.log("Error in postAddCategory",error)
-    res.status(500).json({success:false,message:"Failed to add category"})
+    next(error);
   }
 }
 
 // ===============================================EditCategory-GET===================================================================//
-exports.getEditCategory = async (req, res) => {
+exports.getEditCategory = async (req, res, next) => {
   try {
     const categoryId = req.params.id;
     const category = await Category.findById(categoryId);
     
     if (!category) {
-      return res.status(404).render('error', { message: 'Category not found' });
+      return res.status(404).render('error-404');
     }
 
     res.render('edit-category', { category });
 
 } catch (error) {
-    console.error('Error during loading EditCategory page:', error);
-    res.redirect('/admin/errorPage')
+    next(error);
 }
 }
 
 // ===============================================EditCategory-PUT===================================================================//
 
-exports.putEditCategory = async (req, res) => {
+exports.putEditCategory = async (req, res, next) => {
   try {
     const categoryId = req.params.id;
     const { name, description } = req.body;
@@ -158,14 +154,13 @@ exports.putEditCategory = async (req, res) => {
 
     res.status(200).json({ success: true, message: 'Category updated successfully', category: updatedCategory });
 } catch (error) {
-    console.error('Error in updateCategory:', error);
-    res.status(500).json({ success: false, message: 'Failed to update category' });
+    next(error);
 }
 };
 // ===============================================UpdateCategoryStatus-PATCH===================================================================//
 
 
-exports.patchUpdateCategoryStatus = async (req,res)=>{
+exports.patchUpdateCategoryStatus = async (req,res,next)=>{
   try {
 
     const categoryId =  req.params.categoryId
@@ -188,7 +183,6 @@ exports.patchUpdateCategoryStatus = async (req,res)=>{
    }
 
    catch (error) {
-    console.log("Error occured while updating Category Status",error)
-    res.status(500).json({message:"Failed to update category Status"})
+    next(error);
   }
 }

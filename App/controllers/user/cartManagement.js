@@ -6,11 +6,11 @@ const Wishlist = require('../../models/wishlistSchema')
 
 // =========================================================AddtoCart-POST===================================================//
 
-exports.postAddtoCart = async (req,res)=>{
+exports.postAddtoCart = async (req,res,next)=>{
   try {
+
     const { productId, variantId, fromWishlist } = req.body;
     const userId = req.session.user.id
-
     
     const product = await Product.findById(productId);
     if (!product) {
@@ -67,15 +67,14 @@ exports.postAddtoCart = async (req,res)=>{
     return res.status(200).json({success:true,message:"Item added to the Cart"})
 
   } catch (error) {
-    console.log("Error While posting in the Product detail page",error)
-    return res.status(500).json({success:false,message:"Internal Server Error"})
-   
+    next(error);
   }
 }
 
 // =========================================================CartPage-GET============================================================//
-exports.getCartPage = async (req, res) => {
+exports.getCartPage = async (req, res, next) => {
   try {
+
     if (!req.session.user) {
       return res.redirect('/login'); 
     }
@@ -145,15 +144,15 @@ exports.getCartPage = async (req, res) => {
     return res.render('user-cart', { cartItems, subtotal });
 
   } catch (error) {
-    console.log("Error in loading Cart Page", error);
-    return res.redirect('/pageNotFound');
+    next(error);
   }
 };
 
 
 // =========================================================UpdateCartPage-POST============================================================//
-exports.putUpdateCartPage = async (req,res)=>{
+exports.putUpdateCartPage = async (req,res,next)=>{
   try {
+
     const {productId,variantId,quantity} = req.body
     const userId = req.session.user.id
 
@@ -198,14 +197,13 @@ exports.putUpdateCartPage = async (req,res)=>{
     }
 
   } catch (error) {
-    console.error('Error updating cart:', error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    next(error);
   }
 }
 
 // =========================================================RemovCartPage-POST============================================================//
 
-exports.deleteRemoveCart = async(req,res) => {
+exports.deleteRemoveCart = async(req,res,next) => {
   try {
     const{productId,variantId} = req.body
     const userId = req.session.user.id
@@ -228,14 +226,13 @@ exports.deleteRemoveCart = async(req,res) => {
 
     return res.json({success:true, message:"Item removed from the cart"})
   } catch (error) {
-    console.error('Error removing from cart:', error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    next(error);
   }
 }
 
 // =========================================================checkOut-POST============================================================//
 
-exports.postCartTocheckout = async (req,res) => {
+exports.postCartTocheckout = async (req,res,next) => {
   try {
     const userId = req.session.user.id;
     
@@ -262,7 +259,6 @@ exports.postCartTocheckout = async (req,res) => {
 
     return res.status(200).json({success:true,message:'Proceed to checkout'})
   } catch (error) {
-    console.error('Error during checkout validation:', error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    next(error);
   }
 }

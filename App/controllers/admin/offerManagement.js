@@ -2,7 +2,7 @@ const Offer = require("../../models/offerSchema");
 const Category = require("../../models/categorySchema");
 
 // ===============================================CategoryOffers-GET===================================================================//
-exports.getCategoryOffers = async (req, res) => {
+exports.getCategoryOffers = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = 5;
@@ -24,25 +24,23 @@ exports.getCategoryOffers = async (req, res) => {
 
     res.render("offers", { offers, currentPage: page, totalPages, search });
   } catch (error) {
-    console.error("Error during loading offers page:", error);
-    res.redirect("/admin/errorPage");
+    next(error);
   }
 };
 
 // ===============================================Add Categoryffer - GET===================================================================//
 
-exports.getAddCategoryOffer = async (req, res) => {
+exports.getAddCategoryOffer = async (req, res, next) => {
   try {
     const categories = await Category.find({ isListed: true });
     return res.render("add-offer", { categories });
   } catch (error) {
-    console.error("Error during loading add offer page:", error);
-    return res.redirect("/admin/errorPage");
+    next(error);
   }
 };
 
 // ===============================================Add Category Offer-POST===================================================================//
-exports.postAddCategoryOffer = async (req, res) => {
+exports.postAddCategoryOffer = async (req, res, next) => {
   try {
     const { categoryId, categoryDiscount, validFrom, validTo } = req.body;
 
@@ -73,15 +71,14 @@ exports.postAddCategoryOffer = async (req, res) => {
 
     return res.status(200).json({ success: true, message: "Category offer added successfully" });
   } catch (error) {
-    console.error("Error during adding offer:", error);
-    return res.status(500).json({ success: false, message: "Failed to add category offer" });
+    next(error);
   }
 };
 
 
 // ===============================================Edit Category Offer-GET===================================================================//
 
-exports.getEditCategoryOffer = async (req, res) => {
+exports.getEditCategoryOffer = async (req, res, next) => {
   try {
     const offerId = req.params.id;
     const offer = await Offer.findById(offerId);
@@ -93,13 +90,12 @@ exports.getEditCategoryOffer = async (req, res) => {
 
     res.render("edit-offer", { categories, offer });
   } catch (error) {
-    console.error("Error during loading edit offer page:", error);
-    res.redirect("/admin/errorPage");
+    next(error);
   }
 };
 
 // ===============================================Edit Category Offer-PUT===================================================================//
-exports.putEditCategoryOffer = async (req, res) => {
+exports.putEditCategoryOffer = async (req, res, next) => {
   try {
     const offerId = req.params.id;
     const { categoryId, categoryDiscount, validFrom, validTo } = req.body;
@@ -132,14 +128,13 @@ exports.putEditCategoryOffer = async (req, res) => {
 
     return res.status(200).json({ success: true, message: "Category offer updated successfully" });
   } catch (error) {
-    console.error("Error during updating offer:", error);
-    return res.status(500).json({ success: false, message: "Failed to update category offer" });
+    next(error);
   }
 };
 
 // ===============================================Update Category Offer Status-PATCH===================================================================//
 
-exports.patchUpdateOfferStatus = async (req, res) => {
+exports.patchUpdateOfferStatus = async (req, res, next) => {
   try {
     const offerId = req.params.id;
     
@@ -157,7 +152,6 @@ exports.patchUpdateOfferStatus = async (req, res) => {
     return res.status(200).json({success: true,isActive: offer.isActive, message});
   }
   catch (error) {
-    console.error('Error updating offer status:', error);
-    return res.status(500).json({success: false,message: 'Failed to update offer status'});
+    next(error);
   }
 };

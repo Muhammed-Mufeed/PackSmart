@@ -1,7 +1,7 @@
 const Coupon = require('../../models/couponSchema')
 
 // ===============================================Coupons - GET===================================================================//
-exports.getCoupons = async (req,res) => {
+exports.getCoupons = async (req,res,next) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = 5;
@@ -22,26 +22,24 @@ exports.getCoupons = async (req,res) => {
 
     return res.render('coupons',{coupons,currentPage:page,totalPages,search})
   } catch (error) {
-    console.error("Error during loading coupons page:", error);
-    res.redirect("/admin/errorPage");
+    next(error);
   }
 }
 
 
 // ===============================================Add Coupons - GET===================================================================//
 
-exports.getAddCoupon =  async (req,res) => {
+exports.getAddCoupon =  async (req,res,next) => {
   try {
     return res.render('add-coupons')
   } catch (error) {
-   console.log("Error while loading Add Coupons page",error)
-   return res.redirect('/admin/errorPage')
+   next(error);
   }
 }
 
 // ===============================================Add Coupons - POST===================================================================//
 
-exports.postAddCoupon = async (req, res) => {
+exports.postAddCoupon = async (req, res, next) => {
   try {
     const { couponCode, minPurchaseAmount,discountAmount, validFrom, validTo, usageLimit } = req.body;
 
@@ -66,15 +64,14 @@ exports.postAddCoupon = async (req, res) => {
 
     return res.status(200).json({ success: true, message: "Coupon added successfully" });
   } catch (error) {
-    console.error("Error during adding coupon:", error);
-    return res.status(500).json({ success: false, message: "Failed to add coupon" });
+    next(error);
   }
 };
 
 // ===============================================Edit-Coupons -GET===================================================================//
 
 
-exports.getEditCoupon = async (req, res) => {
+exports.getEditCoupon = async (req, res, next) => {
   try {
     const couponId = req.params.id;
 
@@ -85,12 +82,11 @@ exports.getEditCoupon = async (req, res) => {
 
     return res.render("edit-coupons", { coupon });
   } catch (error) {
-    console.error("Error during loading edit coupon page:", error);
-    return res.redirect("/admin/errorPage");
+    next(error);
   }
 };
 // ===============================================Edit-Coupons -POST===================================================================//
-exports.putEditCoupon = async (req, res) => {
+exports.putEditCoupon = async (req, res, next) => {
   try {
     const couponId = req.params.id;
     const { couponCode, minPurchaseAmount,discountAmount, validFrom, validTo, usageLimit } = req.body;
@@ -118,13 +114,12 @@ exports.putEditCoupon = async (req, res) => {
 
     return res.status(200).json({ success: true, message: "Coupon updated successfully",updatedCoupon });
   } catch (error) {
-    console.error("Error during updating coupon:", error);
-    return res.status(500).json({ success: false, message: "Failed to update coupon" });
+    next(error);
   }
 };
 
 // ===============================================UpdateCouponStatus-PATCH===================================================================//
-exports.patchUpdateCouponStatus = async (req,res) => {
+exports.patchUpdateCouponStatus = async (req,res,next) => {
   try {
     const couponId = req.params.id
 
@@ -141,8 +136,7 @@ exports.patchUpdateCouponStatus = async (req,res) => {
     return res.status(200).json({success: true,isActive: coupon.isActive, message});
   }
   catch (error) {
-    console.error('Error updating offer status:', error);
-    return res.status(500).json({success: false,message: 'Failed to update coupon status'});
+    next(error);
   } 
 }
 
