@@ -17,7 +17,7 @@ const fs = require('fs');
 
 
 // ===============================================CheckoutPage-POST===================================================================//
- exports.postCheckoutAddaddress = async (req,res)=>{
+ exports.postCheckoutAddaddress = async (req,res,next)=>{
    try {
     const { name, pincode,mobile,locality, address, city, state,  addressType } = req.body;
     const userId = req.session.user.id;
@@ -38,15 +38,14 @@ const fs = require('fs');
 
     res.status(200).json({ success: true, message: 'Address added successfully.' });
    } catch (error) {
-    console.error('Error adding address:', error);
-    res.status(500).json({ success: false, message: 'Failed to add address.'});
+    next(error);
    }
  }
    
  
 // ===============================================CheckoutPage-GET===================================================================//
 
-exports.getCheckoutPage = async (req, res) => {
+exports.getCheckoutPage = async (req, res, next) => {
   try {
 
     if(!req.session.user){
@@ -149,8 +148,7 @@ exports.getCheckoutPage = async (req, res) => {
    });
 
   } catch (error) {
-    console.error('Error loading checkout page:', error);
-    res.status(500).send('Internal Server Error');
+    next(error);
   }
 };
 
@@ -158,7 +156,7 @@ exports.getCheckoutPage = async (req, res) => {
 
 // ===============================================CheckoutPage-POST===================================================================//
 
-exports.postPlaceOrder = async (req,res) =>{
+exports.postPlaceOrder = async (req,res,next) =>{
   try {
     const userId = req.session.user.id;
     const { addressId, paymentMethod,couponCode } = req.body;
@@ -416,8 +414,7 @@ exports.postPlaceOrder = async (req,res) =>{
         }
 
   } catch (error) {
-    console.error('Error placing order:', error);
-    return res.status(500).json({ success: false, message: 'Failed to place order.' });
+    next(error);
   }
 };
 
@@ -425,7 +422,7 @@ exports.postPlaceOrder = async (req,res) =>{
 
 // ===============================================Online Payment-POST===================================================================//
 
-exports.verifyOnlinePayment = async (req, res) => {
+exports.verifyOnlinePayment = async (req, res, next) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
@@ -474,25 +471,12 @@ exports.verifyOnlinePayment = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error('Error verifying payment:', error);
-
-    // Handle unexpected errors (e.g., Razorpay API down)
-      const order = await Order.findOne({ 'paymentDetails.razorpayOrderId': req.body.razorpay_order_id });
-      if (order) {
-        order.paymentStatus = 'Failed';
-        await order.save();
-        return res.status(500).json({
-          success: false,
-          message: 'Payment verification failed due to an error.',
-          redirectUrl: `/userOrders/${order.orderId}`,
-        });
-      }
-    return res.status(500).json({ success: false, message: 'Payment verification failed.' }); 
+    next(error);
   }
 };
 
 // ===============================================userOrderSuccessPage-GET===================================================================//
-exports.getOrderSuccess = async (req, res) => {
+exports.getOrderSuccess = async (req, res, next) => {
   try {
 
     if(!req.session.user) {
@@ -505,18 +489,17 @@ exports.getOrderSuccess = async (req, res) => {
     
     const order = await Order.findOne({ orderId, user: userId });
     if (!order) {
-      return res.redirect('/pageNotFound')
+      return res.status(404).render('page-404');
     }
 
     return res.render('userOrderSuccess', { orderId: order.orderId });
   } catch (error) {
-    console.error('Error loading order success page:', error);
-    res.status(500).send('Internal Server Error');
+    next(error);
   }
 };
 
 // ===============================================userpaymendFailure-POST===================================================================//
-exports.postPaymentFailed = async (req, res) => {
+exports.postPaymentFailed = async (req, res, next) => {
   try {
     const { orderId } = req.body;
     const userId = req.session.user.id;
@@ -533,13 +516,12 @@ exports.postPaymentFailed = async (req, res) => {
 
     return res.status(200).json({ success: true, message: 'Payment failure recorded.' });
   } catch (error) {
-    console.error('Error recording payment failure:', error);
-    return res.status(500).json({ success: false, message: 'Failed to record payment failure.' });
+    next(error);
   }
 };
 
 // ===============================================Retry payment-POST===================================================================//
-exports.postRetryPayment = async (req, res) => {
+exports.postRetryPayment = async (req, res, next) => {
   try {
     const { orderId } = req.body;
     const userId = req.session.user.id;
@@ -577,15 +559,11 @@ exports.postRetryPayment = async (req, res) => {
       mongoOrderId: order.orderId, 
     });
   } catch (error) {
-    console.error('Error generating retry payment:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'Failed to initiate retry payment.',
-    });
+    next(error);
   }
 };
 // ===============================================userOrdersList-GET===================================================================//
-exports.getUserOrderList = async (req, res) => {
+exports.getUserOrderList = async (req, res, next) => {
   try {
     if (!req.session.user) {
       return res.redirect('/login');
@@ -614,14 +592,13 @@ exports.getUserOrderList = async (req, res) => {
       totalOrders,
     });
   } catch (error) {
-    console.error('Error loading user orders Listing page:', error);
-    return res.redirect('/pageNotFound');
+    next(error);
   }
 };
 
 
 // ===============================================userOrdersHistory-GET===================================================================//
-exports.getUserOrderHistory = async (req,res) =>{
+exports.getUserOrderHistory = async (req, res, next) =>{
   try {
 
     if(!req.session.user) {
@@ -633,20 +610,19 @@ exports.getUserOrderHistory = async (req,res) =>{
 
     const order = await Order.findOne({ orderId: orderId, user: userId }); 
     if (!order) {
-      return res.status(404).render('error', { message: 'Order not found.' });
+      return res.status(404).render('page-404');
     }
 
     return res.render('user-orderDetails', { order,user:req.session.user }); 
     
   } catch (error) {
-    console.error('Error fetching order details:', error);
-    return res.redirect('/pageNotFound');
+    next(error);
   }
 }
 
 // ===============================================CancelOrder-PATCH===================================================================//
 
-exports.patchCancelItem = async (req, res) => {
+exports.patchCancelItem = async (req, res, next) => {
   try {
     const { orderId, itemId } = req.params;
     const {reason} = req.body
@@ -716,15 +692,14 @@ exports.patchCancelItem = async (req, res) => {
 
     return res.status(200).json({ success: true, message: 'Item cancelled successfully.' });
   } catch (error) {
-    console.error('Error cancelling item:', error);
-    return res.status(500).json({ success: false, message: 'Failed to cancel the item.' });
+    next(error);
   }
 };
 
 // ===============================================ReturnOrder-PATCH===================================================================//
 
 // Request Return
-exports.patchRequestReturn = async (req, res) => {
+exports.patchRequestReturn = async (req, res, next) => {
   try {
     const { orderId, itemId } = req.params;
     const { reason } = req.body;
@@ -749,15 +724,14 @@ exports.patchRequestReturn = async (req, res) => {
     await order.save();
     return res.status(200).json({ success: true, message: 'Return request submitted successfully.' });
   } catch (error) {
-    console.error('Error requesting return:', error);
-    return res.status(500).json({ success: false, message: 'Failed to request return.' });
+    next(error);
   }
 };
 
 
 // ===============================================Download Invoice-GET===================================================================//
 // ===============================================Download Invoice-GET===================================================================//
-exports.getDownloadInvoice = async (req, res) => {
+exports.getDownloadInvoice = async (req, res, next) => {
   try {
     const orderId = req.params.orderId;
     const userId = req.session.user.id;
@@ -878,7 +852,6 @@ exports.getDownloadInvoice = async (req, res) => {
     doc.end();
 
   } catch (error) {
-    console.error('Error generating invoice:', error);
-    res.status(500).json({ success: false, message: 'Failed to generate invoice.' });
+    next(error);
   }
 };

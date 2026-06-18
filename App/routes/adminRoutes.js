@@ -16,8 +16,6 @@
   const {uploadCategoryImage, uploadProductImage}= require("../middlewares/multer");
 
   // ==================================================================================================================//
-  router.get('/errorPage', checkLogin,adminController.getAdminErrorPage)
-  // ==================================================================================================================//
   router.get('/login', checkLogout, adminController.getAdminLogin)
   router.post('/login', adminController.postAdminLogin)
   router.post('/logout',  adminController.postAdminLogout)

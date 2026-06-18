@@ -6,7 +6,7 @@ const ExcelJS = require('exceljs');
 
 
 
-exports.getSalesDashboard = async (req, res) => {
+exports.getSalesDashboard = async (req, res, next) => {
     try {
         const { filter = 'monthly', startDate, endDate } = req.query;
 
@@ -104,12 +104,11 @@ exports.getSalesDashboard = async (req, res) => {
             topCategoriesData
         });
     } catch (error) {
-        console.error('Error in getSalesDashboard:', error);
-        res.status(500).send('Server Error');
+        next(error);
     }
 };
 
-exports.getChartData = async (req, res) => {
+exports.getChartData = async (req, res, next) => {
     try {
         const { filter = 'monthly', startDate, endDate } = req.query;
 
@@ -203,12 +202,11 @@ exports.getChartData = async (req, res) => {
             topCategoriesData
         });
     } catch (error) {
-        console.error('Error in getChartData:', error);
-        res.status(500).json({ error: 'Failed to fetch chart data' });
+        next(error);
     }
 };
 
-exports.downloadSalesReport = async (req, res) => {
+exports.downloadSalesReport = async (req, res, next) => {
     try {
         const { type, filter, startDate, endDate } = req.query;
 
@@ -380,7 +378,6 @@ exports.downloadSalesReport = async (req, res) => {
             res.end();
         }
     } catch (error) {
-        console.error('Error in downloadReport:', error);
-        res.status(500).send('Server Error');
+        next(error);
     }
 };

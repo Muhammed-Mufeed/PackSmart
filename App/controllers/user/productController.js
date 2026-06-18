@@ -8,7 +8,7 @@ const Wishlist = require('../../models/wishlistSchema')
 
 
 // ===============================================UserHome-GET===================================================================//
-exports.getHomepage = async (req, res) => {
+exports.getHomepage = async (req, res, next) => {
   try {
     const categories = await Category.find({ isListed: true });
 
@@ -58,22 +58,21 @@ exports.getHomepage = async (req, res) => {
     return res.render('home',{categories,products: ListedProducts})
 
   } catch (error) {
-    console.log("Error in loading Homepage:", error);
-    return res.redirect("/pageNotFound");
+    next(error);
   }
 };
 
 
 // =========================================================CategoryProducts-GET===================================================//
 
-exports.getCategoryProductspage = async (req,res)=>{
+exports.getCategoryProductspage = async (req,res,next)=>{
   try {
    const categoryId = req.params.categoryId
 
    // Fetch category details
    const category = await Category.findOne({ _id: categoryId, isListed: true });
     if (!category) {
-      return res.redirect('/pageNotFound');
+      return res.status(404).render('page-404');
     }
 
    const categoryOffer = await Offer.findOne({ 
@@ -115,15 +114,14 @@ exports.getCategoryProductspage = async (req,res)=>{
  
    return res.render('categoryProducts',{products:ListedProducts,category})
   } catch (error) {
-   console.log("Error in loading Category related Products page")
-   return res.redirect('/pageNotFound')
+   next(error);
   }
      
  }
 
 
  // =======================================================Products-GET============================================================//
- exports.getProductspage = async (req, res) => {
+ exports.getProductspage = async (req, res, next) => {
   try {
 
     const { availability,  minPrice, maxPrice, category, brand, sort, search} = req.query;
@@ -259,13 +257,12 @@ exports.getCategoryProductspage = async (req,res)=>{
         search
     });
   } catch (error) {
-    console.log("Error in loading All products page", error);
-    return res.redirect('/pageNotFound');
+    next(error);
   }
 };
 // ===================================================ProductDetail-GET==========================================================//
 
-exports.getProductDetailPage = async (req, res) => {
+exports.getProductDetailPage = async (req, res, next) => {
   try {
     const productId = req.params.id;
     const variantId = req.query.variantId; 
@@ -282,7 +279,7 @@ exports.getProductDetailPage = async (req, res) => {
       });
 
     if (!productData || !productData.category || !productData.brand) {
-      return res.redirect('/pageNotFound');
+      return res.status(404).render('page-404');
     }
 
      
@@ -312,7 +309,7 @@ exports.getProductDetailPage = async (req, res) => {
     }
     
     if (!selectedVariant) {
-      return res.redirect('/pageNotFound');
+      return res.status(404).render('page-404');
     }
 
      // Get product and category discount
@@ -351,8 +348,7 @@ exports.getProductDetailPage = async (req, res) => {
 
       return res.render('product-detail', { productData: productWithDiscount, selectedVariant, relatedProducts,isInWishlist });
     } catch (error) {
-    console.log("Error in loading Product detail page", error);
-    return res.redirect('/pageNotFound');
+    next(error);
   }
 };
 

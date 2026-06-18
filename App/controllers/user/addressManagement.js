@@ -6,7 +6,7 @@ const bcrypt=require('bcrypt')
 
 // =============================================User-ADDRESS-GET=====================================================================//
 
-exports.getAddressPage = async (req,res) =>{
+exports.getAddressPage = async (req,res,next) =>{
   try {
     if(!req.session.user){
       return res.redirect('/login')
@@ -19,29 +19,27 @@ exports.getAddressPage = async (req,res) =>{
     return res.render('user-Address',{addresses})
 
   } catch (error) { 
-    console.log("Error loading User address page",error)
-    return res.redirect('/pageNotFound')
+    next(error);
   }
 }
 
 // =============================================UserAddADDRESS-GET=====================================================================//
 
-exports.getaddAddressPage = async (req,res) =>{
+exports.getaddAddressPage = async (req,res,next) =>{
   try {
     if(!req.session.user){
       return res.redirect('/login')
     }
     return res.render('user-addAddress')
   } catch (error) {
-    console.log("Error loading add Address page",error)
-    return res.redirect('/pageNotFound')
+    next(error);
   }
   
 }
 
 // =============================================UserAddADDRESS-POST=====================================================================//
 
-exports.postaddAddress = async (req, res) => {
+exports.postaddAddress = async (req, res, next) => {
  
   try {
 
@@ -65,14 +63,13 @@ exports.postaddAddress = async (req, res) => {
 
       res.status(200).json({ success: true, message: 'Address added successfully', address: newAddress });
   } catch (error) {
-      console.error('Error adding address:', error);
-      res.status(500).json({ success: false, message: 'Internal Server Error' });
+      next(error);
   }
 };
 
 // =============================================UserEDITADDRESS-GET=====================================================================//
 
-exports.getEditAddressPage = async (req, res) => {
+exports.getEditAddressPage = async (req, res, next) => {
 
   try {
 
@@ -85,13 +82,12 @@ exports.getEditAddressPage = async (req, res) => {
       const address = await Address.findById(addressId);
 
       if (!address) {
-          return res.status(404).render('error', { message: 'Address not found' });
+          return res.status(404).render('page-404');
       }
 
       return res.render('user-editAddress',{address})
   } catch (error) {
-      console.error('Error fetching address:', error);
-      res.status(500).render('error', { message: 'Internal Server Error' });
+      next(error);
   }
 };
 
@@ -99,7 +95,7 @@ exports.getEditAddressPage = async (req, res) => {
 
 // =============================================UserEDITADDRESS-POST=====================================================================//
 
-exports.putUpdateAddress = async (req, res) => {
+exports.putUpdateAddress = async (req, res, next) => {
     
     try {
 
@@ -128,15 +124,14 @@ exports.putUpdateAddress = async (req, res) => {
 
     res.status(200).json({ success: true, message: 'Address updated successfully', address: updatedAddress });
   } catch (error) {
-      console.error('Error updating address:', error);
-      res.status(500).json({ success: false, message: 'Internal Server Error' });
+      next(error);
   }
 };
 
 
 // =============================================UserADDRESS-DELETE=====================================================================//
 
-exports.deleteAddress =  async (req, res) => {  
+exports.deleteAddress =  async (req, res, next) => {  
     try {        
         const addressId = req.params.addressId; 
 
@@ -153,8 +148,7 @@ exports.deleteAddress =  async (req, res) => {
         res.status(200).json({ success: true, message: 'Address deleted successfully', address: updatedAddress });
 
     } catch (error) {
-        console.error('Error deleting address:', error);
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
+        next(error);
     }
 };
 

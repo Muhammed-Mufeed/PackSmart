@@ -7,7 +7,7 @@ const Wallet = require('../../models/WalletSchema')
 // ===============================================OrderListPage-GET===================================================================//
 
 
-exports.getOrderListPage = async (req, res) => {
+exports.getOrderListPage = async (req, res, next) => {
   try {
    
     const page = parseInt(req.query.page) || 1; 
@@ -54,8 +54,7 @@ exports.getOrderListPage = async (req, res) => {
       search,
     });
   } catch (error) {
-    console.error('Error Listing orders:', error);
-    return res.redirect('/admin/errorPage');
+    next(error);
   }
 };
 
@@ -63,7 +62,7 @@ exports.getOrderListPage = async (req, res) => {
 // ===============================================OrderDetailPage-GET===================================================================//
 
 
-exports.getOrderDetailspage = async (req, res) => {
+exports.getOrderDetailspage = async (req, res, next) => {
   try {
     const orderId = req.params.orderId;
 
@@ -72,20 +71,18 @@ exports.getOrderDetailspage = async (req, res) => {
      
 
     if (!order) {
-      return res.status(404).render('error', { message: 'Order not found.' });
-
+      return res.status(404).render('error-404');
     }
     
     
     return res.render('orderDetails', { order });
   } catch (error) {
-    console.error('Error fetching order details:', error);
-    return res.redirect('/admin/errorPage');
+    next(error);
   }
 };
 
 // ===============================================UpdateOrderStatus-PATCH===================================================================//
-exports.updateOrderStatus = async (req, res) => {
+exports.updateOrderStatus = async (req, res, next) => {
   try {
     const {orderId,itemId} = req.params
     const { status } = req.body;
@@ -141,15 +138,14 @@ exports.updateOrderStatus = async (req, res) => {
    
       return res.status(200).json({ success: true, message: `Item status updated to ${status}.` });
   } catch (error) {
-    console.error('Error updating item status:', error);
-    return res.status(500).json({ success: false, message: 'Failed to update orderitem status.' });
+    next(error);
   }
 };
 
 
 // ===============================================ReturnApprove-PATCH===================================================================//
 
-exports.approveReturn = async (req, res) => {
+exports.approveReturn = async (req, res, next) => {
   try {
     const { orderId, itemId } = req.params;
 
@@ -197,14 +193,13 @@ exports.approveReturn = async (req, res) => {
     await Promise.all([order.save(), wallet.save()]);
     return res.status(200).json({ success: true, message: 'Return approved and amount credited to wallet.' });
   } catch (error) {
-    console.error('Error approving return:', error);
-    return res.status(500).json({ success: false, message: 'Failed to approve return.' });
+    next(error);
   }
 };
 
 // ===============================================Return Cancel-PATCH===================================================================//
 
-exports.rejectReturn = async (req, res) => {
+exports.rejectReturn = async (req, res, next) => {
   try {
     const { orderId, itemId } = req.params;
 
@@ -222,7 +217,6 @@ exports.rejectReturn = async (req, res) => {
     await order.save();
     return res.status(200).json({ success: true, message: 'Return request rejected.' });
   } catch (error) {
-    console.error('Error rejecting return:', error);
-    return res.status(500).json({ success: false, message: 'Failed to reject return.' });
+    next(error);
   }
 };

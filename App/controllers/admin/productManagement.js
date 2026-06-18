@@ -7,7 +7,7 @@ const  cloudinary  = require('../../config/cloudinary');
 
 
 // ===============================================productManagement-GET===================================================================//
-exports.getProductManagement = async (req,res)=>{
+exports.getProductManagement = async (req,res,next)=>{
   try {
     const page = parseInt(req.query.page) || 1;
     const limit= 4
@@ -29,28 +29,26 @@ exports.getProductManagement = async (req,res)=>{
     res.render('products',{products,currentPage:page,totalPages,search})
 
   } catch (error) {
-    console.log('Error loading Product page',error)
-    return res.redirect('/admin/errorPage')
+    next(error);
   }
 }
 
 // ===============================================AddProduct-GET===================================================================//
 
-exports.getAddProduct = async(req,res)=>{
+exports.getAddProduct = async(req,res,next)=>{
   try {
    const categories = await Category.find({isListed:true})
    const brands = await Brand.find({isListed:true})
 
    res.render('add-product',{categories,brands}) 
   } catch (error) {
-    console.log('Error loading add-product page',error)
-    return res.redirect('/admin/errorPage')
+    next(error);
   }
 }
 
 // ===============================================AddProduct-GET===================================================================//
 
-exports.postAddProduct = async(req,res)=>{
+exports.postAddProduct = async(req,res,next)=>{
   try {
     const{name,description,category,brand,actualPrice,productDiscount,sellingPrice} = req.body
     
@@ -83,14 +81,13 @@ exports.postAddProduct = async(req,res)=>{
 
 
   } catch (error) {
-    console.log("Error due to Adding Product",error)
-    return res.status(500).json({message:"Failed to add product"})
+    next(error);
   }
 }
 
 
 // ===============================================EditProduct-GET===================================================================//
-exports.getEditProduct = async (req,res)=>{
+exports.getEditProduct = async (req,res,next)=>{
   try {
     const productId = req.params.id
 
@@ -105,13 +102,12 @@ exports.getEditProduct = async (req,res)=>{
     return  res.render('edit-product',{product,categories,brands})
 
   } catch (error) {
-   console.log("Error loading edit-product page",error)
-   return res.redirect('/admin/errorPage') 
+   next(error); 
   }
 }
 
 // ===============================================EditProduct-PUT===================================================================//
-exports.putEditProduct = async(req,res)=>{
+exports.putEditProduct = async(req,res,next)=>{
   try {
     const productId = req.params.id
     const{name,description,category,brand,actualPrice,productDiscount,sellingPrice} = req.body
@@ -142,8 +138,7 @@ exports.putEditProduct = async(req,res)=>{
     return res.status(200).json({success:true,message:"Product Updated Successfully",product:updatedProduct})
 
   } catch (error) {
-    console.log("Error in update category",error)
-    res.status(500).json({ success: false, message: 'Failed to update product' });
+    next(error);
 
   }
 }
@@ -151,7 +146,7 @@ exports.putEditProduct = async(req,res)=>{
 
 // ===============================================UpdateProductStatus-PATCH===================================================================//
 
-exports.patchUpdateProductStatus = async(req,res)=>{
+exports.patchUpdateProductStatus = async(req,res,next)=>{
   try {
     const productId = req.params.productId
     const product = await Product.findById(productId) 
@@ -170,13 +165,12 @@ exports.patchUpdateProductStatus = async(req,res)=>{
 
   } 
   catch (error) {
-    console.log("Error occured while updating Product Status",error)
-    return res.status(500).json({message:"Failed to update product Status"})
+    next(error);
   }
 }
 
 // ===============================================vairantsPage-GET===================================================================//
-exports.getVariantsManagement = async (req,res)=>{
+exports.getVariantsManagement = async (req,res,next)=>{
   try {
     const productId = req.params.productId
    
@@ -189,26 +183,24 @@ exports.getVariantsManagement = async (req,res)=>{
     
     res.render('variants',{product})
   } catch (error) {
-    console.log('Error loading vaiants page',error)
-    return res.redirect('/admin/errorPage')
+    next(error);
   }
 }
 
 // ===============================================AddVariants-GET===================================================================//
-exports.getAddVariants = async (req,res)=>{
+exports.getAddVariants = async (req,res,next)=>{
   try {
     const productId = req.params.productId
 
     const product = await Product.findById(productId)
     return res.render('add-variants',{product})
   } catch (error) {
-    console.log("Error loading add-variantspage",error)
-    return res.redirect('/admin/errorPage')  
+    next(error);  
   }
 }
 
 // ===============================================AddVariants-POST===================================================================//
-exports.postAddVariants = async (req, res) => {
+exports.postAddVariants = async (req, res, next) => {
   try {
 
     const { color, colorName, stock } = req.body;
@@ -262,16 +254,15 @@ exports.postAddVariants = async (req, res) => {
      product.variants.push(newVariant);
      await product.save();
 
-     return res.status(200).json({ success: true, message: "Variant added successfully", product });
+      return res.status(200).json({ success: true, message: "Variant added successfully", product });
   } catch (error) {
-     console.error('Error due to adding variant',error)  
-     return res.status(500).json({ success: false, message: "Failed to add variant" });
+     next(error);
   }
 };
 
 
 // ===============================================EditVariants-GET===================================================================//
- exports.getEditVariants  = async (req,res) => {
+ exports.getEditVariants  = async (req,res,next) => {
   try {
     const {productId,variantId} = req.params
 
@@ -287,14 +278,13 @@ exports.postAddVariants = async (req, res) => {
 
     return res.render('edit-variants',{product,variant})
   } catch (error) {
-    console.log("Error loading edit-variantspage",error)
-    return res.redirect('/admin/errorPage') 
+    next(error);
   }
  }
 
 
 // ===============================================EditVariants-POST===================================================================//
-exports.putEditVariants = async (req,res) =>{
+exports.putEditVariants = async (req,res,next) =>{
 
   try {
     const {productId,variantId} = req.params
@@ -376,15 +366,14 @@ exports.putEditVariants = async (req,res) =>{
    return res.status(200).json({ success: true, message: "Variant updated successfully", product });
 
 } catch (error) {
-   console.error("Error while editing Variant:", error?.message);
-   return res.status(500).json({ success: false, message: "Failed to update variant." });
+   next(error);
 }
 };
 
 
 // ===============================================UpdateVariantStatus-PATCH===================================================================//
 
-exports.patchUpdateVariantStatus = async(req,res)=>{
+exports.patchUpdateVariantStatus = async(req,res,next)=>{
   try {
     const { productId, variantId } = req.params; // Get productId & variantId from request params
 
@@ -408,7 +397,6 @@ exports.patchUpdateVariantStatus = async(req,res)=>{
     return res.status(200).json({success:true,message,isListed:variant.isListed})
        
   } catch (error) {
-    console.log("Error occured while Updating variant Status",error)
-    res.status(500).json({success:false,message:"Failed to update variant status"})
+    next(error);
   }
 }

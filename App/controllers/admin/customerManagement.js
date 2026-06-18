@@ -2,7 +2,7 @@ const User = require('../../models/userSchema')
 
 
 // ===============================================CustomerManagement-GET===================================================================//
-exports.getuserManagement = async (req,res)=>{
+exports.getuserManagement = async (req,res,next)=>{
 try {
     
 
@@ -35,15 +35,14 @@ try {
 
    
 } catch (error) {
-   console.error("Error during loading customer page",error)
-   res.redirect('/admin/errorPage')
+   next(error);
 }
 }
 
 // ===============================================UpdateUserStatus-PATCH===================================================================//
 
 
-exports.patchUpdateUserStatus = async (req,res)=>{
+exports.patchUpdateUserStatus = async (req,res,next)=>{
   try {
     const userId = req.params.userId
     const user = await User.findById(userId)
@@ -64,7 +63,6 @@ exports.patchUpdateUserStatus = async (req,res)=>{
   } 
 
   catch (error) {
-    console.log("Error occured while updating Customer Status",error)
-    res.status(500).json({message:"Internal Server Error"})
+    next(error);
   }
 }
