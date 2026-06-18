@@ -2,6 +2,24 @@ const errorHandler = (err, req, res, next) => {
   // 1. Log the full error stack to the server terminal console for developers
   console.error('SERVER ERROR LOG:', err);
 
+  /*
+    NOTE FOR THE FUTURE:
+    Why do we check 'wantsHtml' (Accept header) and 'content-type' here?
+    Because in this project, our page routes (e.g. '/cart') and API fetch routes (e.g. '/update-cart') 
+    are mixed at the root level. We must check headers to know if the client expects a JSON or HTML response.
+    
+    ALTERNATIVE APPROACH (If routes were separated by prefix):
+    If all API endpoints started with '/api' (e.g. '/api/cart/update'), we could simply write:
+    
+    if (req.originalUrl.startsWith('/api')) {
+      return res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+    if (req.originalUrl.startsWith('/admin')) {
+      return res.status(500).render('error-500');
+    }
+    return res.status(500).render('page-500');
+  */
+
   // 2. Check if the browser wants HTML (Full Page Load)
   const wantsHtml = req.headers.accept && req.headers.accept.includes('text/html');
 
