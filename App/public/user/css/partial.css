@@ -408,3 +408,16 @@ table {
     flex-basis: 100%;
   }
 }
+
+/* Go to Cart Active state styling */
+.add-to-cart.go-to-cart-active,
+.add-to-cart-btn.go-to-cart-active {
+  background-color: #ff6f61 !important;
+  color: #ffffff !important;
+  border: 1px solid #ff6f61 !important;
+}
+.add-to-cart.go-to-cart-active:hover,
+.add-to-cart-btn.go-to-cart-active:hover {
+  background-color: #e55e51 !important;
+  border-color: #e55e51 !important;
+}

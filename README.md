@@ -31,6 +31,17 @@ This project demonstrates modern backend capabilities including secure authentic
 
 ---
 
+## ☁️ Deployment & Cloud Infrastructure
+
+> **Infrastructure Status Note:** Originally deployed on a production-ready **AWS EC2 (Ubuntu)** cloud instance. The live instance is currently undergoing scheduled infrastructure migration to **Render**.
+
+* **Cloud Hosting:** Deployed on an **AWS EC2** virtual server instance running Ubuntu Server.
+* **Reverse Proxy & Web Server:** Configured **Nginx** as a reverse proxy for request routing, static file handling, and SSL termination.
+* **Process Management:** Utilized **PM2** (Process Manager 2) for background process monitoring, log management, and automatic restarts.
+* **Security & Infrastructure:** Manual configuration of AWS Security Groups, environment variable isolation, and SSL/TLS encryption for HTTPS communication.
+
+---
+
 ## 📂 Project Structure
 
 The codebase is organized adhering to industry-standard separation of concerns:

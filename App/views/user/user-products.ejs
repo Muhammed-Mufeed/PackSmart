@@ -113,9 +113,10 @@
                   <span class="selling-price">₹<%= product.sellingPrice %></span>
                 </div>
                 <div class="product-rating">★★★★☆</div>
-                <button class="add-to-cart" onclick="addToCart('<%= product._id %>', '<%= listedVariant._id %>')">
-                  Add to Cart
-              </button>
+                <% const inCart = locals.cartProductIds && locals.cartProductIds.includes(`${product._id}_${listedVariant._id}`); %>
+                <button class="add-to-cart <%= inCart ? 'go-to-cart-active' : '' %>" onclick="addToCart('<%= product._id %>', '<%= listedVariant._id %>', this)">
+                  <%= inCart ? 'Go to Cart' : 'Add to Cart' %>
+                </button>
               </div>
             </div>
           <% } %>

@@ -10,7 +10,7 @@ const addressManagement = require('../controllers/user/addressManagement')
 
 
 
-const { checkLogin, checkLogout, checkBlocked } = require('../middlewares/userAuth')
+const { checkLogin, checkLogout, checkBlocked, loadCartState } = require('../middlewares/userAuth')
 const passport = require('../config/passport')
 // ==================================================================================================================//
 
@@ -42,10 +42,10 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
 
 // ==================================================================================================================//
 
-router.get('/', checkBlocked, productController.getHomepage)
-router.get('/userproducts', checkBlocked, productController.getProductspage)
-router.get('/categoryProducts/:categoryId', checkBlocked, productController.getCategoryProductspage)
-router.get('/productdetail/:id', checkBlocked, productController.getProductDetailPage)
+router.get('/', checkBlocked,  productController.getHomepage)
+router.get('/userproducts', checkBlocked, loadCartState, productController.getProductspage)
+router.get('/categoryProducts/:categoryId', checkBlocked, loadCartState, productController.getCategoryProductspage)
+router.get('/productdetail/:id', checkBlocked, loadCartState, productController.getProductDetailPage)
 
 // ==================================================================================================================//
 router.get('/userProfile', checkBlocked, userProfileManagement.getUserProfile)
@@ -78,7 +78,7 @@ router.post('/add-to-cart', checkLogin, cartManagement.postAddtoCart)
 router.get('/cart', checkBlocked, cartManagement.getCartPage)
 router.put('/update-cart', checkLogin, cartManagement.putUpdateCartPage)
 router.delete('/remove-cart', checkLogin, cartManagement.deleteRemoveCart)
-router.post('/cart', checkLogin, cartManagement.postCartTocheckout)
+router.post('/cart-checkout', checkLogin, cartManagement.postCartTocheckout)
 
 // ==================================================================================================================//
 router.post('/Checkout_addAddress', checkLogin, orderManagement.postCheckoutAddaddress)
