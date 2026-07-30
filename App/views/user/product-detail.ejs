@@ -108,10 +108,11 @@
                         </span>
                     </button>
                     <!-- Disable "Add to Cart" button if out of stock -->
-                    <button class="add-to-cart-btn" 
-                            onclick="addToCart('<%= productData._id %>', '<%= selectedVariant._id %>')"
+                    <% const inCart = locals.cartProductIds && locals.cartProductIds.includes(`${productData._id}_${selectedVariant._id}`); %>
+                    <button class="add-to-cart-btn <%= inCart ? 'go-to-cart-active' : '' %>" 
+                            onclick="addToCart('<%= productData._id %>', '<%= selectedVariant._id %>', this)"
                             <%= selectedVariant.stock <= 0 ? 'disabled' : '' %>>
-                        Add to Cart
+                        <%= inCart ? 'Go to Cart' : 'Add to Cart' %>
                     </button>
                 </div>
             </div>
@@ -177,9 +178,10 @@
                               <span class="selling-price">₹<%= product.sellingPrice %></span>
                             </div>
                             <div class="product-rating">★★★★☆</div>
-                            <button class="add-to-cart" onclick="addToCart('<%= product._id %>', '<%= listedVariant._id %>')">
-                              Add to Cart
-                          </button>
+                            <% const inRelatedCart = locals.cartProductIds && locals.cartProductIds.includes(`${product._id}_${listedVariant._id}`); %>
+                            <button class="add-to-cart <%= inRelatedCart ? 'go-to-cart-active' : '' %>" onclick="addToCart('<%= product._id %>', '<%= listedVariant._id %>', this)">
+                              <%= inRelatedCart ? 'Go to Cart' : 'Add to Cart' %>
+                            </button>
                           </div>
                         </div>
                       <% } %>

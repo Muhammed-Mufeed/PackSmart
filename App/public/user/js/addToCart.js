@@ -1,6 +1,12 @@
 
 // Function to add product to cart
-async function addToCart(productId,variantId){
+async function addToCart(productId, variantId, buttonEl){
+  // Redirect to cart if the button is in 'Go to Cart' state
+  if (buttonEl && buttonEl.textContent.trim() === 'Go to Cart') {
+    window.location.href = '/cart';
+    return;
+  }
+
   try{
        const response = await fetch('/add-to-cart',{
            method:'POST',
@@ -20,6 +26,10 @@ async function addToCart(productId,variantId){
        const data = await response.json()
 
        if(data.success){
+           if (buttonEl) {
+               buttonEl.textContent = 'Go to Cart';
+               buttonEl.classList.add('go-to-cart-active');
+           }
            Swal.fire({
                icon:'success',
                title:'Success',
