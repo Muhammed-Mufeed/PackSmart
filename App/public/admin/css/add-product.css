@@ -161,11 +161,17 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .add-product-page {
+  .add-product-page, .edit-product-page {
     padding: 10px;
   }
   
   .product-form {
-    padding: 20px;
+    padding: 15px;
   }
-}
+
+  .header-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

@@ -90,19 +90,25 @@
                 </tr>
             </thead>
             <tbody>
-                <% orders.forEach(order => { %>
+                <% if (orders && orders.length > 0) { %>
+                    <% orders.forEach(order => { %>
+                        <tr>
+                            <td><%= order.orderId %></td>
+                            <td><%= (order.user && order.user.name) ? order.user.name : (order.address && order.address.name ? order.address.name : 'Deleted User') %></td>
+                            <td><%= order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'N/A' %></td>
+                            <td>₹<%= order.finalAmount ? order.finalAmount.toFixed(2) : '0.00' %></td>
+                            <td><%= (order.items && order.items.length > 0 && order.items[0].status) ? order.items[0].status : 'N/A' %></td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
                     <tr>
-                        <td><%= order.orderId %></td>
-                        <td><%= order.user.name %></td>
-                        <td><%= order.createdAt.toLocaleDateString() %></td>
-                        <td>₹<%= order.finalAmount.toFixed(2) %></td>
-                        <td><%= order.items[0].status %></td>
+                        <td colspan="5" style="text-align: center;">No orders found</td>
                     </tr>
-                <% }) %>
+                <% } %>
             </tbody>
         </table>
         <div class="pagination">
-            <span>Showing 1 to <%= orders.length %> of <%= totalOrders %> orders</span>
+            <span>Showing <%= (orders && orders.length > 0) ? 1 : 0 %> to <%= (orders ? orders.length : 0) %> of <%= (typeof totalOrders !== 'undefined' ? totalOrders : 0) %> orders</span>
             <button>Previous</button>
             <span>1</span>
             <button>Next</button>

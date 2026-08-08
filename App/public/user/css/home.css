@@ -213,6 +213,7 @@ body {
     width: 100%;
     height: 249px;
     object-fit: cover;
+    object-position: center;
     border-bottom: 1px solid #eee;
 }
 
@@ -432,3 +433,131 @@ body {
   .add-to-cart:hover {
     background: #156666;
   }
+
+/* Product Grid & Card Responsive Enhancements */
+@media (max-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .products-section {
+    padding: 0 12px;
+    margin: 20px auto;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+  }
+
+  .product-card {
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .product-image {
+    height: 150px;
+    flex-shrink: 0;
+  }
+
+  .offer-badge {
+    font-size: 0.75rem;
+    padding: 3px 6px;
+    border-radius: 4px;
+  }
+
+  .product-wishlist {
+    top: 6px;
+    right: 6px;
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wishlist-icon {
+    font-size: 14px;
+  }
+
+  .product-details {
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+  }
+
+  .product-name {
+    font-size: 0.85rem;
+    height: 36px;
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+
+  .price-container {
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 4px;
+    min-height: auto;
+  }
+
+  .selling-price {
+    font-size: 0.95rem;
+  }
+
+  .mrp {
+    font-size: 0.75rem;
+  }
+
+  .product-rating {
+    font-size: 0.75rem;
+    margin-bottom: 6px;
+    min-height: auto;
+  }
+
+  .add-to-cart {
+    padding: 7px 4px;
+    font-size: 0.8rem;
+    margin-top: auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 400px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .product-card {
+    min-height: 310px;
+  }
+
+  .product-image {
+    height: 130px;
+  }
+
+  .product-name {
+    font-size: 0.8rem;
+    height: 32px;
+  }
+
+  .selling-price {
+    font-size: 0.88rem;
+  }
+
+  .add-to-cart {
+    padding: 6px 3px;
+    font-size: 0.75rem;
+  }
+}
+

@@ -3,35 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verify OTP</title>
-  <link rel="stylesheet" href="/user/css/signup.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Verify OTP - PackSmart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body>
-  <div class="card p-4" style="width: 400px;">
-    <h3 class="text-center mb-3">Verify OTP</h3>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex items-center justify-center p-4 sm:p-6 selection:bg-blue-600 selection:text-white">
+
+  <!-- Compact Light E-Commerce Card -->
+  <div class="w-full max-w-sm sm:max-w-md bg-white rounded-2xl shadow-xl shadow-slate-200/70 border border-slate-100 p-6 sm:p-7 relative z-10">
+    
+    <!-- Compact Header -->
+    <div class="text-center mb-5">
+      <div class="inline-flex items-center justify-center w-12 h-12 bg-blue-50 text-blue-600 rounded-xl mb-3 border border-blue-100/80 shadow-xs">
+        <i class="fa-solid fa-shield-halved text-xl"></i>
+      </div>
+      <h2 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Verify Your OTP</h2>
+      <p class="text-slate-500 text-xs sm:text-sm mt-1">Enter the 6-digit verification code sent to your email</p>
+    </div>
     
     <% if (isDemoMode) { %>
-    <div class="alert alert-warning text-center" id="demoBanner" role="alert" style="font-size: 0.85rem;">
-      <strong>⚠️ Demo Environment Active</strong><br>
-      Due to API sandbox restrictions, email delivery is disabled. <br>
-      Please enter test OTP: <b id="displayOtp" style="font-size: 1.1rem; letter-spacing: 1px; color: #d32f2f;"><%= demoOtp %></b>
+    <!-- Compact Demo Environment Alert Banner -->
+    <div class="bg-amber-50 border border-amber-200/80 text-amber-900 rounded-xl p-3 mb-5 text-center text-xs shadow-xs" id="demoBanner" role="alert">
+      <div class="flex items-center justify-center gap-1.5 font-semibold text-amber-800 mb-0.5">
+        <i class="fa-solid fa-triangle-exclamation text-amber-600"></i>
+        <span>Demo Environment Active</span>
+      </div>
+      <p class="text-amber-700/90 text-[11px]">Due to API sandbox restrictions, email delivery is disabled.</p>
+      <div class="mt-2 pt-1.5 border-t border-amber-200/60 text-xs text-amber-900">
+        Please enter test OTP: <b id="displayOtp" class="font-mono tracking-wider text-sm font-bold text-red-600 select-all px-1.5 py-0.5 bg-amber-100/80 rounded border border-amber-200"><%= demoOtp %></b>
+      </div>
     </div>
     <% } %>
-    <form id="verifyOtpForm">
-      <div class="mb-3">
-        <label for="otp" class="form-label">Enter OTP</label>
-        <input type="text" class="form-control" id="otp" placeholder="6-digit OTP" required>
+
+    <!-- OTP Form -->
+    <form id="verifyOtpForm" class="space-y-4">
+      <div>
+        <label for="otp" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Enter OTP</label>
+        <input 
+          type="text" 
+          class="w-full bg-slate-50 border border-slate-200 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 text-slate-900 text-center font-mono text-xl tracking-[0.35em] placeholder:tracking-normal placeholder:font-sans placeholder:text-slate-400 placeholder:text-sm rounded-xl py-2.5 px-3 transition-all outline-none" 
+          id="otp" 
+          placeholder="6-digit OTP" 
+          maxlength="6"
+          required
+          autocomplete="one-time-code"
+        >
       </div>
-      <button type="submit" class="btn btn-primary w-100">Verify OTP</button>
+
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold py-2.5 px-4 rounded-xl shadow-md shadow-blue-600/20 hover:shadow-blue-600/30 transition-all text-sm flex items-center justify-center gap-2">
+        <i class="fa-solid fa-circle-check text-xs"></i>
+        <span>Verify OTP</span>
+      </button>
     </form>
-    <hr>
-    <div class="timer" id="timer">Resend OTP in 60 seconds</div>
-    <button id="resendOtpButton" class="btn btn-secondary w-100 mt-2" disabled>Resend OTP</button>
+
+    <div class="my-4 border-t border-slate-100"></div>
+
+    <!-- Timer & Resend Button -->
+    <div class="text-center space-y-2.5">
+      <div class="timer text-xs sm:text-sm font-medium text-blue-600" id="timer">Resend OTP in 60 seconds</div>
+      
+      <button 
+        id="resendOtpButton" 
+        class="w-full bg-slate-100 hover:bg-slate-200/80 active:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-slate-100 text-slate-700 font-medium py-2 px-3 rounded-xl border border-slate-200/70 transition-all text-xs sm:text-sm flex items-center justify-center gap-1.5"
+        disabled
+      >
+        <i class="fa-solid fa-rotate-right text-xs"></i>
+        <span>Resend OTP</span>
+      </button>
+    </div>
+
   </div>
 
-    <script>
+  <script>
     // Timer logic for the Resend OTP button
     let timerDuration = 60; 
     let timerElement = document.getElementById("timer"); 
