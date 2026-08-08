@@ -19,26 +19,30 @@ This project demonstrates modern backend capabilities including secure authentic
 
 ## 🛠️ Tech Stack & Architecture
 
-**Architecture:** MVC (Model-View-Controller)
-**Environment:** Node.js (Runtime)
+Built with a robust **MVC (Model-View-Controller)** architecture:
 
-* **Backend Framework:** Express.js
-* **Database:** MongoDB & Mongoose (ODM)
-* **View Engine:** EJS (Embedded JavaScript)
-* **Payment Gateway:** Razorpay API
-* **Cloud Storage:** Cloudinary API
-* **Email Service:** Resend API 
+* **Backend & Database:** Node.js, Express.js (v5), MongoDB & MongoDB Atlas, Mongoose (v8), `express-session`
+* **Frontend & UI:** EJS Templating, HTML5, Custom CSS3, Vanilla JS (ES6+), Chart.js, Cropper.js, SweetAlert2
+* **Authentication & Security:** Passport.js (Google OAuth 2.0 & Local), Bcrypt.js, Nocache, Dotenv
+* **Cloud & Media Storage:** Cloudinary API, Multer & `multer-storage-cloudinary`
+* **Payments & Communication:** Razorpay API, Resend API (Transactional Emails/OTP)
+* **Reporting & Data Export:** PDFKit (PDF Invoices & Reports), ExcelJS (Excel Sales Data)
 
----
+
 
 ## ☁️ Deployment & Cloud Infrastructure
 
-> **Infrastructure Status Note:** Originally deployed on a production-ready **AWS EC2 (Ubuntu)** cloud instance. The live instance is currently undergoing scheduled infrastructure migration to **Render**.
-
+### Primary Infrastructure (AWS Setup)
 * **Cloud Hosting:** Deployed on an **AWS EC2** virtual server instance running Ubuntu Server.
 * **Reverse Proxy & Web Server:** Configured **Nginx** as a reverse proxy for request routing, static file handling, and SSL termination.
 * **Process Management:** Utilized **PM2** (Process Manager 2) for background process monitoring, log management, and automatic restarts.
 * **Security & Infrastructure:** Manual configuration of AWS Security Groups, environment variable isolation, and SSL/TLS encryption for HTTPS communication.
+
+### Current Live Deployment (Render & Atlas)
+> *Note: Migrated to Render and MongoDB Atlas after the AWS Free Tier expired.*
+
+* **Cloud Hosting & DB:** Deployed on **Render** paired with **MongoDB Atlas** cloud database.
+* **Uptime Optimization:** Integrated with **cron-job.org** for automated pings to keep the live server active 24/7.
 
 ---
 

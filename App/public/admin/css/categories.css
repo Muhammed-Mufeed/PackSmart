@@ -240,3 +240,41 @@ button, .edit-btn, .list-btn, .unlist-btn {
   background-color: #34495e;
   color: white;
 }
+
+/* Responsive Media Queries */
+@media (max-width: 992px) {
+  .header-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .add-category-btn {
+    text-align: center;
+  }
+
+  .search-bar input {
+    max-width: 100%;
+  }
+
+  .categories-table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    min-width: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 576px) {
+  .action-buttons {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 15px;
+  }
+}
+

@@ -193,3 +193,136 @@ body {
 .add-to-cart:hover {
   background: #156666;
 }
+
+/* Responsive Media Queries */
+@media (max-width: 992px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .products-section {
+    padding: 0 12px;
+    margin: 20px auto;
+  }
+
+  .products-grid {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+  }
+
+  .product-card {
+    height: auto !important;
+    min-height: auto !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .product-image {
+    height: 170px;
+    flex-shrink: 0;
+  }
+
+  .offer-badge {
+    font-size: 0.75rem;
+    padding: 3px 6px;
+    border-radius: 4px;
+  }
+
+  .product-wishlist {
+    top: 6px;
+    right: 6px;
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wishlist-icon {
+    font-size: 14px;
+  }
+
+  .product-details {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+  }
+
+  .product-name {
+    font-size: 0.9rem;
+    height: 36px;
+    margin-bottom: 6px;
+    line-height: 1.25;
+  }
+
+  .price-container {
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+    min-height: auto;
+  }
+
+  .selling-price {
+    font-size: 1.05rem;
+  }
+
+  .mrp {
+    font-size: 0.8rem;
+  }
+
+  .product-rating {
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+    min-height: auto;
+  }
+
+  .add-to-cart {
+    padding: 8px 6px;
+    font-size: 0.85rem;
+    margin-top: auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 400px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .product-card {
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  .product-image {
+    height: 140px;
+  }
+
+  .product-name {
+    font-size: 0.85rem;
+    height: 34px;
+  }
+
+  .selling-price {
+    font-size: 0.95rem;
+  }
+
+  .add-to-cart {
+    padding: 7px 4px;
+    font-size: 0.8rem;
+  }
+}
+
+
+

@@ -175,3 +175,41 @@ button, .edit-btn, .list-btn, .unlist-btn, .variants-btn {
   background-color: #34495e;
   color: white;
 }
+
+/* Responsive Media Queries */
+@media (max-width: 992px) {
+  .header-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .add-product-btn {
+    text-align: center;
+  }
+
+  .search-bar input {
+    max-width: 100%;
+  }
+
+  .products-table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    min-width: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 576px) {
+  .action-buttons {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  
+  .products-page h3 {
+    margin-top: 20px;
+    font-size: 20px;
+  }
+}
+

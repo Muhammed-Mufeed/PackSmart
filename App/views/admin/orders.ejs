@@ -38,7 +38,7 @@
                         <tr>
                             <td><%= (currentPage - 1) * 5 + index + 1 %></td>
                             <td><%= order.orderId %></td>
-                            <td><%= order.user.email %></td>
+                            <td><%= (order.user && (order.user.name || order.user.email)) ? (order.user.name || order.user.email) : (order.address && order.address.name ? order.address.name : 'Deleted User') %></td>
                             <td>₹<%= order.finalAmount.toFixed(2) %></td>
                             <td><%= new Date(order.createdAt).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }) %></td>
                             <td>

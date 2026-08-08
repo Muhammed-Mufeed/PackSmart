@@ -218,6 +218,14 @@
       padding: 10px;
   }
 
+  .brand-table {
+      display: block;
+      overflow-x: auto;
+      width: 100%;
+      min-width: 0;
+      -webkit-overflow-scrolling: touch;
+  }
+
   .brand-table th,
   .brand-table td {
       padding: 10px;
@@ -228,12 +236,14 @@
   }
 
   .brand-actions {
-      flex-direction: column;
+      flex-direction: row;
+      flex-wrap: wrap;
       gap: 5px;
   }
 
   .brand-list-btn,
   .brand-unlist-btn {
-      width: 100%;
+      width: auto;
   }
 }
+

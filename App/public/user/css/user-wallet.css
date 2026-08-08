@@ -62,3 +62,23 @@
   color: #dc3545;
   font-weight: 500;
 }
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .wallet-container {
+    padding: 15px;
+  }
+
+  .wallet-transactions {
+    padding: 10px 0;
+    overflow-x: auto;
+  }
+
+  .transaction-table {
+    min-width: 500px;
+  }
+
+  .balance-amount {
+    font-size: 26px;
+  }
+}

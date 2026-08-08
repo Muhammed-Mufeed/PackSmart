@@ -188,6 +188,14 @@
     text-align: center;
   }
 
+  .offers-table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    min-width: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .offers-table th,
   .offers-table td {
     padding: 10px;
@@ -198,15 +206,15 @@
   }
 
   .action-buttons {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 5px;
-    width: 100%;
   }
 
   .edit-btn,
   .activate-btn,
   .deactivate-btn {
-    width: 100%;
+    width: auto;
     text-align: center;
   }
-}
+}

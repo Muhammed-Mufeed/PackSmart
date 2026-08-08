@@ -15,6 +15,8 @@ const notFoundHandler = require('./middlewares/notFoundHandler');
 
 const app=express()
 
+app.set('trust proxy', 1)
+
 app.set('view engine','ejs')
 app.set('views',[path.join(__dirname,'views/user'),path.join(__dirname,'views/admin')])
 
@@ -56,8 +58,8 @@ app.use(errorHandler);
 
 
 
-app.listen(process.env.PORT,()=>{
-  console.log(`app is listening at http://localhost:${process.env.PORT}`)
-})
+app.listen(process.env.PORT, () => {
+  console.log(`Server successfully running on port ${process.env.PORT}`);
+});
 
 module.export=app
