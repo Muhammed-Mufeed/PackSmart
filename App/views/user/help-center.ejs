@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>PackSmart - Help Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/user/css/tailwind.css">
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+        .shadow-ambient {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .shadow-ambient-hover:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 300ms;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+    <%- include('../partials/user/header') %>
+
+    <main class="flex-grow">
+        <!-- Hero Section with Background Image -->
+        <section class="relative w-full h-[400px] md:h-[500px] flex items-center justify-center bg-surface-container-high overflow-hidden">
+            <div class="absolute inset-0 w-full h-full bg-cover bg-center" style="background-image: url('/user/images/help-hero.jpg');"></div>
+            <div class="absolute inset-0 bg-primary/40 backdrop-blur-[2px]"></div>
+            <div class="relative z-10 w-full max-w-3xl px-margin-mobile text-center">
+                <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-primary mb-stack-lg">How can we help you?</h1>
+                <!-- Search Bar -->
+                <div class="relative w-full max-w-2xl mx-auto">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 transform -translate-y-1/2 text-on-surface-variant">search</span>
+                    <input class="w-full pl-12 pr-4 py-4 rounded-full bg-surface text-on-surface font-body-lg text-body-lg border-none shadow-ambient focus:ring-2 focus:ring-primary focus:outline-none transition-all placeholder:text-on-surface-variant" placeholder="Search the Help Center..." type="text">
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Grid -->
+        <section class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+                <!-- Shipping & Delivery -->
+                <a class="group block bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-8 shadow-ambient shadow-ambient-hover transition-all" href="#shipping">
+                    <div class="flex items-start gap-6">
+                        <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                            <span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+                        </div>
+                        <div>
+                            <h2 class="font-headline-md text-headline-md text-primary mb-2">Shipping & Delivery</h2>
+                            <p class="font-body-md text-body-md text-on-surface-variant">Details on international shipping, tracking, and delivery timelines.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Returns & Exchanges -->
+                <a class="group block bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-8 shadow-ambient shadow-ambient-hover transition-all" href="#returns">
+                    <div class="flex items-start gap-6">
+                        <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                            <span class="material-symbols-outlined" data-icon="swap_horiz">swap_horiz</span>
+                        </div>
+                        <div>
+                            <h2 class="font-headline-md text-headline-md text-primary mb-2">Returns & Exchanges</h2>
+                            <p class="font-body-md text-body-md text-on-surface-variant">30-day window, free return shipping for members.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Warranty & Repairs -->
+                <a class="group block bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-8 shadow-ambient shadow-ambient-hover transition-all" href="#warranty">
+                    <div class="flex items-start gap-6">
+                        <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                            <span class="material-symbols-outlined" data-icon="verified">verified</span>
+                        </div>
+                        <div>
+                            <h2 class="font-headline-md text-headline-md text-primary mb-2">Warranty & Repairs</h2>
+                            <p class="font-body-md text-body-md text-on-surface-variant">Coverage details for manufacturing defects and craftsmanship.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Product Care & Setup -->
+                <a class="group block bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-8 shadow-ambient shadow-ambient-hover transition-all" href="#care">
+                    <div class="flex items-start gap-6">
+                        <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                            <span class="material-symbols-outlined" data-icon="cleaning_services">cleaning_services</span>
+                        </div>
+                        <div>
+                            <h2 class="font-headline-md text-headline-md text-primary mb-2">Product Care & Setup</h2>
+                            <p class="font-body-md text-body-md text-on-surface-variant">Cleaning guides, lock setup instructions, and tech compatibility.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Detailed FAQ Sections -->
+        <section class="w-full max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+            <div class="mb-stack-xl" id="warranty">
+                <h3 class="font-headline-sm text-headline-sm text-primary mb-stack-md border-b border-outline-variant pb-2">Top Questions</h3>
+                <div class="space-y-6">
+                    <div class="bg-surface-container-lowest border border-outline-variant/50 rounded-lg p-6 shadow-ambient">
+                        <h4 class="font-headline-sm text-headline-sm text-primary mb-2">What does the lifetime warranty actually cover?</h4>
+                        <p class="font-body-md text-body-md text-on-surface-variant">Our lifetime warranty covers manufacturing defects in materials and craftsmanship for the life of the product. This ensures your PackSmart gear performs exactly as intended. It does not cover normal wear and tear, misuse, or cosmetic blemishes that naturally occur over time.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest border border-outline-variant/50 rounded-lg p-6 shadow-ambient">
+                        <h4 class="font-headline-sm text-headline-sm text-primary mb-2">How do I clean my PackSmart canvas backpack?</h4>
+                        <p class="font-body-md text-body-md text-on-surface-variant">To maintain the premium finish of your canvas bag, spot clean specific areas using a damp cloth and mild soap. Air dry the bag completely away from direct sunlight to prevent fading. Do not machine wash or tumble dry, as this can damage the structural integrity and protective coatings.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest border border-outline-variant/50 rounded-lg p-6 shadow-ambient">
+                        <h4 class="font-headline-sm text-headline-sm text-primary mb-2">How do I set the TSA lock on my travel bag?</h4>
+                        <p class="font-body-md text-body-md text-on-surface-variant">To set your integrated 3-digit lock: 1. Ensure dials are set to 0-0-0. 2. Press the reset button firmly with a pen until you hear a click. 3. Turn the dials to your desired combination. 4. Push the main release button; the reset button will pop back out. Your new combination is now set.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest border border-outline-variant/50 rounded-lg p-6 shadow-ambient">
+                        <h4 class="font-headline-sm text-headline-sm text-primary mb-2">Do your laptop bags fit a 16-inch MacBook Pro?</h4>
+                        <p class="font-body-md text-body-md text-on-surface-variant">Yes, confirmation that our 'Professional' series backpacks and briefcases feature a dedicated, high-density padded sleeve engineered specifically to secure and protect a 16-inch MacBook Pro or similar sized laptops.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Support Card -->
+        <section class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-stack-xl">
+            <div class="bg-surface-container border border-outline-variant/30 rounded-2xl p-8 md:p-12 text-center shadow-ambient flex flex-col items-center">
+                <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-on-primary mb-6">
+                    <span class="material-symbols-outlined filled" data-icon="support_agent">support_agent</span>
+                </div>
+                <h3 class="font-headline-md text-headline-md text-primary mb-4">Still need help?</h3>
+                <p class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-md">Our dedicated concierge team is ready to assist you with any inquiries regarding your PackSmart experience.</p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-8">
+                    <div class="flex items-center gap-3 bg-surface-container-lowest py-3 px-6 rounded-full border border-outline-variant/50">
+                        <span class="material-symbols-outlined text-primary" data-icon="mail">mail</span>
+                        <a class="font-label-bold text-label-bold text-primary hover:text-surface-tint transition-colors" href="mailto:concierge@packsmart.com">concierge@packsmart.com</a>
+                    </div>
+                    <div class="flex items-center gap-3 bg-surface-container-lowest py-3 px-6 rounded-full border border-outline-variant/50">
+                        <span class="material-symbols-outlined text-primary" data-icon="schedule">schedule</span>
+                        <span class="font-body-md text-body-md text-on-surface-variant">Mon-Fri, 9am - 6pm EST</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../partials/user/footer') %>
+</body>
+</html>

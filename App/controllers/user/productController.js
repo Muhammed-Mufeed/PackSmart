@@ -346,13 +346,27 @@ exports.getProductDetailPage = async (req, res, next) => {
         }
     }
 
-      return res.render('product-detail', { productData: productWithDiscount, selectedVariant, relatedProducts,isInWishlist });
-    } catch (error) {
+      return res.render('product-detail', { productData: productWithDiscount, selectedVariant, relatedProducts, isInWishlist });
+  } catch (error) {
     next(error);
   }
 };
 
-// ==================================================================================================================//
+// ===============================================AboutUs-GET===================================================================//
+exports.getAboutUsPage = async (req, res, next) => {
+  try {
+    return res.render('about-us');
+  } catch (error) {
+    next(error);
+  }
+};
 
-
+// ===============================================HelpCenter-GET===================================================================//
+exports.getHelpCenterPage = async (req, res, next) => {
+  try {
+    return res.render('help-center');
+  } catch (error) {
+    next(error);
+  }
+};
 

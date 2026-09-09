@@ -1,159 +1,168 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/user/css/partial.css" />
-    <link rel="stylesheet" href="/user/css/home.css" />
-    <!-- Add SweetAlert  -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <!--Include AddtoCart Fn,AddtoWishlist Fn-->
-    <script src="/user/js/addToCart.js"></script>
-    <script src="/user/js/addToWishlist.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/user/css/home.css" />
+  <!-- Add SweetAlert  -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <title>Home Page</title>
-  </head>
+  <!--Include AddtoCart Fn,AddtoWishlist Fn-->
+  <script src="/user/js/addToCart.js"></script>
+  <script src="/user/js/addToWishlist.js"></script>
+
+  <title>Home Page</title>
+</head>
 
 <body>
-  <%-include('../partials/user/header')%>
+  <%- include('../partials/user/header') %>
 
-  <section class="banner-slider">
-    <div class="banner-slides">
-      <div class="banner-slide active" style="background-image: url('/user/images/banner1.jpg')">
-        <div class="banner-content">
-          <h1>Welcome to PackSmart</h1>
-          <p>Your ultimate destination for packing products</p>
-          <a href="/userproducts"><button>Shop Now</button></a>
+    <section class="banner-slider">
+      <div class="banner-slides">
+        <div class="banner-slide active" style="background-image: url('/user/images/banner1.jpg')">
+          <div class="banner-content">
+            <h1>Welcome to PackSmart</h1>
+            <p>Your ultimate destination for packing products</p>
+            <a href="/userproducts"><button>Shop Now</button></a>
+          </div>
+        </div>
+
+        <div class="banner-slide" style="background-image: url('/user/images/banner2.jpg')">
+          <div class="banner-content">
+            <h1>Discover Smart Packing Solutions</h1>
+            <p>Quality Products, Unmatched Convenience</p>
+            <a href="/userproducts"><button>Shop Now</button></a>
+          </div>
         </div>
       </div>
-      
-      <div class="banner-slide" style="background-image: url('/user/images/banner2.jpg')">
-        <div class="banner-content">
-          <h1>Discover Smart Packing Solutions</h1>
-          <p>Quality Products, Unmatched Convenience</p>
-          <a href="/userproducts"><button>Shop Now</button></a>
-        </div>
+
+      <div class="banner-indicators">
+        <span class="indicator active"></span>
+        <span class="indicator"></span>
       </div>
+    </section>
+
+
+
+
+    <!-- Premium Banner -->
+    <div class="premium-banner">
+      <h3>Premium Quality Bags</h3>
+      <p>Handcrafted with Excellence | Lifetime Warranty | Sustainable Materials| Bags for Every Journey</p>
     </div>
-    
-    <div class="banner-indicators">
-      <span class="indicator active"></span>
-      <span class="indicator"></span>
-    </div>
-  </section>
-  
-  
 
-
-   <!-- Premium Banner -->
-   <div class="premium-banner">
-    <h3>Premium Quality Bags</h3>
-    <p>Handcrafted with Excellence | Lifetime Warranty | Sustainable Materials| Bags for Every Journey</p>
-</div>
-
-<!-- Categories Section -->
-<section class="categories">
-    <div class="categories-header">Shop by Categories</div>
-    <div class="categories-grid">
-        <% categories.forEach(category => { %>
+    <!-- Categories Section -->
+    <section class="categories">
+      <div class="categories-header">Shop by Categories</div>
+      <div class="categories-grid">
+        <% categories.forEach(category=> { %>
           <a href="/categoryProducts/<%=category._id%>" class="category-link">
             <div class="category">
-                <img src="<%= category.image %>" alt="<%= category.name %>" />
-                <span><%= category.name %></span>
+              <img src="<%= category.image %>" alt="<%= category.name %>" />
+              <span>
+                <%= category.name %>
+              </span>
             </div>
           </a>
-        <% }) %>
+          <% }) %>
+      </div>
+    </section>
+
+    <!-- Top Products Banner -->
+    <div class="top-products-banner">
+      <h2>Trending Products</h2>
+      <p>From daily essentials to travel must haves ,pack smart with our exclusive collection</p>
     </div>
-</section>
 
- <!-- Top Products Banner -->
- <div class="top-products-banner">
-  <h2>Trending Products</h2>
-  <p>From daily essentials to travel must haves ,pack smart with our exclusive collection</p>
-</div>
-
-<!-- Products Section -->
-<section class="products-section">
-  <div class="products-grid">
-    <% if (products.length > 0) { %>
-      <% products.forEach((product) => { %>
-        <!-- Check if the product has at least one listed variant -->
-        <% if (product.variants.some(v => v.isListed)) { %>
-          <div class="product-card">
-            <!-- Use the first listed variant -->
-            <% const listedVariant = product.variants.find(v => v.isListed); %>
-            <a href="/productdetail/<%= product._id %>?variantId=<%= listedVariant._id %>" class="product-link">
-              <div class="product-image">
-                <img src="<%= listedVariant.images.length > 0 ? listedVariant.images[0] : '/default-image.jpg' %>" alt="<%= product.name %>">
-                <!-- Display the highest offer badge -->
-                <% if (product.appliedDiscount > 0) { %>
-                  <div class="offer-badge"><%= product.appliedDiscount %>% OFF</div>
-                <% } %>
-            </a>
-                <div class="product-wishlist">
-                  <i class="fas fa-heart wishlist-icon" 
-                     data-product="<%= product._id %>" 
-                     data-variant="<%= listedVariant._id %>"
-                     onclick="addToWishlist('<%= product._id %>', '<%= listedVariant._id %>')"></i>
+    <!-- Products Section -->
+    <section class="products-section">
+      <div class="products-grid">
+        <% if (products.length> 0) { %>
+          <% products.forEach((product)=> { %>
+            <!-- Check if the product has at least one listed variant -->
+            <% if (product.variants.some(v=> v.isListed)) { %>
+              <div class="product-card">
+                <!-- Use the first listed variant -->
+                <% const listedVariant=product.variants.find(v=> v.isListed); %>
+                  <a href="/productdetail/<%= product._id %>?variantId=<%= listedVariant._id %>" class="product-link">
+                    <div class="product-image">
+                      <img src="<%= listedVariant.images.length > 0 ? listedVariant.images[0] : '/default-image.jpg' %>"
+                        alt="<%= product.name %>">
+                      <!-- Display the highest offer badge -->
+                      <% if (product.appliedDiscount> 0) { %>
+                        <div class="offer-badge">
+                          <%= product.appliedDiscount %>% OFF
+                        </div>
+                        <% } %>
+                  </a>
+                  <div class="product-wishlist">
+                    <i class="fas fa-heart wishlist-icon" data-product="<%= product._id %>"
+                      data-variant="<%= listedVariant._id %>"
+                      onclick="addToWishlist('<%= product._id %>', '<%= listedVariant._id %>')"></i>
+                  </div>
               </div>
+
+              <div class="product-details">
+                <h3 class="product-name">
+                  <%= product.name %>
+                </h3>
+                <div class="price-container">
+                  <span class="mrp">M.R.P₹<%= product.actualPrice %></span>
+                  <span class="selling-price">₹<%= product.sellingPrice %></span>
+                </div>
+                <div class="product-rating">★★★★☆</div>
+                <% const inCart=locals.cartProductIds &&
+                  locals.cartProductIds.includes(`${product._id}_${listedVariant._id}`); %>
+                  <button class="add-to-cart <%= inCart ? 'go-to-cart-active' : '' %>"
+                    onclick="addToCart('<%= product._id %>', '<%= listedVariant._id %>', this)">
+                    <%= inCart ? 'Go to Cart' : 'Add to Cart' %>
+                  </button>
               </div>
-           
-            <div class="product-details">
-              <h3 class="product-name"><%= product.name %></h3>
-              <div class="price-container">
-                <span class="mrp">M.R.P₹<%= product.actualPrice %></span>
-                <span class="selling-price">₹<%= product.sellingPrice %></span>
+      </div>
+      <% } %>
+        <% }) %>
+          <% } else { %>
+            <p>No products found.</p>
+            <% } %>
               </div>
-              <div class="product-rating">★★★★☆</div>
-              <% const inCart = locals.cartProductIds && locals.cartProductIds.includes(`${product._id}_${listedVariant._id}`); %>
-              <button class="add-to-cart <%= inCart ? 'go-to-cart-active' : '' %>" onclick="addToCart('<%= product._id %>', '<%= listedVariant._id %>', this)">
-                <%= inCart ? 'Go to Cart' : 'Add to Cart' %>
-              </button>
-            </div>
-          </div>
-        <% } %>
-      <% }) %>
-    <% } else { %>
-      <p>No products found.</p>
-    <% } %>
-  </div>
-</section>
+    </section>
 
-<script>
- document.addEventListener('DOMContentLoaded', () => {
-  const slides = document.querySelectorAll('.banner-slide');
-  const indicators = document.querySelectorAll('.indicator');
-  let currentSlide = 0;
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const slides = document.querySelectorAll('.banner-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        let currentSlide = 0;
 
-  function showSlide(index) {
-    slides.forEach(slide => slide.classList.remove('active'));
-    indicators.forEach(indicator => indicator.classList.remove('active'));
-    
-    slides[index].classList.add('active');
-    indicators[index].classList.add('active');
-  }
+        function showSlide(index) {
+          slides.forEach(slide => slide.classList.remove('active'));
+          indicators.forEach(indicator => indicator.classList.remove('active'));
 
-  function nextSlide() {
-    currentSlide = (currentSlide + 1) % slides.length;
-    showSlide(currentSlide);
-  }
+          slides[index].classList.add('active');
+          indicators[index].classList.add('active');
+        }
 
-  // Auto-slide every 5 seconds
-  setInterval(nextSlide, 5000);
+        function nextSlide() {
+          currentSlide = (currentSlide + 1) % slides.length;
+          showSlide(currentSlide);
+        }
 
-  // Indicator click functionality
-  indicators.forEach((indicator, index) => {
-    indicator.addEventListener('click', () => {
-      currentSlide = index;
-      showSlide(currentSlide);
-    });
-  });
-});
+        // Auto-slide every 5 seconds
+        setInterval(nextSlide, 5000);
 
-</script>
-  <%-include('../partials/user/footer')%>
+        // Indicator click functionality
+        indicators.forEach((indicator, index) => {
+          indicator.addEventListener('click', () => {
+            currentSlide = index;
+            showSlide(currentSlide);
+          });
+        });
+      });
+
+    </script>
+    <%- include('../partials/user/footer') %>
 
 </body>
-</html> 
+
+</html>

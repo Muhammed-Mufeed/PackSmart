@@ -46,6 +46,8 @@ router.get('/', checkBlocked,  productController.getHomepage)
 router.get('/userproducts', checkBlocked, loadCartState, productController.getProductspage)
 router.get('/categoryProducts/:categoryId', checkBlocked, loadCartState, productController.getCategoryProductspage)
 router.get('/productdetail/:id', checkBlocked, loadCartState, productController.getProductDetailPage)
+router.get('/about-us', checkBlocked, productController.getAboutUsPage)
+router.get('/help-center', checkBlocked, productController.getHelpCenterPage)
 
 // ==================================================================================================================//
 router.get('/userProfile', checkBlocked, userProfileManagement.getUserProfile)

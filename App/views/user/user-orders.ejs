@@ -3,472 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Orders</title>
-    <link rel="stylesheet" href="/user/css/profile-sidebar.css" />
+    <title>My Orders | PackSmart</title>
     <!-- Add Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
-        }
-
-        body {
-            background-color: #f9fafb;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Wrapper for Layout */
-        .wrapper {
-            display: flex;
-            min-height: calc(100vh - 80px); /* Full height minus navbar */
-        }
-
-        /* Main Content Styling */
-        .main-content {
-            flex: 1;
-            padding: 20px;
-            background-color: #f9fafb;
-            min-height: calc(100vh - 80px);
-        }
-
-        .order-list-container {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 24px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .order-list-container h1 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .order-list {
-            width: 100%;
-        }
-
-        .order-card {
-            border: 1px solid #eaeaea;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            overflow: hidden;
-        }
-
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 16px;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #eaeaea;
-        }
-
-        .order-id {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .order-date {
-            color: #6c757d;
-            font-size: 14px;
-        }
-
-        .order-status {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-            text-transform: uppercase;
-        }
-
-        .status-pending {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-
-        .status-shipped {
-            background-color: #cce5ff;
-            color: #004085;
-        }
-
-        .status-delivered {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .status-cancelled {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-        .order-details {
-            padding: 16px;
-        }
-
-        .order-items {
-            margin-bottom: 16px;
-        }
-
-        .item {
-            display: flex;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .item:last-child {
-            border-bottom: none;
-        }
-
-        .item-image {
-            width: 60px;
-            height: 60px;
-            border-radius: 4px;
-            background-color: #f0f0f0;
-            margin-right: 12px;
-            object-fit: contain;
-        }
-
-        .item-info {
-            flex: 1;
-        }
-
-        .item-name {
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-
-        .item-variant {
-            font-size: 13px;
-            color: #555;
-            margin-bottom: 4px;
-        }
-
-        .item-price {
-            color: #333;
-            font-weight: 600;
-        }
-
-        .item-quantity {
-            color: #6c757d;
-            font-size: 14px;
-        }
-
-        .order-summary {
-            display: flex;
-            justify-content: space-between;
-            padding-top: 12px;
-            border-top: 1px solid #eaeaea;
-        }
-
-        .address-details {
-            flex: 2;
-        }
-
-        .address-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .address-text {
-            font-size: 14px;
-            line-height: 1.5;
-            color: #6c757d;
-        }
-
-        .payment-details {
-            flex: 1;
-            text-align: right;
-        }
-
-        .payment-method {
-            font-size: 14px;
-            color: #6c757d;
-            margin-bottom: 8px;
-        }
-
-        .total-amount {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .order-actions {
-            margin-top: 16px;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .btn {
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-            transition: background-color 0.3s ease;
-            text-decoration: none;
-        }
-
-        .btn-detail {
-            background-color: #ff6f61;
-            color: white;
-        }
-
-        .btn-detail:hover {
-            background-color: #e5645a;
-        }
-        .item-status {
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: 500;
-        text-transform: uppercase;
-        margin-top: 8px;
-        display: inline-block;
-        }
-
-        .status-pending {
-        background-color: #fff3cd;
-        color: #856404;
-        }
-
-        .status-confirmed {
-        background-color: #cce5ff;
-        color: #004085;
-        }
-
-        .status-shipped {
-        background-color: #d4edda;
-        color: #155724;
-        }
-
-        .status-delivered {
-        background-color: #d4edda;
-        color: #155724;
-        }
-
-        .status-cancelled {
-        background-color: #f8d7da;
-        color: #721c24;
-        }
-
-        .empty-orders {
-            text-align: center;
-            padding: 40px 0;
-            color: #6c757d;
-        }
-
-        .empty-orders p {
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
-
-        .btn-shop {
-            background-color: #ff6f61;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-weight: 500;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-shop:hover {
-            background-color: #e5645a;
-        }
-
-        /* Pagination Styles */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-            gap: 10px;
-        }
-
-        .pagination a {
-            padding: 8px 12px;
-            text-decoration: none;
-            color: #333;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        .pagination a:hover {
-            background-color: #ff6f61;
-            color: white;
-            border-color: #ff6f61;
-        }
-
-        .pagination a.active {
-            background-color: #ff6f61;
-            color: white;
-            border-color: #ff6f61;
-        }
-
-        .pagination a.disabled {
-            color: #ccc;
-            border-color: #ddd;
-            pointer-events: none;
-        }
-
-        .pagination span {
-            font-size: 14px;
-            color: #6c757d;
-        }
-   
-
-        @media (max-width: 768px) {
-            .wrapper {
-                flex-direction: column;
-            }
-
-            .main-content {
-                padding: 10px;
-                min-height: auto;
-            }
-
-            .order-header {
-                flex-direction: column;
-            }
-
-            .order-summary {
-                flex-direction: column;
-            }
-
-            .address-details {
-                margin-bottom: 16px;
-            }
-
-            .payment-details {
-                text-align: left;
-            }
-        }
-</style>
- </head>
- <body>
+</head>
+<body>
     <%-include('../partials/user/profile-sidebar-header')%>
     
-    <div class="wrapper">
-        <!-- The sidebar will be included from the header partial -->
-        
-        <div class="main-content">
-            <div class="order-list-container">
-                <h1>My Orders</h1>
-                
-                <div class="order-list">
-                    <% if (orders && orders.length > 0) { %>
-                      <% orders.forEach(order => { %>
-                        <div class="order-card">
-                          <div class="order-header">
+    <div class="max-w-4xl mx-auto space-y-6">
+        <!-- Header Card -->
+        <div class="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200/70 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h1 class="text-xl sm:text-2xl font-bold text-gray-900 font-['Montserrat',sans-serif] tracking-tight">
+                    My Orders
+                </h1>
+                <p class="text-sm text-gray-500 mt-1">Track packages, review past purchases, and manage orders.</p>
+            </div>
+            <% if (typeof totalOrders !== 'undefined' && totalOrders > 0) { %>
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold">
+                <span class="material-symbols-outlined text-[16px] text-gray-500">inventory_2</span>
+                <span><%= totalOrders %> Total Order<%= totalOrders > 1 ? 's' : '' %></span>
+            </div>
+            <% } %>
+        </div>
+
+        <!-- Orders List -->
+        <div class="space-y-4">
+            <% if (orders && orders.length > 0) { %>
+              <% orders.forEach(order => { %>
+                <div class="bg-white rounded-2xl border border-gray-200/70 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
+                  <!-- Order Card Header -->
+                  <div class="px-6 py-4 bg-gray-50/80 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                      <span class="px-2.5 py-1 rounded-lg bg-black text-white text-xs font-mono font-bold tracking-wide">
+                        #<%= order.orderId %>
+                      </span>
+                      <span class="text-xs text-gray-500 flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[15px] text-gray-400">calendar_today</span>
+                        Ordered on <%= new Date(order.createdAt).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }) %>
+                      </span>
+                    </div>
+                    <a href="/userOrders/<%= order.orderId %>" class="inline-flex items-center gap-1.5 text-xs font-bold text-gray-900 hover:text-gray-600 transition-colors">
+                      <span>View Details</span>
+                      <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                    </a>
+                  </div>
+
+                  <!-- Order Items -->
+                  <div class="p-6">
+                    <div class="divide-y divide-gray-100 mb-6">
+                      <% order.items.slice(0, 2).forEach(item => { %>
+                        <div class="py-4 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                          <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center p-1.5 flex-shrink-0">
+                              <img class="w-full h-full object-contain rounded-lg" src="<%= item.variant.images[0] || '/images/placeholder.jpg' %>" alt="<%= item.product.name %>">
+                            </div>
                             <div>
-                              <span class="order-id">Order #<%= order.orderId %></span>
-                              <div class="order-date">Ordered on <%= new Date(order.createdAt).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }) %></div>
+                              <h3 class="text-sm sm:text-base font-bold text-gray-900 font-['Montserrat',sans-serif] line-clamp-1">
+                                <%= item.product.name %>
+                              </h3>
+                              <div class="text-xs text-gray-500 mt-1 flex flex-wrap items-center gap-3">
+                                <span>Color: <strong class="text-gray-700"><%= item.variant.colorName %></strong></span>
+                                <span class="text-gray-300">•</span>
+                                <span>Qty: <strong class="text-gray-700"><%= item.quantity %></strong></span>
+                              </div>
+                              <div class="mt-2 text-sm font-bold text-gray-900">
+                                ₹<%= item.product.soldPrice.toFixed(2) %>
+                              </div>
                             </div>
                           </div>
-                          <div class="order-details">
-                            <div class="order-items">
-                              <% order.items.slice(0, 2).forEach(item => { %>
-                                <div class="item">
-                                  <img class="item-image" src="<%= item.variant.images[0] || '/images/placeholder.jpg' %>" alt="<%= item.product.name %>">
-                                  <div class="item-info">
-                                    <div class="item-name"><%= item.product.name %></div>
-                                    <div class="item-variant">Color: <%= item.variant.colorName %></div>
-                                    <div class="item-price">₹<%= item.product.soldPrice.toFixed(2) %></div>
-                                    <div class="item-quantity">Qty: <%= item.quantity %></div>
-                                    <div class="item-status status-<%= item.status.toLowerCase() %>"><%= item.status %></div>
-                                  </div>
-                                </div>
-                              <% }); %>
-                              
-                              <% if (order.items.length > 2) { %>
-                                <div style="text-align: center; padding: 10px; color: #6c757d; font-size: 14px;">
-                                  + <%= order.items.length - 2 %> more items
-                                </div>
-                              <% } %>
-                            </div>
-                            
-                            <div class="order-summary">
-                              <div class="address-details">
-                                <div class="address-title">Delivered to:</div>
-                                <div class="address-text">
-                                  <%= order.address.name %><br>
-                                  <%= order.address.address %>, <%= order.address.locality %><br>
-                                  <%= order.address.city %>, <%= order.address.state %> - <%= order.address.pincode %><br>
-                                  Phone: <%= order.address.mobile %>
-                                </div>
-                              </div>
-                              <div class="payment-details">
-                                <div class="payment-method">
-                                  Payment: <%= order.paymentMethod === 'cod' ? 'Cash on Delivery' : order.paymentMethod %>
-                                  <br>
-                                  Payment Status: <%= order.paymentStatus %>
-                                </div>
-                                <div class="total-amount">Total: ₹<%= order.finalAmount.toFixed(2) %></div>
-                              </div>
-                            </div>
-                            
-                            <div class="order-actions">
-                                <a href="/userOrders/<%= order.orderId %>" class="btn btn-detail">View Details</a>                             </div>
+                          <div>
+                            <% 
+                              const statusLower = item.status.toLowerCase();
+                              let statusClass = 'bg-gray-100 text-gray-700 border-gray-200';
+                              if (statusLower === 'delivered') statusClass = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+                              else if (statusLower === 'shipped') statusClass = 'bg-blue-50 text-blue-700 border-blue-200';
+                              else if (statusLower === 'confirmed') statusClass = 'bg-indigo-50 text-indigo-700 border-indigo-200';
+                              else if (statusLower === 'pending') statusClass = 'bg-amber-50 text-amber-700 border-amber-200';
+                              else if (statusLower === 'cancelled') statusClass = 'bg-rose-50 text-rose-700 border-rose-200';
+                            %>
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase border <%= statusClass %>">
+                              <%= item.status %>
+                            </span>
                           </div>
                         </div>
                       <% }); %>
-                    <% } else { %>
-                      <div class="empty-orders">
-                        <p>You haven't placed any orders yet.</p>
-                        <a href="/userProducts" class="btn-shop">Start Shopping</a>
+                      
+                      <% if (order.items.length > 2) { %>
+                        <div class="pt-3 text-center text-xs font-medium text-gray-500">
+                          + <%= order.items.length - 2 %> more item<%= order.items.length - 2 > 1 ? 's' : '' %> in this order
+                        </div>
+                      <% } %>
+                    </div>
+                    
+                    <!-- Order Summary: Delivery & Payment Details -->
+                    <div class="pt-5 border-t border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-5 bg-gray-50/50 p-4 rounded-xl">
+                      <div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 flex items-center gap-1">
+                          <span class="material-symbols-outlined text-[14px]">local_shipping</span>
+                          <span>Delivered to:</span>
+                        </div>
+                        <div class="text-xs text-gray-600 leading-relaxed">
+                          <span class="font-semibold text-gray-900"><%= order.address.name %></span><br>
+                          <%= order.address.address %>, <%= order.address.locality %><br>
+                          <%= order.address.city %>, <%= order.address.state %> - <span class="font-medium text-gray-800"><%= order.address.pincode %></span><br>
+                          <span class="text-gray-500">Phone:</span> <%= order.address.mobile %>
+                        </div>
                       </div>
-                    <% } %>
+                      <div class="flex flex-col justify-between sm:items-end">
+                        <div class="sm:text-right">
+                          <div class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 flex items-center sm:justify-end gap-1">
+                            <span class="material-symbols-outlined text-[14px]">credit_card</span>
+                            <span>Payment Info</span>
+                          </div>
+                          <div class="text-xs text-gray-600">
+                            <span>Method:</span> <strong class="text-gray-800"><%= order.paymentMethod === 'cod' ? 'Cash on Delivery' : order.paymentMethod %></strong>
+                          </div>
+                          <div class="text-xs text-gray-600 mt-0.5">
+                            <span>Status:</span> <strong class="text-gray-800 capitalize"><%= order.paymentStatus %></strong>
+                          </div>
+                        </div>
+                        <div class="mt-3 sm:mt-0 sm:text-right">
+                          <span class="text-xs text-gray-500">Order Total</span>
+                          <div class="text-lg font-bold text-gray-900 font-['Montserrat',sans-serif]">
+                            ₹<%= order.finalAmount.toFixed(2) %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="mt-4 flex justify-end">
+                      <a href="/userOrders/<%= order.orderId %>" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-black text-white text-xs font-semibold hover:bg-gray-800 transition-all duration-200 shadow-sm active:scale-[0.98]">
+                        <span>View Details</span>
+                        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                      </a>
+                    </div>
                   </div>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <!-- Empty State -->
+              <div class="bg-white rounded-2xl p-12 text-center border border-gray-200/70 shadow-sm">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
+                  <span class="material-symbols-outlined text-gray-400 text-3xl">inventory_2</span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 font-['Montserrat',sans-serif]">No orders placed yet</h3>
+                <p class="text-sm text-gray-500 max-w-sm mx-auto mt-1 mb-6">Looks like you haven't placed any orders with us. Explore our catalog and discover amazing travel gear.</p>
+                <a href="/userProducts" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-black text-white text-sm font-semibold hover:bg-gray-800 transition-all duration-200 shadow-sm active:scale-[0.98]">
+                  <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                  <span>Start Shopping</span>
+                </a>
+              </div>
+            <% } %>
+        </div>
+
+        <!-- Pagination Controls -->
+        <% if (orders && orders.length > 0) { %>
+            <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="text-xs text-gray-500">
+                Showing <strong class="text-gray-800"><%= (currentPage - 1) * 5 + 1 %></strong> - <strong class="text-gray-800"><%= Math.min(currentPage * 5, totalOrders) %></strong> of <strong class="text-gray-800"><%= totalOrders %></strong> orders
+              </div>
+              
+              <div class="flex items-center gap-1.5">
+                <!-- Previous Button -->
+                <a href="<%= currentPage > 1 ? '/userOrders?page=' + (currentPage - 1) : '#' %>" 
+                   class="px-3 py-1.5 rounded-lg border text-xs font-semibold transition-all duration-150 <%= currentPage === 1 ? 'border-gray-200 text-gray-300 pointer-events-none' : 'border-gray-300 text-gray-700 hover:bg-gray-100' %>">
+                  Previous
+                </a>
+
+                <!-- Page Numbers -->
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                  <a href="/userOrders?page=<%= i %>" 
+                     class="w-8 h-8 flex items-center justify-center rounded-lg text-xs font-semibold transition-all duration-150 <%= currentPage === i ? 'bg-black text-white' : 'border border-gray-200 text-gray-700 hover:bg-gray-100' %>">
+                    <%= i %>
+                  </a>
+                <% } %>
+
+                <!-- Next Button -->
+                <a href="<%= currentPage < totalPages ? '/userOrders?page=' + (currentPage + 1) : '#' %>" 
+                   class="px-3 py-1.5 rounded-lg border text-xs font-semibold transition-all duration-150 <%= currentPage === totalPages ? 'border-gray-200 text-gray-300 pointer-events-none' : 'border-gray-300 text-gray-700 hover:bg-gray-100' %>">
+                  Next
+                </a>
+              </div>
             </div>
-        </div>
+        <% } %>
     </div>
-
-    <!-- Pagination Controls -->
-    <% if (orders && orders.length > 0) { %>
-        <div class="pagination">
-          <!-- Previous Button -->
-          <a href="<%= currentPage > 1 ? '/userOrders?page=' + (currentPage - 1) : '#' %>" 
-             class="<%= currentPage === 1 ? 'disabled' : '' %>">
-            Previous
-          </a>
-
-          <!-- Page Numbers -->
-          <% for (let i = 1; i <= totalPages; i++) { %>
-            <a href="/userOrders?page=<%= i %>" 
-               class="<%= currentPage === i ? 'active' : '' %>">
-              <%= i %>
-            </a>
-          <% } %>
-
-          <!-- Next Button -->
-          <a href="<%= currentPage < totalPages ? '/userOrders?page=' + (currentPage + 1) : '#' %>" 
-             class="<%= currentPage === totalPages ? 'disabled' : '' %>">
-            Next
-          </a>
-
-          <!-- Optional: Show total orders and current range -->
-          <span>
-            Showing <%= (currentPage - 1) * 5 + 1 %>-<%= Math.min(currentPage * 5, totalOrders) %> of <%= totalOrders %> orders
-          </span>
-        </div>
-      <% } %>
-</div>
-</div>
-</div>
     
-    <%-include('../partials/user/profile-sidebar-footer')%>
+      </main>
+</div>
 </body>
 </html>

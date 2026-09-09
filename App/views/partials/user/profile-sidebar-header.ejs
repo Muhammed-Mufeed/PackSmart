@@ -1,107 +1,75 @@
-<!-- views/partials/header.ejs -->
-<!-- Navbar -->
-<div class="navbar">
-  <!-- Top Row: Logo, Menu Items, Icons -->
-  <div class="top-row">
-    <!-- Logo -->
-    <div class="logo">PackSmart</div>
-    <!-- Menu Items -->
-    <div class="menu">
-      <a href="/">Home</a>
-      <a href="/userproducts">Products</a>
-      <a href="#">Help Center</a>
-      <a href="#">About Us</a>
-    </div>
-    <!-- Icons -->
-    <div class="icons">
-      <div class="icon">
-        <a href="/wishlist">
-        <img src="/user/icons/wishlist-2.png" alt="wishlist">
-        </a>
-      </div>
-      
-      <div class="user-profile">
-        <!-- User Profile Button -->
-        <button class="profile-button">
-          <img src="/user/icons/profile-icon.png" alt="profile-icon">
-        </button>
-        <!-- Dropdown Menu -->
-        <div class="dropdown">
-          <% if (userData) { %> <!-- Check if user is logged in -->
-            <a href="/userProfile">Profile</a>
-            <form action="/logout" method="POST" style="display: inline;">
-              <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer;">
-                Logout
-              </button>
-            </form>
-          <% } else { %> <!-- Show Signup and Login if not logged in -->
-            <a href="/signup">Signup</a>
-            <a href="/login">Login</a>
-          <% } %>
-        </div>
-      </div>
-      <div class="cart icon">
-        <a href="/cart">
-          <img src="/user/icons/cart.png" alt="cart">
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
+<%- include('header') %>
 
-<!-- Wrapper for Content -->
-<div class="wrapper">
- <!-- Sidebar -->
-<div class="sidebar">
-  <div class="sidebar-header"> <i class="fas fa-user"></i><%=userData.name%></div>
-  <ul class="sidebar-menu">
-    <li>
-      <a href="/userProfile" class="sidebar-link">
-        <i class="fas fa-user"></i> Profile Information
+<style>
+  .sidebar-link.active {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  .sidebar-link.active span {
+    color: #ffffff !important;
+  }
+</style>
+
+<!-- Profile Page Wrapper -->
+<div class="flex flex-col md:flex-row min-h-[calc(100vh-64px)] bg-[#f7f9fb] font-sans">
+  <!-- Modern Sidebar -->
+  <aside class="w-full md:w-72 md:min-w-[280px] bg-white border-b md:border-b-0 md:border-r border-gray-200 p-6 flex flex-col gap-6 md:sticky md:top-16 md:h-[calc(100vh-64px)] overflow-y-auto">
+    <!-- User Badge -->
+    <div class="flex items-center gap-3.5 pb-6 border-b border-gray-100">
+      <div class="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center font-bold text-lg font-['Montserrat',sans-serif] shadow-sm flex-shrink-0">
+        <%= userData && userData.name ? userData.name.trim().charAt(0).toUpperCase() : 'U' %>
+      </div>
+      <div class="min-w-0">
+        <h2 class="text-base font-bold text-gray-900 font-['Montserrat',sans-serif] truncate">
+          <%= userData ? userData.name : 'My Account' %>
+        </h2>
+        <span class="text-xs text-gray-500 font-medium">Personal Account</span>
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="flex flex-col gap-1.5 font-['Montserrat',sans-serif]">
+      <a href="/userProfile" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
+        <span class="material-symbols-outlined text-[20px]">person</span>
+        <span>Profile Information</span>
       </a>
-    </li>
-    <li>
-      <a href="/userAddress" class="sidebar-link">
-        <i class="fas fa-map-marker-alt"></i> Manage Addresses
+      <a href="/userAddress" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
+        <span class="material-symbols-outlined text-[20px]">location_on</span>
+        <span>Manage Addresses</span>
       </a>
-    </li>
-    <li>
-      <a href="/userOrders" class="sidebar-link">
-        <i class="fas fa-shopping-bag"></i> My Orders
+      <a href="/userOrders" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
+        <span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+        <span>My Orders</span>
       </a>
-    </li>
-    <li>
-      <a href="/wishlist" class="sidebar-link">
-        <i class="fas fa-heart"></i> My Wishlist
+      <a href="/wishlist" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
+        <span class="material-symbols-outlined text-[20px]">favorite</span>
+        <span>My Wishlist</span>
       </a>
-    </li>
-    <li>
-      <a href="/wallet" class="sidebar-link">
-        <i class="fas fa-wallet"></i> My Wallet
+      <a href="/wallet" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
+        <span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+        <span>My Wallet</span>
       </a>
-    </li>
-  </ul>
-</div>
+    </nav>
+  </aside>
   
   <!-- Main Content Area -->
-  <div class="main-content">
+  <main class="flex-1 p-6 md:p-10 min-w-0 bg-[#f7f9fb]">
 
- <!-- JavaScript to Set Active Class -->
- 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Get all sidebar links
-    const sidebarLinks = document.querySelectorAll('.sidebar-link');
-    
-    // Get the current URL path (e.g., "/userProfile")
-    const currentPath = window.location.pathname;
+  <!-- JavaScript to Set Active Class for Sidebar -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const sidebarLinks = document.querySelectorAll('.sidebar-link');
+      const currentPath = window.location.pathname;
 
-    // Loop through each link and check if its href matches the current path
-    sidebarLinks.forEach(link => {
-      const linkPath = link.getAttribute('href');
-      if (linkPath === currentPath) {
-        link.classList.add('active'); // Add active class to the matching link
-      }
+      sidebarLinks.forEach(link => {
+        const linkPath = link.getAttribute('href');
+        if (linkPath === currentPath || 
+           (linkPath === '/userAddress' && (currentPath === '/addAddress' || currentPath.startsWith('/editAddress'))) ||
+           (linkPath === '/userProfile' && currentPath === '/editUserProfile') ||
+           (linkPath === '/userOrders' && currentPath.startsWith('/orderDetails'))) {
+          link.classList.add('active');
+        }
+      });
     });
-  });
-</script>
+  </script>

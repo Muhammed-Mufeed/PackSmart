@@ -1,81 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verify OTP - PackSmart</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>PackSmart - Verify Your Identity</title>
+    <!-- Google Fonts: Cormorant Garamond, Inter & Montserrat -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome & SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="/user/css/tailwind.css">
+    <style>
+        .premium-input {
+            transition: all 0.2s ease;
+        }
+        .premium-input:focus {
+            outline: none;
+            border-color: #191c1e;
+            box-shadow: 0 0 0 2px rgba(25, 28, 30, 0.08);
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex items-center justify-center p-4 sm:p-6 selection:bg-blue-600 selection:text-white">
+<body class="bg-white text-on-surface font-body antialiased min-h-screen flex flex-col md:flex-row">
 
-  <!-- Compact Light E-Commerce Card -->
-  <div class="w-full max-w-sm sm:max-w-md bg-white rounded-2xl shadow-xl shadow-slate-200/70 border border-slate-100 p-6 sm:p-7 relative z-10">
-    
-    <!-- Compact Header -->
-    <div class="text-center mb-5">
-      <div class="inline-flex items-center justify-center w-12 h-12 bg-blue-50 text-blue-600 rounded-xl mb-3 border border-blue-100/80 shadow-xs">
-        <i class="fa-solid fa-shield-halved text-xl"></i>
-      </div>
-      <h2 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Verify Your OTP</h2>
-      <p class="text-slate-500 text-xs sm:text-sm mt-1">Enter the 6-digit verification code sent to your email</p>
-    </div>
-    
-    <% if (isDemoMode) { %>
-    <!-- Compact Demo Environment Alert Banner -->
-    <div class="bg-amber-50 border border-amber-200/80 text-amber-900 rounded-xl p-3 mb-5 text-center text-xs shadow-xs" id="demoBanner" role="alert">
-      <div class="flex items-center justify-center gap-1.5 font-semibold text-amber-800 mb-0.5">
-        <i class="fa-solid fa-triangle-exclamation text-amber-600"></i>
-        <span>Demo Environment Active</span>
-      </div>
-      <p class="text-amber-700/90 text-[11px]">Due to API sandbox restrictions, email delivery is disabled.</p>
-      <div class="mt-2 pt-1.5 border-t border-amber-200/60 text-xs text-amber-900">
-        Please enter test OTP: <b id="displayOtp" class="font-mono tracking-wider text-sm font-bold text-red-600 select-all px-1.5 py-0.5 bg-amber-100/80 rounded border border-amber-200"><%= demoOtp %></b>
-      </div>
-    </div>
-    <% } %>
-
-    <!-- OTP Form -->
-    <form id="verifyOtpForm" class="space-y-4">
-      <div>
-        <label for="otp" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Enter OTP</label>
-        <input 
-          type="text" 
-          class="w-full bg-slate-50 border border-slate-200 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 text-slate-900 text-center font-mono text-xl tracking-[0.35em] placeholder:tracking-normal placeholder:font-sans placeholder:text-slate-400 placeholder:text-sm rounded-xl py-2.5 px-3 transition-all outline-none" 
-          id="otp" 
-          placeholder="6-digit OTP" 
-          maxlength="6"
-          required
-          autocomplete="one-time-code"
-        >
-      </div>
-
-      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold py-2.5 px-4 rounded-xl shadow-md shadow-blue-600/20 hover:shadow-blue-600/30 transition-all text-sm flex items-center justify-center gap-2">
-        <i class="fa-solid fa-circle-check text-xs"></i>
-        <span>Verify OTP</span>
-      </button>
-    </form>
-
-    <div class="my-4 border-t border-slate-100"></div>
-
-    <!-- Timer & Resend Button -->
-    <div class="text-center space-y-2.5">
-      <div class="timer text-xs sm:text-sm font-medium text-blue-600" id="timer">Resend OTP in 60 seconds</div>
-      
-      <button 
-        id="resendOtpButton" 
-        class="w-full bg-slate-100 hover:bg-slate-200/80 active:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-slate-100 text-slate-700 font-medium py-2 px-3 rounded-xl border border-slate-200/70 transition-all text-xs sm:text-sm flex items-center justify-center gap-1.5"
-        disabled
-      >
-        <i class="fa-solid fa-rotate-right text-xs"></i>
-        <span>Resend OTP</span>
-      </button>
+    <!-- Left Split: Image & Branding -->
+    <div class="hidden md:flex md:w-1/2 relative bg-surface-container-high overflow-hidden items-end min-h-screen">
+        <img class="absolute inset-0 w-full h-full object-cover object-center" 
+             src="/user/images/otp-hero.png" 
+             alt="Secure Access">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+        <div class="relative z-10 p-12 lg:p-16 max-w-lg mb-6 text-white space-y-3">
+            <span class="inline-block text-xs uppercase tracking-widest text-neutral-300 font-display">
+                Identity &amp; Security
+            </span>
+            <h1 class="font-display text-4xl lg:text-5xl font-bold text-white leading-tight tracking-tight">
+                Secure Access.
+            </h1>
+            <p class="font-editorial italic text-base sm:text-lg lg:text-xl text-neutral-200/95 font-normal leading-relaxed tracking-wide pt-1">
+                "Protecting your premium experience with multi-layer verification and encrypted session protocols."
+            </p>
+            <div class="flex items-center space-x-3 pt-2">
+                <div class="h-px w-10 bg-white/40"></div>
+                <p class="text-xs uppercase tracking-widest text-neutral-300 font-display">PackSmart Signature</p>
+            </div>
+        </div>
     </div>
 
-  </div>
+    <!-- Right Split: Verification Form -->
+    <div class="w-full md:w-1/2 min-h-screen flex items-center justify-center p-6 sm:p-10 lg:p-14 bg-white relative">
+        <!-- Brand Logo (Top Right) -->
+        <div class="absolute top-6 right-6 sm:top-8 sm:right-8 lg:top-8 lg:right-10 z-20">
+            <a href="/" class="block transition-transform hover:scale-105 duration-200">
+                <img src="/user/images/logo.png" alt="PackSmart Logo" 
+                     class="h-12 sm:h-14 lg:h-16 w-auto object-contain mix-blend-multiply contrast-125">
+            </a>
+        </div>
 
-  <script>
+        <div class="w-full max-w-[420px] pt-20 pb-10 md:pt-20 md:pb-8 mt-8 md:mt-12">
+            <!-- Header -->
+            <div class="mb-6 text-center">
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-on-surface"><%= typeof title !== 'undefined' ? title : 'Verify Your Identity' %></h2>
+                <p class="font-body text-sm text-on-surface-variant mt-1"><%= typeof subtitle !== 'undefined' ? subtitle : 'Enter the 6-digit verification code sent to your email.' %></p>
+            </div>
+
+            <% if (isDemoMode) { %>
+            <!-- Demo Environment Active Alert Banner -->
+            <div class="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-3 text-left" id="demoBanner" role="alert">
+                <i class="fa-solid fa-triangle-exclamation text-amber-600 mt-1"></i>
+                <div class="text-xs">
+                    <h3 class="font-semibold text-amber-900 mb-0.5">Demo Environment Active</h3>
+                    <p class="text-amber-800">Due to API sandbox restrictions, email delivery is disabled.</p>
+                    <div class="mt-2 pt-2 border-t border-amber-200 text-amber-900 font-medium">
+                        Please enter test OTP: <b id="displayOtp" class="font-mono text-sm font-bold text-red-600 px-2 py-0.5 bg-amber-100 rounded border border-amber-300 ml-1"><%= demoOtp %></b>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
+            <!-- Form -->
+            <form id="verifyOtpForm" class="space-y-5">
+                <div>
+                    <label for="otp" class="block font-medium text-xs sm:text-sm text-on-surface mb-1.5 text-center">Enter 6-Digit OTP</label>
+                    <input 
+                        type="text" 
+                        class="premium-input w-full px-4 py-3 rounded bg-surface-container-lowest border border-outline-variant font-mono text-xl sm:text-2xl text-center tracking-[0.4em] text-on-surface placeholder:text-outline-variant placeholder:font-sans placeholder:text-sm placeholder:tracking-normal outline-none" 
+                        id="otp" 
+                        name="otp"
+                        placeholder="••••••" 
+                        maxlength="6"
+                        required
+                        autocomplete="one-time-code"
+                    >
+                </div>
+
+                <button type="submit" class="w-full py-3.5 rounded bg-primary text-on-primary font-medium hover:-translate-y-0.5 hover:shadow-[0_6px_16px_rgba(0,0,0,0.15)] active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2">
+                    <span>Verify &amp; Proceed</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+            </form>
+
+            <div class="my-6 border-t border-gray-200"></div>
+
+            <!-- Footer / Resend -->
+            <div class="text-center space-y-3">
+                <div class="timer text-xs sm:text-sm font-medium text-blue-600" id="timer">Resend OTP in 60 seconds</div>
+                
+                <button 
+                    id="resendOtpButton" 
+                    type="button"
+                    class="w-full py-2.5 px-4 rounded border-[1.5px] border-primary text-primary font-medium hover:bg-primary hover:text-on-primary active:scale-[0.99] transition-all duration-200 disabled:opacity-40 disabled:border-outline-variant disabled:text-outline disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-outline text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-xs hover:shadow-sm"
+                    disabled
+                >
+                    <i class="fa-solid fa-rotate-right text-xs"></i>
+                    <span>Resend OTP</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
     // Timer logic for the Resend OTP button
     let timerDuration = 60; 
     let timerElement = document.getElementById("timer"); 
@@ -108,14 +154,14 @@
     // Start the timer on page load
     startTimer();
 
-   
     document.getElementById("verifyOtpForm").addEventListener("submit", async function (e) {
       e.preventDefault(); 
       const otp = document.getElementById("otp").value; 
 
       try {
+        const actionUrl = "<%= typeof actionUrl !== 'undefined' ? actionUrl : '/verify-otp' %>";
         // Send POST request to verify OTP
-        const response = await fetch("/verify-otp", {
+        const response = await fetch(actionUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -126,17 +172,14 @@
         const data = await response.json(); 
 
         if (data.success) {
-          
           Swal.fire({
             icon: "success",
             title: "OTP Verified!",
-            text: data.message || "Redirecting to login...",
+            text: data.message || "Redirecting...",
           }).then(() => {
-           
-            window.location.href = data.redirectUrl ;
+            window.location.href = data.redirectUrl || "/login";
           });
         } else {
-         
           Swal.fire({
             icon: "error",
             title: "Verification Failed",
@@ -144,7 +187,6 @@
           });
         }
       } catch (error) {
-        
         console.error("Error verifying OTP:", error);
         Swal.fire({
           icon: "error",
@@ -154,68 +196,65 @@
       }
     });
 
-    
-      resendButton.addEventListener("click", async function () {
-        if (!resendAllowed) return; 
-        resendAllowed = false; 
-        resendButton.disabled = true; 
-        timerElement.textContent = "Processing..."; 
-        timerElement.style.color = "#ffc107"; 
+    resendButton.addEventListener("click", async function () {
+      if (!resendAllowed) return; 
+      resendAllowed = false; 
+      resendButton.disabled = true; 
+      timerElement.textContent = "Processing..."; 
+      timerElement.style.color = "#ffc107"; 
 
-        try {
-          // Send POST request to resend OTP
-          const response = await fetch("/resend-otp", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+      try {
+        // Send POST request to resend OTP
+        const response = await fetch("/resend-otp", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-          const data = await response.json(); 
+        const data = await response.json(); 
 
-          if (!data.success) {
-            throw new Error(data.message || "please try again later" ) 
-          }
-            
-          // ================== SMART CONDITIONAL UI ================== //
-          if (data.isDemoMode) {
-            // If a recruiter is testing: Update the banner and show the SweetAlert with the OTP
-            const displayElement = document.getElementById("displayOtp");
-            if(displayElement) displayElement.innerText = data.newDemoOtp;
-
-            Swal.fire({
-              icon: "success",
-              title: "OTP Sent!",
-              text: `New Demo OTP Generated: ${data.newDemoOtp}`,
-            });
-          } else {
-            // If YOU are testing (real email): Tell them to check their inbox!
-            Swal.fire({
-              icon: "success",
-              title: "Email Sent!",
-              text: "A real OTP has been successfully sent to your inbox.",
-            });
-          }
-          // ========================================================== //
-
-           startTimer(); 
-          
-        } catch (error) {
-          
-          console.error("Error resending OTP:", error);
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: error.message || "Something went wrong. Please try again.",
-          });
-          
-          timerElement.textContent = "You can now resend the OTP.";
-          timerElement.style.color = "#28a745";
-          resendButton.disabled = false;
-          resendAllowed = true; // Allow resend again
+        if (!data.success) {
+          throw new Error(data.message || "please try again later" ) 
         }
-      });
+          
+        // ================== SMART CONDITIONAL UI ================== //
+        if (data.isDemoMode) {
+          // If a recruiter is testing: Update the banner and show the SweetAlert with the OTP
+          const displayElement = document.getElementById("displayOtp");
+          if(displayElement) displayElement.innerText = data.newDemoOtp;
+
+          Swal.fire({
+            icon: "success",
+            title: "OTP Sent!",
+            text: `New Demo OTP Generated: ${data.newDemoOtp}`,
+          });
+        } else {
+          // If YOU are testing (real email): Tell them to check their inbox!
+          Swal.fire({
+            icon: "success",
+            title: "Email Sent!",
+            text: "A real OTP has been successfully sent to your inbox.",
+          });
+        }
+        // ========================================================== //
+
+        startTimer(); 
+        
+      } catch (error) {
+        console.error("Error resending OTP:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.message || "Something went wrong. Please try again.",
+        });
+        
+        timerElement.textContent = "You can now resend the OTP.";
+        timerElement.style.color = "#28a745";
+        resendButton.disabled = false;
+        resendAllowed = true; // Allow resend again
+      }
+    });
   </script>
-     
 </body>
 </html>

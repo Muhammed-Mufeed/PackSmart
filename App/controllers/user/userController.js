@@ -1,19 +1,19 @@
-const bcrypt=require('bcrypt')
+const bcrypt = require('bcrypt')
 
 const { Resend } = require('resend');
 const resend = new Resend(process.env.RESEND_API_KEY); // Initialize Resend
 
-const User=require('../../models/userSchema')
+const User = require('../../models/userSchema')
 const Otp = require('../../models/otpSchema')
 
 
 
 // ==========================================UserSignup-GET=========================================================================//
-const getSignupPage=async(req,res,next)=>{
-  try{
-    return res.render('signup',{errorMessage:null})
+const getSignupPage = async (req, res, next) => {
+  try {
+    return res.render('signup', { errorMessage: null })
   }
-  catch(error){
+  catch (error) {
     next(error);
   }
 }
@@ -23,7 +23,7 @@ const getSignupPage=async(req,res,next)=>{
 
 async function sendVerificationEmail(email, otp, isDemoMode) {
   try {
-    console.log(`[Email Attempt] To: ${email} | Demo Mode: ${isDemoMode}`);  
+    console.log(`[Email Attempt] To: ${email} | Demo Mode: ${isDemoMode}`);
 
     // Beautifully styled HTML Email Template
     const htmlTemplate = `
@@ -51,7 +51,7 @@ async function sendVerificationEmail(email, otp, isDemoMode) {
 
     const { data, error } = await resend.emails.send({
       from: 'PackSmart <onboarding@resend.dev>',
-      to: email, 
+      to: email,
       subject: "PackSmart: Your Verification Code",
       html: htmlTemplate
     });
@@ -67,7 +67,7 @@ async function sendVerificationEmail(email, otp, isDemoMode) {
     }
 
     console.log("Email sent successfully via Resend:", data.id);
-    return true; 
+    return true;
 
   } catch (error) {
     console.error("Critical error in sendVerificationEmail:", error);
@@ -77,148 +77,148 @@ async function sendVerificationEmail(email, otp, isDemoMode) {
 
 // ===============================================UserSignup-POST===================================================================//
 
-const postSignupPage=async(req,res,next)=>{
-  try{
-  
-  const {name,phone,email,password,confirmPassword}= req.body
-  
-  if(password!==confirmPassword){
-   return res.render('signup',{errorMessage:"Password do not match."})
-  }
+const postSignupPage = async (req, res, next) => {
+  try {
 
-  
-  const existingUser= await User.findOne({email})
-  if(existingUser){
-    return res.render('signup', { errorMessage: 'User with this email already exists.' });
+    const { name, phone, email, password, confirmPassword } = req.body
 
-  }
-  
-  // To generate a random 6-digit OTP
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    if (password !== confirmPassword) {
+      return res.render('signup', { errorMessage: "Password do not match." })
+    }
 
-  // Check if we are in demo mode (for the UI banner)
+
+    const existingUser = await User.findOne({ email })
+    if (existingUser) {
+      return res.render('signup', { errorMessage: 'User with this email already exists.' });
+
+    }
+
+    // To generate a random 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Check if we are in demo mode (for the UI banner)
     const isDemoMode = email !== process.env.MY_VERIFIED_EMAIL;
 
     console.log(`[${isDemoMode ? 'Demo' : 'Production'} Mode] Generated OTP: ${otp}`);
 
 
- const expiresAt = new Date(Date.now() + 60 * 1000) //OTP expires in 30 seconds
+    const expiresAt = new Date(Date.now() + 60 * 1000) //OTP expires in 30 seconds
 
- 
- const saveOtp = new Otp({
-   otp:otp,
-   userId:email,
-   expiresAt:expiresAt
- })
 
-  await saveOtp.save()      
+    const saveOtp = new Otp({
+      otp: otp,
+      userId: email,
+      expiresAt: expiresAt
+    })
 
-  
-  const emailSent = await sendVerificationEmail(email,otp,isDemoMode);
+    await saveOtp.save()
 
-  if (!emailSent) {
-    return res.json({success:false,message:"Failed to send OTP.Please try again"})
+
+    const emailSent = await sendVerificationEmail(email, otp, isDemoMode);
+
+    if (!emailSent) {
+      return res.json({ success: false, message: "Failed to send OTP.Please try again" })
+    }
+
+    req.session.userData = { name, phone, email, password }
+
+    res.render('verify-otp', { demoOtp: otp, isDemoMode: isDemoMode })
+
+
   }
-  
-   req.session.userData = {name,phone,email,password}
-
-   res.render('verify-otp',{ demoOtp: otp, isDemoMode: isDemoMode })
-   
-  
-}
-  catch(error){
-   next(error);
+  catch (error) {
+    next(error);
   }
 }
 
 // ====================================================UserVerifyOTP-POST==============================================================//
 
 
-const postverifyOtp = async (req,res,next)=>{
-  try{
-   const {otp} = req.body;
-   const {email} = req.session.userData
+const postverifyOtp = async (req, res, next) => {
+  try {
+    const { otp } = req.body;
+    const { email } = req.session.userData
 
-  // Finding OTP in the database for the given email/userId
-   const otpRecord = await Otp.findOne({userId:email, otp:otp})
+    // Finding OTP in the database for the given email/userId
+    const otpRecord = await Otp.findOne({ userId: email, otp: otp })
 
-   if(!otpRecord){
-   
-    return res.status(400).json({ success: false, message: "Invalid OTP, Please try again."})
-   }
+    if (!otpRecord) {
 
-   if(otpRecord.expiresAt < new Date()){
-    return res.status(400).json({ success: false, message: "OTP has expired.Please request a new one."})
-   }
+      return res.status(400).json({ success: false, message: "Invalid OTP, Please try again." })
+    }
+
+    if (otpRecord.expiresAt < new Date()) {
+      return res.status(400).json({ success: false, message: "OTP has expired.Please request a new one." })
+    }
 
     //OTP is valid, now proceed to hash the password
     const user = req.session.userData
-    const passwordHash = await bcrypt.hash(user.password,10)
+    const passwordHash = await bcrypt.hash(user.password, 10)
 
     const saveUserData = new User({
-      name:user.name,
-      email:user.email,
-      phone:user.phone,
-      password:passwordHash  
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      password: passwordHash
     })
 
-    await saveUserData.save()  
-    
+    await saveUserData.save()
+
     delete req.session.userData     //Delete userData from session (no longer needed,after saving user)
-  
-    res.status(200).json({success:true,redirectUrl:"/login"})  
-  
+
+    res.status(200).json({ success: true, redirectUrl: "/login" })
+
   }
-  catch(error){
-   next(error);
+  catch (error) {
+    next(error);
   }
 }
 
 // =============================================UserResendOTP-POST=====================================================================//
-const postResendOtp = async (req,res,next)=>{
-  try{
-   const{email} = req.session.userData  
-   console.log("Resending Otp to:",email) //debugging
-  
-   const existingOtp = await Otp.findOne({userId:email}) 
+const postResendOtp = async (req, res, next) => {
+  try {
+    const { email } = req.session.userData
+    console.log("Resending Otp to:", email) //debugging
 
-   
-   if(existingOtp){
-    await Otp.deleteOne({_id:existingOtp._id});
-   }
-
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();   // Generate new OTP
-
-  const isDemoMode = email !== process.env.MY_VERIFIED_EMAIL;
-  console.log(`[${isDemoMode ? 'Demo' : 'Production'} Mode] Generated OTP: ${otp}`);
+    const existingOtp = await Otp.findOne({ userId: email })
 
 
-   // Set expiration time for the new OTP
-   const expiresAt = new Date(Date.now() + 60 * 1000)  
+    if (existingOtp) {
+      await Otp.deleteOne({ _id: existingOtp._id });
+    }
 
-   const newOtpSave = new Otp({
-    otp:otp,
-    userId:email,
-    expiresAt:expiresAt
-   })
-  
-   await newOtpSave.save()  // Save new OTP to the database
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();   // Generate new OTP
+
+    const isDemoMode = email !== process.env.MY_VERIFIED_EMAIL;
+    console.log(`[${isDemoMode ? 'Demo' : 'Production'} Mode] Generated OTP: ${otp}`);
 
 
+    // Set expiration time for the new OTP
+    const expiresAt = new Date(Date.now() + 60 * 1000)
 
-   const emailSent = await sendVerificationEmail(email,otp,isDemoMode);
+    const newOtpSave = new Otp({
+      otp: otp,
+      userId: email,
+      expiresAt: expiresAt
+    })
 
-   if(emailSent){
-    console.log(`OTP sent(resend) successfully ${otp}`); //debugging
-    return res.status(200).json({success:true,message:"OTP Resend Successfully",newDemoOtp: otp,isDemoMode: isDemoMode})
-    
-   }
-   else{
-    res.status(500).json({success:false,message:"Failed to resend OTP. Please try again"})
-  
+    await newOtpSave.save()  // Save new OTP to the database
+
+
+
+    const emailSent = await sendVerificationEmail(email, otp, isDemoMode);
+
+    if (emailSent) {
+      console.log(`OTP sent(resend) successfully ${otp}`); //debugging
+      return res.status(200).json({ success: true, message: "OTP Resend Successfully", newDemoOtp: otp, isDemoMode: isDemoMode })
+
+    }
+    else {
+      res.status(500).json({ success: false, message: "Failed to resend OTP. Please try again" })
+
     }
   }
-  catch(error){
+  catch (error) {
     next(error);
   }
 }
@@ -228,84 +228,84 @@ const postResendOtp = async (req,res,next)=>{
 const getLoginPage = async (req, res, next) => {
   try {
     const message = req.query.message || null;
-    return res.render('login',{errorMessage:message});
+    return res.render('login', { errorMessage: message });
   } catch (error) {
-     next(error);
+    next(error);
   }
 };
 
 
 // ===============================================UserLogin-POST===================================================================//
-const postLoginPage = async (req,res,next)=>{
-  try{
-    const{email,password}=req.body
-  
-    const findUser = await User.findOne({isAdmin:false,email:email})
-  
-    if(!findUser){
-      return res.render('login',{errorMessage:"User is not found"})
+const postLoginPage = async (req, res, next) => {
+  try {
+    const { email, password } = req.body
+
+    const findUser = await User.findOne({ isAdmin: false, email: email })
+
+    if (!findUser) {
+      return res.render('login', { errorMessage: "User is not found" })
     }
 
-    if(findUser.isBlocked){
-      return res.render("login",{errorMessage:"Your account has been blocked. Please contact support."})
+    if (findUser.isBlocked) {
+      return res.render("login", { errorMessage: "Your account has been blocked. Please contact support." })
     }
 
-   
-    const passwordMatch = await bcrypt.compare(password,findUser.password)
 
-    if(!passwordMatch){
-      return res.render('login',{errorMessage:" Incorrect Email or password"})
+    const passwordMatch = await bcrypt.compare(password, findUser.password)
+
+    if (!passwordMatch) {
+      return res.render('login', { errorMessage: " Incorrect Email or password" })
     }
 
-    
-    req.session.user={
+
+    req.session.user = {
       id: findUser._id,
-      isBlocked:findUser.isBlocked  
+      isBlocked: findUser.isBlocked
     }
-    
+
     return res.redirect('/')
   }
 
-  catch(error){
+  catch (error) {
     next(error);
   }
 }
 
 // ===============================================GoogleLogin Callback Fn===================================================================//
 
-const googleLogin = async(req,res,next) => {
-  try{
+const googleLogin = async (req, res, next) => {
+  try {
     const user = await User.findById(req.user._id);      // req.user: The authenticated user object from Passport.  // here,~ Access the logged-in user’s Id
-    req.session.user = {id:user._id};
+    req.session.user = { id: user._id };
     res.redirect('/');
   }
-  catch(error){
-   next(error);
+  catch (error) {
+    next(error);
   }
-  
+
 }
 
 
 // ==================================================UserLogout-POST================================================================//
 
-const postLogoutPage = async (req,res,next)=>{
-try {
+const postLogoutPage = async (req, res, next) => {
+  try {
 
-  req.session.destroy((err)=>{
+    req.session.destroy((err) => {
 
-   if(err){
-    console.log("Session Logout error",err.message);
-    return next(err);
-   }
+      if (err) {
+        console.log("Session Logout error", err.message);
+        return next(err);
+      }
 
-   else{
-     res.redirect('/login')
-   }
-  }) 
+      else {
+        res.redirect('/login')
+      }
+    })
 
-} catch (error) {
-  next(error);
-}
+  } catch (error) {
+    next(error);
+  }
 
 }
 
@@ -314,7 +314,7 @@ try {
 // ==========================================Forgot Password-GET=========================================================================//
 const getForgotPasswordPage = async (req, res, next) => {
   try {
-    return res.render('forgot-password');
+    return res.render('forgot-password', { errorMessage: null });
   } catch (error) {
     next(error);
   }
@@ -325,37 +325,55 @@ const postResetPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    if (!email || !email.trim()) {
+      return res.render('forgot-password', { errorMessage: "Please enter your email address." });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+
+    const existingUser = await User.findOne({ email: normalizedEmail, isAdmin: false });
     if (!existingUser) {
       return res.render('forgot-password', { errorMessage: "User with this email does not exist." });
     }
 
+    if (existingUser.isBlocked) {
+      return res.render('forgot-password', { errorMessage: "Your account has been blocked. Please contact support." });
+    }
+
+    // Delete existing OTPs for this user to avoid collisions
+    await Otp.deleteMany({ userId: existingUser.email });
+
     // Generate a random 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    const isDemoMode = email !== process.env.MY_VERIFIED_EMAIL;
+    // Check if we are in demo mode (for unverified sandbox emails)
+    const isDemoMode = existingUser.email !== process.env.MY_VERIFIED_EMAIL;
     console.log(`[${isDemoMode ? 'Demo' : 'Production'} Mode] Generated OTP: ${otp}`);
 
-    const expiresAt = new Date(Date.now() + 60 * 1000); // OTP expires in 1 minute
+    const expiresAt = new Date(Date.now() + 60 * 1000); // OTP expires in 60 seconds
 
     const saveOtp = new Otp({
       otp: otp,
-      userId: email,
+      userId: existingUser.email,
       expiresAt: expiresAt
     });
 
     await saveOtp.save();
 
-    const emailSent = await sendVerificationEmail(email, otp,isDemoMode);
+    const emailSent = await sendVerificationEmail(existingUser.email, otp, isDemoMode);
 
     if (!emailSent) {
-      return res.json({ success: false, message: "Failed to send OTP. Please try again." });
+      return res.render('forgot-password', { errorMessage: "Failed to send OTP. Please try again." });
     }
 
-    req.session.userData = {email} ;
+    req.session.userData = { email: existingUser.email };
 
-    res.render('forgot-verify-otp',{ demoOtp: otp , isDemoMode: isDemoMode });
-    console.log("OTP sent successfully", otp);
+    return res.render('verify-otp', { 
+      demoOtp: otp, 
+      isDemoMode: isDemoMode,
+      actionUrl: '/forgot-verify-otp',
+      subtitle: 'Enter the 6-digit verification code to reset your password.'
+    });
 
   } catch (error) {
     next(error);
@@ -365,7 +383,22 @@ const postResetPassword = async (req, res, next) => {
 // ==========================================Forgot Verify OTP-GET=========================================================================//
 const getForgotVerifyOtpPage = async (req, res, next) => {
   try {
-    return res.render('forgot-verify-otp');
+    if (!req.session.userData || !req.session.userData.email) {
+      return res.redirect('/forgot-password');
+    }
+
+    const email = req.session.userData.email;
+    const isDemoMode = email !== process.env.MY_VERIFIED_EMAIL;
+
+    const latestOtpRecord = await Otp.findOne({ userId: email }).sort({ createdAt: -1 });
+    const demoOtp = latestOtpRecord ? latestOtpRecord.otp : '';
+
+    return res.render('verify-otp', { 
+      demoOtp, 
+      isDemoMode,
+      actionUrl: '/forgot-verify-otp',
+      subtitle: 'Enter the 6-digit verification code to reset your password.'
+    });
   } catch (error) {
     next(error);
   }
@@ -375,6 +408,11 @@ const getForgotVerifyOtpPage = async (req, res, next) => {
 const postForgotVerifyOtp = async (req, res, next) => {
   try {
     const { otp } = req.body;
+
+    if (!req.session.userData || !req.session.userData.email) {
+      return res.status(400).json({ success: false, message: "Session expired. Please request a new OTP." });
+    }
+
     const { email } = req.session.userData;
 
     const otpRecord = await Otp.findOne({ userId: email, otp: otp });
@@ -387,8 +425,14 @@ const postForgotVerifyOtp = async (req, res, next) => {
       return res.status(400).json({ success: false, message: "OTP has expired. Please request a new one." });
     }
 
+    // Clean up verified OTP
+    await Otp.deleteOne({ _id: otpRecord._id });
+
+    // Mark verified in session
+    req.session.userData.otpVerified = true;
+
     // OTP is valid, redirect to reset password page
-    res.status(200).json({ success: true, redirectUrl: "/forgot-confirm-password" });
+    return res.status(200).json({ success: true, redirectUrl: "/forgot-confirm-password" });
 
   } catch (error) {
     next(error);
@@ -398,6 +442,9 @@ const postForgotVerifyOtp = async (req, res, next) => {
 // ==========================================Forgot Confirm Password-GET=========================================================================//
 const getForgotConfirmPasswordPage = async (req, res, next) => {
   try {
+    if (!req.session.userData || !req.session.userData.email || !req.session.userData.otpVerified) {
+      return res.redirect('/forgot-password');
+    }
     return res.render('forgot-reset-password');
   } catch (error) {
     next(error);
@@ -408,21 +455,43 @@ const getForgotConfirmPasswordPage = async (req, res, next) => {
 const postForgotConfirmPassword = async (req, res, next) => {
   try {
     const { newPassword, confirmPassword } = req.body;
+
+    if (!req.session.userData || !req.session.userData.email) {
+      return res.status(400).json({ success: false, message: "Session expired. Please start over." });
+    }
+
     const { email } = req.session.userData;
 
+    if (!newPassword || !confirmPassword) {
+      return res.status(400).json({ success: false, message: "Please fill in all fields." });
+    }
+
     if (newPassword !== confirmPassword) {
-      return res.render('forgot-reset-password', { errorMessage: "Passwords do not match." });
+      return res.status(400).json({ success: false, message: "Passwords do not match." });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+
+    // Prevent reusing the same password
+    if (existingUser.password) {
+      const isSamePassword = await bcrypt.compare(newPassword, existingUser.password);
+      if (isSamePassword) {
+        return res.status(400).json({
+          success: false,
+          message: "New password cannot be the same as your old password. Please choose a different password."
+        });
+      }
     }
 
     const passwordHash = await bcrypt.hash(newPassword, 10);
 
-    await User.findOneAndUpdate(
-      { email }, 
-      { password: passwordHash },
-      {new:true}
-    );
+    existingUser.password = passwordHash;
+    await existingUser.save();
 
-    delete req.session.userData;             //Delete userData from session (no longer needed,after saving password)
+    delete req.session.userData; // Delete userData from session (no longer needed after saving password)
 
     return res.status(200).json({ success: true, message: "Password reset successfully. Redirecting to login...", redirectUrl: "/login" });
 
@@ -432,20 +501,20 @@ const postForgotConfirmPassword = async (req, res, next) => {
 };
 
 
-module.exports={
-   getSignupPage,
-   postSignupPage,
-   postverifyOtp,
-   postResendOtp,
-   getLoginPage,
-   postLoginPage,
-   postLogoutPage,
-   googleLogin,
-   getForgotPasswordPage,
-   postResetPassword,
-   getForgotVerifyOtpPage,
-   postForgotVerifyOtp,
-   getForgotConfirmPasswordPage,
-   postForgotConfirmPassword,
-  
-  }
+module.exports = {
+  getSignupPage,
+  postSignupPage,
+  postverifyOtp,
+  postResendOtp,
+  getLoginPage,
+  postLoginPage,
+  postLogoutPage,
+  googleLogin,
+  getForgotPasswordPage,
+  postResetPassword,
+  getForgotVerifyOtpPage,
+  postForgotVerifyOtp,
+  getForgotConfirmPasswordPage,
+  postForgotConfirmPassword,
+
+}
