@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>About Us | PackSmart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/user/css/tailwind.css">
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden">
+    <%- include('../partials/user/header') %>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative w-full h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+            <img alt="Hiker looking at sunset" class="absolute inset-0 w-full h-full object-cover" src="/user/images/about-hero.jpg">
+            <div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-on-surface/40 to-transparent"></div>
+            <div class="absolute inset-0 bg-accent-sienna/10 mix-blend-color"></div>
+            <div class="relative z-10 text-center px-6 md:px-16 max-w-4xl mx-auto text-on-primary">
+                <span class="font-label-bold uppercase tracking-widest text-primary-fixed mb-4 block">The Journey Awaits</span>
+                <h1 class="font-display-lg text-4xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight text-[#fdfbf7]">Stories Woven in Canvas.</h1>
+                <p class="font-body-lg text-lg md:text-xl max-w-2xl mx-auto text-[#fdfbf7]/90 font-light italic">More than a vessel for belongings. A companion for the moments that take your breath away.</p>
+            </div>
+        </section>
+
+        <!-- The Human Element Section -->
+        <section class="py-20 px-6 md:px-16 bg-surface relative z-20 -mt-10 rounded-t-[2rem]">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+                <div class="md:col-span-6 space-y-6 z-10 relative">
+                    <span class="text-accent-sienna font-label-bold text-xs tracking-widest uppercase font-semibold">Our Philosophy</span>
+                    <h2 class="font-headline-md text-2xl md:text-3xl font-bold text-on-surface leading-tight">Born from a desire for genuine connection.</h2>
+                    <p class="font-body-md text-base md:text-lg text-on-surface-variant leading-relaxed">
+                        We didn't set out to make just another backpack. We wanted to craft something that feels like an old friend from the moment you sling it over your shoulder. Something that ages with you, collecting the dust of foreign lands and the scuffs of unforgettable adventures.
+                    </p>
+                    <p class="font-body-md text-base md:text-lg text-on-surface-variant leading-relaxed">
+                        Every stitch is placed with the intention that this bag will be there when you miss your train in Kyoto, or catch the sunrise in Patagonia.
+                    </p>
+                </div>
+                <div class="md:col-span-6 relative mt-10 md:mt-0">
+                    <div class="aspect-[3/4] rounded-sm overflow-hidden bg-surface-container-low relative shadow-2xl transform md:rotate-2 hover:rotate-0 transition-transform duration-500">
+                        <img alt="Travelers looking at map" class="absolute inset-0 w-full h-full object-cover" src="/user/images/about-philosophy.jpg">
+                    </div>
+                    <div class="absolute -bottom-10 -left-10 w-40 md:w-48 aspect-square rounded-full overflow-hidden border-4 border-surface shadow-lg hidden md:block z-20">
+                        <img alt="Texture detail" class="w-full h-full object-cover" src="/user/images/about-texture.jpg">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Materials / Earth Connection Section -->
+        <section class="py-20 px-6 md:px-16 bg-surface-container">
+            <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-16 items-center">
+                <div class="w-full md:w-1/2 order-2 md:order-1 relative">
+                    <div class="aspect-square md:aspect-[4/5] overflow-hidden bg-surface-container-low relative rounded-tl-[4rem] rounded-br-[4rem] shadow-xl">
+                        <img alt="Close up of materials" class="absolute inset-0 w-full h-full object-cover" src="/user/images/about-materials.jpg">
+                    </div>
+                    <div class="absolute top-1/2 -right-8 transform -translate-y-1/2 bg-surface p-6 shadow-lg rounded-sm hidden md:block w-64 border-l-4 border-accent-olive">
+                        <p class="font-body-sm text-sm text-on-surface-variant italic">"The canvas softens, the leather deepens in hue. It tells your story without a single word."</p>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 order-1 md:order-2 space-y-6 px-0 md:px-8">
+                    <div class="inline-flex items-center gap-3 border-b border-primary pb-2 mb-2">
+                        <span class="material-symbols-outlined text-primary" data-icon="landscape">landscape</span>
+                        <span class="font-label-bold text-xs text-primary uppercase tracking-wider font-semibold">Rooted in the Earth</span>
+                    </div>
+                    <h2 class="font-headline-md text-2xl md:text-3xl font-bold text-on-surface">Materials with a soul.</h2>
+                    <p class="font-body-md text-base md:text-lg text-on-surface-variant leading-relaxed">
+                        We source rugged, earth-toned materials that feel organic and robust. Heavyweight waxed canvas that repels the elements, and vegetable-tanned leather that develops a rich patina over time.
+                    </p>
+                    <p class="font-body-md text-base md:text-lg text-on-surface-variant leading-relaxed">
+                        It's not just about durability; it's about tactile memory. The way the brass hardware feels cold in the mountain air, or how the canvas smells like woodsmoke after a campfire.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sustainability / Journey Section -->
+        <section class="py-20 px-6 md:px-16 relative overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img alt="Desert landscape" class="w-full h-full object-cover opacity-40" src="/user/images/about-sustainability.jpg">
+                <div class="absolute inset-0 bg-on-surface/80 mix-blend-multiply"></div>
+            </div>
+            <div class="max-w-3xl mx-auto space-y-6 relative z-10 text-center text-on-primary py-16">
+                <span class="material-symbols-outlined text-5xl mb-4 block text-accent-sienna" data-icon="explore" style="font-variation-settings: 'FILL' 0;">explore</span>
+                <h2 class="font-headline-md text-2xl md:text-4xl font-bold text-[#fdfbf7]">Tread Lightly, Travel Deeply.</h2>
+                <p class="font-body-lg text-lg md:text-xl text-[#fdfbf7]/80 leading-relaxed font-light">
+                    Our commitment to the globe we explore is unwavering. We partner with artisans who share our reverence for the environment, crafting pieces designed to last a lifetime, leaving a legacy of memories, not waste.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../partials/user/footer') %>
+</body>
+</html>

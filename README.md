@@ -22,7 +22,7 @@ This project demonstrates modern backend capabilities including secure authentic
 Built with a robust **MVC (Model-View-Controller)** architecture:
 
 * **Backend & Database:** Node.js, Express.js (v5), MongoDB & MongoDB Atlas, Mongoose (v8), `express-session`
-* **Frontend & UI:** EJS Templating, HTML5, Custom CSS3, Vanilla JS (ES6+), Chart.js, Cropper.js, SweetAlert2
+* **Frontend & UI:** Tailwind CSS, EJS Templating, HTML5, Custom CSS3, Vanilla JS (ES6+), Chart.js, Cropper.js, SweetAlert2
 * **Authentication & Security:** Passport.js (Google OAuth 2.0 & Local), Bcrypt.js, Nocache, Dotenv
 * **Cloud & Media Storage:** Cloudinary API, Multer & `multer-storage-cloudinary`
 * **Payments & Communication:** Razorpay API, Resend API (Transactional Emails/OTP)

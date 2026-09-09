@@ -1,88 +1,171 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - PackSmart</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>PackSmart - Log In</title>
+    <!-- Google Fonts: Cormorant Garamond, Inter & Montserrat -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&family=Montserrat:wght@600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="/user/css/tailwind.css">
+    <style>
+        .premium-input {
+            transition: all 0.2s ease;
+        }
+
+        .premium-input:focus {
+            outline: none;
+            border-color: #191c1e;
+            box-shadow: 0 0 0 2px rgba(25, 28, 30, 0.08);
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased min-h-screen flex items-center justify-center p-4 sm:p-6">
 
-    <div class="flex w-full max-w-5xl bg-white rounded-2xl shadow-xl overflow-hidden">
-        
-        <div class="hidden md:flex md:w-1/2 bg-cover bg-center relative flex-col justify-end" style="background-image: url('https://images.unsplash.com/photo-1547949003-9792a18a2601?q=80&w=1000&auto=format&fit=crop');">
-            <div class="absolute inset-0 bg-black bg-opacity-30"></div>
-            <div class="relative z-10 p-12 text-white">
-                <h2 class="text-4xl font-bold tracking-wide mb-2">Welcome Back.</h2>
-                <p class="text-gray-200 text-lg">Your one-stop shop for smart packaging solutions.</p>
-            </div>
-        </div>
+<body class="bg-white text-on-surface font-body antialiased min-h-screen flex flex-col md:flex-row">
 
-        <div class="w-full md:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
-            <div class="max-w-md mx-auto w-full">
-                <h1 class="text-3xl font-bold text-gray-900 mb-2">User Login</h1>
-                <p class="text-gray-500 text-sm mb-8">Please enter your details to sign in to your account.</p>
-
-                <% if(errorMessage){ %>
-                    <div class="mb-6 rounded-lg bg-red-50 p-4 border-l-4 border-red-500 shadow-sm">
-                        <div class="flex items-center">
-                            <i class="fas fa-exclamation-circle text-red-500 mr-3"></i>
-                            <p class="text-sm font-medium text-red-800"><%= errorMessage %></p>
-                        </div>
-                    </div>
-                <% } %>
-
-                <form action="/login" method="POST" class="space-y-5">
-                    
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="Enter your email" required
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-black focus:border-black transition-colors outline-none bg-gray-50 focus:bg-white">
-                    </div>
-                    
-                    <div>
-                        <div class="flex items-center justify-between mb-1">
-                            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                            <a href="/forgot-password" class="text-sm font-medium text-gray-500 hover:text-black transition-colors">Forgot Password?</a>
-                        </div>
-                        <div class="relative">
-                            <input type="password" id="password" name="password" placeholder="Enter your password" required
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-black focus:border-black transition-colors outline-none bg-gray-50 focus:bg-white pr-10">
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer text-gray-400 hover:text-gray-600">
-                                <i class="toggle-password fas fa-eye-slash"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="submit" 
-                        class="w-full bg-black text-white font-semibold py-3.5 px-4 rounded-lg hover:bg-gray-800 transition duration-300 tracking-wide mt-4 shadow-md hover:shadow-lg">
-                        Login
-                    </button>
-                </form>
-
-                <div class="flex items-center my-6">
-                    <div class="flex-grow border-t border-gray-200"></div>
-                    <span class="flex-shrink-0 mx-4 text-gray-400 text-sm">or</span>
-                    <div class="flex-grow border-t border-gray-200"></div>
-                </div>
-
-                <a href="/auth/google" 
-                    class="flex items-center justify-center w-full bg-white border border-gray-300 text-gray-700 font-medium py-3 px-4 rounded-lg hover:bg-gray-50 transition duration-300 shadow-sm mb-8">
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5 mr-2">
-                    Sign in with Google
-                </a>
-                
-                <p class="text-center text-sm text-gray-600">
-                    Not registered? 
-                    <a href="/signup" class="font-semibold text-black hover:underline">Sign up here</a>
-                </p>
+    <!-- Left Panel: Lifestyle Image & Branding -->
+    <div class="hidden md:flex md:w-1/2 relative bg-surface-container-high overflow-hidden items-end min-h-screen">
+        <img class="absolute inset-0 w-full h-full object-cover object-center" src="/user/images/login-hero.jpg"
+            alt="PackSmart Lifestyle">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+        <div class="relative z-10 p-12 lg:p-16 max-w-lg mb-6 text-white space-y-3">
+            <span class="inline-block text-xs uppercase tracking-widest text-neutral-300 font-display">
+                Autumn / Winter Edition
+            </span>
+            <h1 class="font-display text-4xl lg:text-5xl font-bold text-white leading-tight tracking-tight">
+                Travel with Intent.
+            </h1>
+            <p
+                class="font-editorial italic text-base sm:text-lg lg:text-xl text-neutral-200/95 font-normal leading-relaxed tracking-wide pt-1">
+                "Engineered for the modern traveler. Experience uncompromising quality and sophisticated design."
+            </p>
+            <div class="flex items-center space-x-3 pt-2">
+                <div class="h-px w-10 bg-white/40"></div>
+                <p class="text-xs uppercase tracking-widest text-neutral-300 font-display">PackSmart Signature</p>
             </div>
         </div>
     </div>
 
+    <!-- Right Panel: Login Form -->
+    <div class="w-full md:w-1/2 min-h-screen flex items-center justify-center p-6 sm:p-10 lg:p-14 bg-white relative">
+        <!-- Brand Logo (Top Right) -->
+        <div class="absolute top-6 right-6 sm:top-8 sm:right-8 lg:top-8 lg:right-10 z-20">
+            <a href="/" class="block transition-transform hover:scale-105 duration-200">
+                <img src="/user/images/logo.png" alt="PackSmart Logo"
+                    class="h-12 sm:h-14 lg:h-16 w-auto object-contain mix-blend-multiply contrast-125">
+            </a>
+        </div>
+
+        <div class="w-full max-w-[400px] pt-16 pb-10 md:pt-14 md:pb-6 mt-4 md:mt-6">
+            <!-- Form Header -->
+            <div class="mb-6">
+                <h2 class="font-display text-2xl sm:text-3xl font-bold text-on-surface">Welcome back</h2>
+                <p class="font-body text-sm text-on-surface-variant mt-1">Please enter your details to sign in.</p>
+            </div>
+
+            <% if(errorMessage){ %>
+                <div class="mb-5 rounded-lg bg-red-50 p-4 border-l-4 border-red-500 shadow-sm">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-circle text-red-500 mr-3"></i>
+                        <p class="text-sm font-medium text-red-800">
+                            <%= errorMessage %>
+                        </p>
+                    </div>
+                </div>
+                <% } %>
+
+                    <!-- The Form -->
+                    <form action="/login" method="POST" class="space-y-4">
+                        <!-- Email Field -->
+                        <div>
+                            <label class="block font-medium text-xs sm:text-sm text-on-surface mb-1.5" for="email">Email
+                                Address</label>
+                            <input
+                                class="premium-input w-full px-4 py-2.5 sm:py-3 rounded bg-surface-container-lowest border border-outline-variant text-sm sm:text-base text-on-surface placeholder:text-outline-variant"
+                                id="email" name="email" placeholder="example@email.com" type="email" required>
+                        </div>
+
+                        <!-- Password Field -->
+                        <div>
+                            <label class="block font-medium text-xs sm:text-sm text-on-surface mb-1.5"
+                                for="password">Password</label>
+                            <div class="relative">
+                                <input
+                                    class="premium-input w-full px-4 py-2.5 sm:py-3 rounded bg-surface-container-lowest border border-outline-variant text-sm sm:text-base text-on-surface placeholder:text-outline-variant pr-11"
+                                    id="password" name="password" placeholder="Enter your password" type="password"
+                                    required>
+                                <div
+                                    class="absolute inset-y-0 right-0 flex items-center pr-3.5 cursor-pointer text-gray-400 hover:text-gray-700 transition-colors">
+                                    <i class="toggle-password fas fa-eye-slash"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Options Row -->
+                        <div class="flex items-center justify-between text-xs sm:text-sm pt-1">
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input
+                                    class="w-4 h-4 rounded-sm border-outline-variant text-primary focus:ring-primary focus:ring-offset-0 bg-surface-container-lowest cursor-pointer"
+                                    type="checkbox">
+                                <span class="text-on-surface-variant group-hover:text-on-surface transition-colors">Keep
+                                    me logged in</span>
+                            </label>
+                            <a class="text-on-surface-variant hover:text-primary transition-colors hover:underline underline-offset-4"
+                                href="/forgot-password">Forgot Password?</a>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="space-y-3 pt-2">
+                            <!-- Primary Sign In -->
+                            <button
+                                class="w-full py-3 rounded bg-primary text-on-primary font-medium hover:-translate-y-0.5 hover:shadow-[0_6px_16px_rgba(0,0,0,0.15)] active:translate-y-0 transition-all duration-200"
+                                type="submit">
+                                Sign In
+                            </button>
+
+                            <!-- Secondary Google -->
+                            <a href="/auth/google"
+                                class="w-full py-2.5 sm:py-3 rounded border border-gray-300 bg-transparent text-on-surface font-medium flex justify-center items-center gap-2 hover:bg-surface-container-low transition-colors duration-200">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M22.56 12.25C22.56 11.47 22.49 10.72 22.36 10H12V14.26H17.92C17.67 15.63 16.89 16.78 15.74 17.55V20.31H19.31C21.4 18.38 22.56 15.58 22.56 12.25Z"
+                                        fill="#4285F4"></path>
+                                    <path
+                                        d="M12 23C14.97 23 17.46 22.02 19.31 20.31L15.74 17.55C14.74 18.22 13.48 18.63 12 18.63C9.14 18.63 6.72 16.7 5.85 14.11H2.17V16.97C4.02 20.64 7.72 23 12 23Z"
+                                        fill="#34A853"></path>
+                                    <path
+                                        d="M5.85 14.11C5.63 13.44 5.5 12.74 5.5 12C5.5 11.26 5.63 10.56 5.85 9.89V7.03H2.17C1.4 8.57 0.96 10.24 0.96 12C0.96 13.76 1.4 15.43 2.17 16.97L5.85 14.11Z"
+                                        fill="#FBBC05"></path>
+                                    <path
+                                        d="M12 5.38C13.62 5.38 15.06 5.94 16.2 7.03L19.39 3.84C17.46 2.04 14.97 1 12 1C7.72 1 4.02 3.36 2.17 7.03L5.85 9.89C6.72 7.3 9.14 5.38 12 5.38Z"
+                                        fill="#EA4335"></path>
+                                </svg>
+                                <span class="text-sm sm:text-base">Sign in with Google</span>
+                            </a>
+                        </div>
+                    </form>
+
+                    <!-- Footer Link -->
+                    <div class="text-center mt-6">
+                        <p class="text-xs sm:text-sm text-on-surface-variant">
+                            Don't have an account?
+                            <a class="text-primary font-semibold hover:underline underline-offset-4 transition-all"
+                                href="/signup">Sign up</a>
+                        </p>
+                    </div>
+        </div>
+    </div>
+
     <script>
-        document.querySelector('.toggle-password').addEventListener('click', function() {
+        document.querySelector('.toggle-password').addEventListener('click', function () {
             const passwordInput = document.querySelector('#password');
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
@@ -91,4 +174,5 @@
         });
     </script>
 </body>
+
 </html>

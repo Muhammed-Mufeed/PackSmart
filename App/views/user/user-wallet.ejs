@@ -4,53 +4,124 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Wallet - PackSmart</title>
-   <link rel="stylesheet" href="/user/css/profile-sidebar.css" />
-  <link rel="stylesheet" href="/user/css/user-wallet.css">
+  <title>My Wallet | PackSmart</title>
   <!-- Add Font Awesome CDN -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
   <%-include('../partials/user/profile-sidebar-header')%>
   
-    <div class="main-content">
-      <h2>My Wallet</h2>
-      <div class="wallet-container">
-        <div class="wallet-balance">
-          <h3>Wallet Balance</h3>
-          <p class="balance-amount">₹<%= wallet.balance.toFixed(2) %></p>
+    <div class="max-w-4xl mx-auto space-y-6">
+      <!-- Header & Balance Card Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Main Balance Card (Spans 2 cols on desktop) -->
+        <div class="md:col-span-2 relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-950 via-gray-900 to-black p-6 sm:p-8 text-white shadow-xl border border-gray-800">
+          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
+          <div class="relative z-10 flex flex-col justify-between h-full min-h-[160px]">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-widest text-gray-400 block">Available Balance</span>
+                <div class="text-3xl sm:text-4xl font-extrabold text-white mt-2 font-['Montserrat',sans-serif] tracking-tight">
+                  ₹<%= wallet.balance.toFixed(2) %>
+                </div>
+              </div>
+              <div class="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10">
+                <span class="material-symbols-outlined text-[26px] text-white">account_balance_wallet</span>
+              </div>
+            </div>
+            
+            <div class="pt-6 border-t border-white/10 flex items-center justify-between text-xs text-gray-400">
+              <span class="flex items-center gap-1.5 text-emerald-400 font-medium">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Instant Wallet Active
+              </span>
+              <span class="font-mono text-gray-400">100% Secure Payments</span>
+            </div>
+          </div>
         </div>
-        <div class="wallet-transactions">
-          <h3>Transaction History</h3>
-          <% if (wallet.transactions.length > 0) { %>
-            <table class="transaction-table">
+
+        <!-- Quick Info / Micro Benefit Card -->
+        <div class="bg-white rounded-3xl p-6 border border-gray-200/70 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-2xl bg-gray-100 flex items-center justify-center text-gray-700 mb-3">
+              <span class="material-symbols-outlined text-[20px]">bolt</span>
+            </div>
+            <h3 class="font-bold text-sm text-gray-900 font-['Montserrat',sans-serif]">Fast & Seamless</h3>
+            <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+              Use your wallet balance for one-click checkout and automatic instant return refunds.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-gray-100 text-[11px] text-gray-400 flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px] text-emerald-600">verified</span>
+            <span>Auto-credited on returns</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transaction History Card -->
+      <div class="bg-white rounded-2xl border border-gray-200/70 shadow-sm overflow-hidden">
+        <div class="p-6 sm:p-8 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div>
+            <h2 class="text-base sm:text-lg font-bold text-gray-900 font-['Montserrat',sans-serif] tracking-tight">
+              Transaction Statement
+            </h2>
+            <p class="text-xs text-gray-500 mt-0.5">Detailed records of deposits, refunds, and purchases.</p>
+          </div>
+          <% if (wallet.transactions && wallet.transactions.length > 0) { %>
+          <span class="px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+            <%= wallet.transactions.length %> Total Transaction<%= wallet.transactions.length > 1 ? 's' : '' %>
+          </span>
+          <% } %>
+        </div>
+
+        <% if (wallet.transactions && wallet.transactions.length > 0) { %>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
               <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Type</th>
-                  <th>Amount</th>
-                  <th>Description</th>
+                <tr class="border-b border-gray-100 bg-gray-50/60 text-gray-400 font-bold uppercase tracking-wider text-[11px]">
+                  <th class="py-3.5 px-6">Date</th>
+                  <th class="py-3.5 px-6">Type</th>
+                  <th class="py-3.5 px-6">Description</th>
+                  <th class="py-3.5 px-6 text-right">Amount</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="divide-y divide-gray-100 text-gray-700">
                 <% wallet.transactions.forEach(transaction => { %>
-                  <tr>
-                    <td><%= new Date(transaction.date).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }) %></td>
-                    <td class="<%= transaction.type === 'credit' ? 'credit' : 'debit' %>">
-                      <%= transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1) %>
+                  <tr class="hover:bg-gray-50/50 transition-colors">
+                    <td class="py-4 px-6 text-gray-500 whitespace-nowrap">
+                      <%= new Date(transaction.date).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }) %>
                     </td>
-                    <td>₹<%= transaction.amount.toFixed(2) %></td>
-                    <td><%= transaction.description %></td>
+                    <td class="py-4 px-6 whitespace-nowrap">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border <%= transaction.type === 'credit' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-rose-50 text-rose-700 border-rose-200' %>">
+                        <span class="material-symbols-outlined text-[13px]"><%= transaction.type === 'credit' ? 'arrow_downward' : 'arrow_upward' %></span>
+                        <%= transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1) %>
+                      </span>
+                    </td>
+                    <td class="py-4 px-6 text-gray-900 font-medium">
+                      <%= transaction.description %>
+                    </td>
+                    <td class="py-4 px-6 text-right font-bold font-['Montserrat',sans-serif] whitespace-nowrap <%= transaction.type === 'credit' ? 'text-emerald-600' : 'text-rose-600' %>">
+                      <%= transaction.type === 'credit' ? '+' : '-' %>₹<%= transaction.amount.toFixed(2) %>
+                    </td>
                   </tr>
                 <% }) %>
               </tbody>
             </table>
-          <% } else { %>
-            <p>No transactions yet.</p>
-          <% } %>
-        </div>
+          </div>
+        <% } else { %>
+          <!-- Empty State -->
+          <div class="p-12 text-center">
+            <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100 text-gray-400">
+              <span class="material-symbols-outlined text-2xl">receipt_long</span>
+            </div>
+            <h3 class="text-base font-bold text-gray-900 font-['Montserrat',sans-serif]">No transactions yet</h3>
+            <p class="text-xs text-gray-500 max-w-xs mx-auto mt-1">When you receive refunds or use wallet credit for orders, your transactions will appear here.</p>
+          </div>
+        <% } %>
       </div>
     </div>
-  </div>
+
+    </main>
+</div>
 </body>
 </html>

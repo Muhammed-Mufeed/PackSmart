@@ -3,301 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Addresses</title>
-    <link rel="stylesheet" href="/user/css/profile-sidebar.css" />
+    <title>My Addresses | PackSmart</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Add Font Awesome CDN -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-       
-:root {
-    --primary-bg: #f4f7ff;
-    --card-bg: #ffffff;
-    --text-primary: #1a1e23;
-    --text-secondary: #4b5563;
-    --border-color: #e9ecef;
-    --primary-color: #6366f1;
-    --primary-color-dark: #4338ca;
-    --success-color: #10b981;
-    --success-color-dark: #059669;
-    --danger-color: #ef4444;
-    --danger-color-dark: #dc2626;
-    --shadow-subtle: 0 4px 15px rgba(0, 0, 0, 0.05);
-    --shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-}
-
-body {
-    background-color: #f9fafb;
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
-
-/* Wrapper for Layout */
-.wrapper {
-    display: flex;
-    min-height: calc(100vh - 80px); /* Full height minus navbar */
-}
-
-/* Main Content Styling */
-.main-content {
-    flex: 1;
-    padding: 20px;
-    background-color: #f9fafb;
-    min-height: calc(100vh - 80px);
-}
-.addresses-container {
-    background-color: var(--card-bg);
-    border-radius: 16px;
-    box-shadow: var(--shadow-medium);
-    overflow: hidden;
-}
-
-.addresses-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px 32px;
-    border-bottom: 1px solid var(--border-color);
-    background-color: var(--card-bg);
-}
-
-.addresses-header h1 {
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--text-primary);
-    letter-spacing: -0.8px;
-}
-
-.add-address-btn {
-    display: inline-block;
-    background-color: var(--primary-color);
-    color: white;
-    text-decoration: none;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-}
-
-.add-address-btn:hover {
-    background-color: var(--primary-color-dark);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
-}
-
-.addresses-list {
-    display: grid;
-    gap: 16px;
-    padding: 24px 32px;
-}
-
-.address-card {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 20px;
-    align-items: center;
-    background-color: var(--primary-bg);
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.address-card:hover {
-    box-shadow: var(--shadow-subtle);
-    transform: translateY(-3px);
-}
-
-.address-type {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    padding: 4px 8px;
-    border-radius: 6px;
-    color: white;
-    background-color: var(--primary-color);
-}
-
-.address-type.home { background-color: #10b981; }
-.address-type.work { background-color: #6366f1; }
-.address-type.other { background-color: #6b7280; }
-
-.address-details {
-    flex-grow: 1;
-}
-
-.address-details h3 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 8px;
-}
-
-.address-line {
-    display: block;
-    color: var(--text-secondary);
-    margin-bottom: 4px;
-}
-
-.address-landmark {
-    display: block;
-    color: #6b7280;
-    font-style: italic;
-    font-size: 0.9rem;
-    margin-top: 6px;
-}
-
-.address-contact {
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-.address-actions {
-    display: flex;
-    gap: 12px;
-}
-
-.edit-btn, .delete-btn {
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-
-.edit-btn {
-    background-color: var(--success-color);
-    color: white;
-}
-
-.edit-btn:hover {
-    background-color: var(--success-color-dark);
-    transform: translateY(-2px);
-}
-
-.delete-btn {
-    background-color: var(--danger-color);
-    color: white;
-}
-
-.delete-btn:hover {
-    background-color: var(--danger-color-dark);
-    transform: translateY(-2px);
-}
-
-.no-addresses {
-    text-align: center;
-    padding: 60px 20px;
-    background-color: var(--primary-bg);
-}
-
-.no-addresses p {
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    .wrapper {
-        flex-direction: column;
-        padding: 10px;
-    }
-
-    .addresses-container {
-        border-radius: 0;
-    }
-
-    .addresses-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .address-card {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .address-actions {
-        justify-content: center;
-        width: 100%;
-        margin-top: 15px;
-    }
-}
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <%-include('../partials/user/profile-sidebar-header')%>
     
-    <div class="wrapper">
-        <!-- The sidebar will be included from the header partial -->
-        
-        <div class="main-content">
-            <div class="addresses-container">
-                <div class="addresses-header">
-                    <h1>My Addresses</h1>
-                    <a href="/addAddress" class="add-address-btn">+ Add New Address</a>
-                </div>
-                
-                <% if (addresses && addresses.length > 0) { %>
-                    <div class="addresses-list">
-                        <% addresses.forEach(address => { %>
-                        <div class="address-card" data-address-id="<%= address._id %>">
-                            <div class="address-type <%= address.addressType.toLowerCase() %>">
-                                <%= address.addressType %>
-                            </div>
-                            <div class="address-name"><%= address.name %></div>
-                            <div class="address-details">
-                                <span class="address-line"><%= address.address %></span>
-                                <span class="address-line"><%= address.locality %></span>
-                                <span class="address-line"><%= address.city %>, <%= address.state %> - <%= address.pincode %></span>
-                                <% if (address.landmark) { %>
-                                <span class="address-landmark">Landmark: <%= address.landmark %></span>
-                                <% } %>
-                            </div>
-                            <div class="address-contact">
-                                Mobile: <%= address.mobile %>
-                            </div>
-                            <div class="address-actions">
-                                <button class="edit-btn" onclick="window.location.href='/editAddress/<%= address._id %>'">Edit</button>
-                                <button class="delete-btn" onclick="deleteAddress('<%= address._id %>')">Delete</button>
-                            </div>
-                        </div>
-                        <% }); %>
-                    </div>
-                <% } else { %>
-                <div class="no-addresses">
-                    <p>You don't have any saved addresses yet.</p>
-                    <a href="/addAddress" class="add-address-btn">Add New Address</a>
-                </div>
-                <% } %>
+    <div class="max-w-4xl mx-auto space-y-6">
+        <!-- Header Row -->
+        <div class="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200/70 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h1 class="text-xl sm:text-2xl font-bold text-gray-900 font-['Montserrat',sans-serif] tracking-tight">
+                    Saved Addresses
+                </h1>
+                <p class="text-sm text-gray-500 mt-1">Manage and edit your delivery destinations.</p>
             </div>
+            <a href="/addAddress" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-black text-white text-sm font-semibold hover:bg-gray-800 transition-all duration-200 shadow-sm active:scale-[0.98]">
+                <span class="material-symbols-outlined text-[18px]">add_location_alt</span>
+                <span>Add New Address</span>
+            </a>
         </div>
+
+        <!-- Addresses Content -->
+        <% if (addresses && addresses.length > 0) { %>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <% addresses.forEach(address => { %>
+                <div class="bg-white rounded-2xl p-5 sm:p-6 border border-gray-200/70 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between" data-address-id="<%= address._id %>">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 pb-3 border-b border-gray-100 mb-3">
+                            <h2 class="font-bold text-base text-gray-900 font-['Montserrat',sans-serif] truncate">
+                                <%= address.name %>
+                            </h2>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-wider uppercase <%= address.addressType.toLowerCase() === 'home' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : address.addressType.toLowerCase() === 'work' ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-gray-100 text-gray-700 border border-gray-200' %>">
+                                <%= address.addressType %>
+                            </span>
+                        </div>
+                        
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            <%= address.address %>, <%= address.locality %><br>
+                            <%= address.city %>, <%= address.state %> - <span class="font-semibold text-gray-800"><%= address.pincode %></span>
+                        </p>
+                        
+                        <% if (address.landmark) { %>
+                        <p class="text-xs text-gray-500 italic mt-2 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">flag</span>
+                            <span>Landmark: <%= address.landmark %></span>
+                        </p>
+                        <% } %>
+                        
+                        <p class="text-xs font-semibold text-gray-800 mt-3 flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px] text-gray-400">call</span>
+                            <span><%= address.mobile %></span>
+                        </p>
+                    </div>
+
+                    <div class="pt-4 mt-4 border-t border-gray-100 flex items-center justify-end gap-2">
+                        <button onclick="window.location.href='/editAddress/<%= address._id %>'" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 text-gray-800 hover:bg-gray-200 transition-all duration-200">
+                            <span class="material-symbols-outlined text-[15px]">edit</span>
+                            <span>Edit</span>
+                        </button>
+                        <button onclick="deleteAddress('<%= address._id %>')" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200">
+                            <span class="material-symbols-outlined text-[15px]">delete</span>
+                            <span>Delete</span>
+                        </button>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <div class="bg-white rounded-2xl p-10 sm:p-14 border border-gray-200/70 text-center flex flex-col items-center justify-center">
+                <div class="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center text-gray-400 mb-4">
+                    <span class="material-symbols-outlined text-3xl">location_off</span>
+                </div>
+                <h2 class="text-lg font-bold text-gray-900 font-['Montserrat',sans-serif]">No Saved Addresses</h2>
+                <p class="text-sm text-gray-500 mt-1 max-w-sm mb-6">You don't have any saved addresses yet. Add your address for a seamless checkout experience.</p>
+                <a href="/addAddress" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-black text-white text-sm font-semibold hover:bg-gray-800 transition-all duration-200 shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">add</span>
+                    <span>Add New Address</span>
+                </a>
+            </div>
+        <% } %>
     </div>
-    
-    <%-include('../partials/user/profile-sidebar-footer')%>
+
+    </main>
+</div>
 
     <script>
         async function deleteAddress(addressId) {

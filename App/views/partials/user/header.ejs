@@ -1,99 +1,206 @@
-<!-- Navbar -->
-<div class="navbar">
-    <!-- Top Row: Logo, Search Bar, Icons -->
-    <div class="top-row">
-      <!-- Logo -->
-      <div class="logo">PackSmart</div>
+<!-- Tailwind & Fonts Dependencies -->
+<link rel="stylesheet" href="/user/css/tailwind.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  header, header * {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+  }
+  header nav a, .nav-link, .mobile-nav-link {
+    font-family: 'Montserrat', sans-serif !important;
+  }
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined' !important;
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .nav-link {
+    position: relative;
+    padding-bottom: 4px;
+  }
+  .nav-link.active {
+    color: #000000 !important;
+    font-weight: 700 !important;
+  }
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2.5px;
+    background-color: #000000;
+    border-radius: 9999px;
+  }
+  .mobile-nav-link.active {
+    color: #000000 !important;
+    font-weight: 700 !important;
+    background-color: #f3f4f6;
+    border-left: 3px solid #000000;
+    padding-left: 0.75rem;
+  }
+</style>
 
-      <!-- Search Bar -->
-      <div class="search-bar">
-        <form id="search-form" action="/userproducts" method="GET">
-          <!-- Hidden inputs to preserve current filters -->
-          <% if (typeof category !== 'undefined') { %>
-            <% (Array.isArray(category) ? category : [category]).forEach(cat => { %>
-              <input type="hidden" name="category" value="<%= cat %>">
-            <% }) %>
-          <% } %>
-          <% if (typeof brand !== 'undefined') { %>
-            <% (Array.isArray(brand) ? brand : [brand]).forEach(br => { %>
-              <input type="hidden" name="brand" value="<%= br %>">
-            <% }) %>
-          <% } %>
-          <% if (typeof availability !== 'undefined') { %>
-            <input type="hidden" name="availability" value="<%= availability %>">
-          <% } %>
-          <% if (typeof minPrice !== 'undefined') { %>
-            <input type="hidden" name="minPrice" value="<%= minPrice %>">
-          <% } %>
-          <% if (typeof maxPrice !== 'undefined') { %>
-            <input type="hidden" name="maxPrice" value="<%= maxPrice %>">
-          <% } %>
-          <% if (typeof sort !== 'undefined') { %>
-            <input type="hidden" name="sort" value="<%= sort %>">
-          <% } %>
-          <!-- Search input -->
-          <input type="text" name="search" placeholder="Search products,categories,brands..." value="<%= typeof search !== 'undefined' ? search : '' %>">
-          <button type="submit" style="display: none;">Search</button> <!-- Hidden button, Enter key works -->
-        </form>
-      </div>
+<!-- TopNavBar -->
+<header class="sticky top-0 w-full z-50 bg-white shadow-sm border-b border-gray-200 font-sans">
+  <div class="flex justify-between items-center h-16 px-4 md:px-8 max-w-7xl mx-auto">
+    <!-- Logo -->
+    <a class="flex items-center gap-2 transition-transform hover:scale-[1.02] duration-200" href="/">
+      <img alt="PackSmart Logo" class="h-10 md:h-11 w-auto object-contain" src="/user/images/logo.png"/>
+    </a>
 
-      <!-- Icons -->
-      <div class="icons">
+    <!-- Search (Desktop) -->
+    <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+      <form id="search-form" action="/userproducts" method="GET" class="w-full relative">
+        <% if (typeof category !== 'undefined') { %>
+          <% (Array.isArray(category) ? category : [category]).forEach(cat => { %>
+            <input type="hidden" name="category" value="<%= cat %>">
+          <% }) %>
+        <% } %>
+        <% if (typeof brand !== 'undefined') { %>
+          <% (Array.isArray(brand) ? brand : [brand]).forEach(br => { %>
+            <input type="hidden" name="brand" value="<%= br %>">
+          <% }) %>
+        <% } %>
+        <% if (typeof availability !== 'undefined') { %>
+          <input type="hidden" name="availability" value="<%= availability %>">
+        <% } %>
+        <% if (typeof minPrice !== 'undefined') { %>
+          <input type="hidden" name="minPrice" value="<%= minPrice %>">
+        <% } %>
+        <% if (typeof maxPrice !== 'undefined') { %>
+          <input type="hidden" name="maxPrice" value="<%= maxPrice %>">
+        <% } %>
+        <% if (typeof sort !== 'undefined') { %>
+          <input type="hidden" name="sort" value="<%= sort %>">
+        <% } %>
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg pointer-events-none">search</span>
+        <input class="w-full h-10 pl-11 pr-4 bg-gray-100 border border-gray-200 rounded-full text-sm text-black placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-all duration-200" name="search" placeholder="Search products, categories, brands..." type="text" value="<%= typeof search !== 'undefined' ? search : '' %>"/>
+        <button type="submit" style="display: none;">Search</button>
+      </form>
+    </div>
+
+    <!-- Navigation Links (Desktop) & Actions -->
+    <div class="flex items-center gap-6">
+      <nav class="hidden md:flex items-center gap-6 font-['Montserrat',sans-serif]">
+        <a class="nav-link text-gray-600 hover:text-black transition-colors duration-200 font-semibold text-sm tracking-tight" href="/">Home</a>
+        <a class="nav-link text-gray-600 hover:text-black transition-colors duration-200 font-semibold text-sm tracking-tight" href="/userproducts">Shop</a>
+        <a class="nav-link text-gray-600 hover:text-black transition-colors duration-200 font-semibold text-sm tracking-tight" href="/help-center">Help Center</a>
+        <a class="nav-link text-gray-600 hover:text-black transition-colors duration-200 font-semibold text-sm tracking-tight" href="/about-us">About Us</a>
+      </nav>
+
+      <div class="flex items-center gap-4 text-gray-600">
+        <!-- Wishlist -->
         <div class="icon">
-          <a href="/wishlist">
-          <img src="/user/icons/wishlist-2.png" alt="wishlist">
+          <a href="/wishlist" aria-label="Wishlist" class="hover:text-black transition-colors flex items-center p-1 rounded-full hover:bg-gray-100">
+            <span class="material-symbols-outlined">favorite</span>
           </a>
         </div>
-        
-        <div class="user-profile">
-          <!-- User Profile Button -->
-          <button class="profile-button">
-            <img src="/user/icons/profile-icon.png" alt="profile-icon">
-          
+
+        <!-- User Profile Dropdown -->
+        <div class="user-profile relative group">
+          <button type="button" aria-label="Profile" class="profile-button flex items-center hover:text-black transition-colors p-1 rounded-full hover:bg-gray-100">
+            <span class="material-symbols-outlined">person</span>
           </button>
           <!-- Dropdown Menu -->
-          <div class="dropdown">
-            <% if (userData) { %> <!-- Check if user is logged in -->
-              <a href="/userProfile">Profile</a>
-              <form action="/logout" method="POST" style="display: inline;">
-                <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer;">
-                  Logout
-                </button>
-              </form>
-            <% } else { %> <!-- Show Signup and Login if not logged in -->
-              <a href="/signup">Signup</a>
-              <a href="/login">Login</a>
-            <% } %>
+          <div class="dropdown absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right z-50">
+            <div class="py-2 flex flex-col font-sans">
+              <% if (userData) { %>
+                <a class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors font-medium" href="/userProfile">Profile</a>
+                <form action="/logout" method="POST" class="inline">
+                  <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-100 font-medium">
+                    Logout
+                  </button>
+                </form>
+              <% } else { %>
+                <a class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors font-medium" href="/signup">Signup</a>
+                <a class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-100 font-medium" href="/login">Login</a>
+              <% } %>
+            </div>
           </div>
         </div>
 
+        <!-- Cart -->
         <div class="cart icon">
-          <a href="/cart">
-          <img src="/user/icons/cart.png" alt="cart">
+          <a href="/cart" aria-label="Cart" class="hover:text-black transition-colors relative flex items-center p-1 rounded-full hover:bg-gray-100">
+            <span class="material-symbols-outlined">shopping_cart</span>
           </a>
         </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button id="mobile-menu-toggle" aria-label="Menu" class="mobile-menu-toggle md:hidden hover:text-black transition-colors p-1 rounded-md">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- Menu Items Below Navbar -->
-  <div class="menu-container">
-    <div class="menu">
-      <a href="/">Home</a>
-      <a href="/userproducts">Products</a>
-      <a href="#">Help Center</a>
-      <a href="#">About Us</a>
-    </div>
+  <!-- Mobile Collapsible Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-200 px-4 py-4 space-y-3 font-sans">
+    <form action="/userproducts" method="GET" class="relative w-full mb-3">
+      <% if (typeof category !== 'undefined') { %>
+        <% (Array.isArray(category) ? category : [category]).forEach(cat => { %>
+          <input type="hidden" name="category" value="<%= cat %>">
+        <% }) %>
+      <% } %>
+      <% if (typeof brand !== 'undefined') { %>
+        <% (Array.isArray(brand) ? brand : [brand]).forEach(br => { %>
+          <input type="hidden" name="brand" value="<%= br %>">
+        <% }) %>
+      <% } %>
+      <% if (typeof availability !== 'undefined') { %>
+        <input type="hidden" name="availability" value="<%= availability %>">
+      <% } %>
+      <% if (typeof minPrice !== 'undefined') { %>
+        <input type="hidden" name="minPrice" value="<%= minPrice %>">
+      <% } %>
+      <% if (typeof maxPrice !== 'undefined') { %>
+        <input type="hidden" name="maxPrice" value="<%= maxPrice %>">
+      <% } %>
+      <% if (typeof sort !== 'undefined') { %>
+        <input type="hidden" name="sort" value="<%= sort %>">
+      <% } %>
+      <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg pointer-events-none">search</span>
+      <input class="w-full h-10 pl-10 pr-4 bg-gray-100 border border-gray-200 rounded-full text-sm text-black placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-all" name="search" placeholder="Search products, categories, brands..." type="text" value="<%= typeof search !== 'undefined' ? search : '' %>"/>
+    </form>
+    <nav class="flex flex-col space-y-2 font-['Montserrat',sans-serif]">
+      <a class="mobile-nav-link text-gray-700 hover:text-black font-semibold py-1.5 text-sm rounded transition-all" href="/">Home</a>
+      <a class="mobile-nav-link text-gray-700 hover:text-black font-semibold py-1.5 text-sm rounded transition-all" href="/userproducts">Shop</a>
+      <a class="mobile-nav-link text-gray-700 hover:text-black font-semibold py-1.5 text-sm rounded transition-all" href="/help-center">Help Center</a>
+      <a class="mobile-nav-link text-gray-700 hover:text-black font-semibold py-1.5 text-sm rounded transition-all" href="/about-us">About Us</a>
+    </nav>
   </div>
+</header>
 
-  <button class="mobile-menu-toggle">☰</button>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-  const menuToggle = document.querySelector('.mobile-menu-toggle');
-  const menu = document.querySelector('.menu');
-  
-  menuToggle.addEventListener('click', function() {
-    menu.classList.toggle('active');
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('mobile-menu-toggle') || document.querySelector('.mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu') || document.querySelector('.menu');
+    if (menuToggle && mobileMenu) {
+      menuToggle.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+
+    // Active link highlighting based on current path
+    const currentPath = window.location.pathname;
+    
+    function highlightActive(links) {
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === '/' && currentPath === '/') {
+          link.classList.add('active');
+        } else if (href === '/userproducts' && (currentPath === '/userproducts' || currentPath.startsWith('/categoryProducts') || currentPath.startsWith('/productdetail'))) {
+          link.classList.add('active');
+        } else if (href === '/help-center' && currentPath === '/help-center') {
+          link.classList.add('active');
+        } else if (href === '/about-us' && currentPath === '/about-us') {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    highlightActive(document.querySelectorAll('.nav-link'));
+    highlightActive(document.querySelectorAll('.mobile-nav-link'));
   });
-});
-  </script>
+</script>

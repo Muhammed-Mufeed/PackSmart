@@ -1,65 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-full bg-neutral-50" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>500 - Server Error</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .container {
-            text-align: center;
-            padding: 40px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-        }
-        h1 {
-            font-size: 120px;
-            margin: 0;
-            color: #764ba2;
-            text-shadow: 3px 3px 0 #eee;
-        }
-        h2 {
-            font-size: 32px;
-            color: #333;
-            margin: 20px 0;
-        }
-        p {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 30px;
-        }
-        a {
-            text-decoration: none;
-            padding: 12px 30px;
-            background-color: #667eea;
-            color: white;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-        a:hover {
-            background-color: #764ba2;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-    </style>
+    <title>500 - Server Error | PackSmart</title>
+    <!-- Google Fonts: Montserrat & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="/user/css/tailwind.css">
 </head>
-<body>
-    <div class="container">
-        <h1>500</h1>
-        <h2>Server Error</h2>
-        <p>Something went wrong on our end. We're working to fix it. Please try again later.</p>
-        <a href="/">Back to Home</a>
-    </div>
+<body class="min-h-screen bg-neutral-50 text-neutral-900 font-['Plus_Jakarta_Sans',sans-serif] flex flex-col justify-between items-center p-6 sm:p-10 selection:bg-neutral-900 selection:text-white">
+    <!-- Top Header: Brand Logo -->
+    <header class="w-full max-w-5xl flex justify-center sm:justify-start pt-2">
+        <a href="/" class="block transition-transform hover:scale-105 duration-200">
+            <img src="/user/images/logo.png" alt="PackSmart Logo" class="h-10 sm:h-12 w-auto object-contain mix-blend-multiply contrast-125">
+        </a>
+    </header>
+
+    <!-- Center Error Card matching Reference Screenshot -->
+    <main class="w-full max-w-md bg-white rounded-3xl border border-neutral-200/80 shadow-sm p-8 sm:p-10 text-center my-auto">
+        <!-- Status Pill -->
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-100 text-[11px] font-bold uppercase tracking-wider text-neutral-600 font-['Montserrat',sans-serif] mb-6">
+            <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
+            <span>STATUS 500</span>
+        </div>
+
+        <!-- Big Error Code -->
+        <h1 class="text-7xl sm:text-8xl font-extrabold text-black font-['Montserrat',sans-serif] tracking-tight leading-none mb-4">
+            500
+        </h1>
+
+        <!-- Heading -->
+        <h2 class="text-xl sm:text-2xl font-bold text-neutral-900 font-['Montserrat',sans-serif] tracking-tight mb-2">
+            Oops! Server Error
+        </h2>
+
+        <!-- Subtext -->
+        <p class="text-xs sm:text-sm text-neutral-500 leading-relaxed font-light max-w-xs mx-auto mb-8">
+            Something went wrong on our end. We're actively working to fix it. Please try again or return home.
+        </p>
+
+        <!-- Buttons Row -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a href="/" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-black text-white text-xs font-bold uppercase tracking-wider hover:bg-neutral-800 active:scale-[0.98] transition-all duration-200 shadow-sm">
+                <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+                <span>Back to Home</span>
+            </a>
+            <button onclick="window.location.reload()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl border border-neutral-200 text-neutral-700 hover:bg-neutral-50 hover:text-black text-xs font-semibold tracking-wider transition-all duration-200 cursor-pointer">
+                <span class="material-symbols-outlined text-[16px] text-neutral-500">refresh</span>
+                <span>Try Again</span>
+            </button>
+        </div>
+    </main>
+
+    <!-- Bottom Footer -->
+    <footer class="w-full text-center text-[11px] text-neutral-400 pb-2">
+        © <%= new Date().getFullYear() %> PackSmart Mobility Inc. · All rights reserved.
+    </footer>
 </body>
 </html>

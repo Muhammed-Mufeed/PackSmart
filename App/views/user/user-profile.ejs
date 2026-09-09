@@ -3,59 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Information</title>
-    <link rel="stylesheet" href="/user/css/profile-sidebar.css" />
-    <link rel="stylesheet" href="/user/css/user-profile.css" />
+    <title>Personal Information | PackSmart</title>
     <!-- Add Font Awesome CDN -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
   <%-include('../partials/user/profile-sidebar-header')%>
-  <div class="container">
-    <!-- Place edit button next to each section title -->
-    <section class="info-section">
-        <div class="header-container">
-            <h1 class="section-title">Personal Information</h1>
-            <a href="/editUserProfile" class="edit-button">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                </svg>
-                Edit Profile
-            </a>
-        </div>
-        <div class="info-item">
-            <h2 class="field-label">Full Name</h2>
-            <p class="field-value"><%= user.name %></p>
-        </div>
-    </section>
 
-    <section class="info-section">
-        <h1 class="section-title">Contacts</h1>
-        <div class="info-item">
-            <h2 class="field-label">Email Address</h2>
-            <p class="field-value"><%= user.email %></p>
+  <div class="max-w-4xl mx-auto space-y-6">
+    <!-- Profile Header Banner Card -->
+    <div class="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200/70 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5">
+      <div class="flex items-center gap-4 sm:gap-5">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-black text-white flex items-center justify-center font-bold text-2xl sm:text-3xl font-['Montserrat',sans-serif] shadow-md flex-shrink-0">
+          <%= user.name ? user.name.trim().charAt(0).toUpperCase() : 'U' %>
         </div>
-        <div class="info-item">
-            <h2 class="field-label">Phone Number</h2>
-            <p class="field-value"><%= user.phone || 'None' %></p>
+        <div>
+          <div class="flex flex-wrap items-center gap-2.5">
+            <h1 class="text-xl sm:text-2xl font-bold text-gray-900 font-['Montserrat',sans-serif] tracking-tight">
+              <%= user.name %>
+            </h1>
+            <% if (user.isBlocked) { %>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-700 border border-red-200">
+                Blocked
+              </span>
+            <% } else { %>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                Active Account
+              </span>
+            <% } %>
+          </div>
+          <p class="text-sm text-gray-500 font-medium mt-1"><%= user.email %></p>
         </div>
-    </section>
+      </div>
+      <a href="/editUserProfile" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-black text-white text-sm font-semibold hover:bg-gray-800 transition-all duration-200 shadow-sm active:scale-[0.98]">
+        <span class="material-symbols-outlined text-[18px]">edit</span>
+        <span>Edit Profile</span>
+      </a>
+    </div>
 
-    <section class="info-section">
-        <h1 class="section-title">Account Settings</h1>
-        <div class="info-item">
-            <h2 class="field-label">Account Status</h2>
-            <p class="field-value"><%= user.isBlocked ? 'Blocked' : 'Active' %></p>
+    <!-- Information Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Personal Info Card -->
+      <div class="bg-white rounded-2xl p-6 border border-gray-200/70 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-2.5 pb-4 border-b border-gray-100 mb-5">
+            <span class="material-symbols-outlined text-gray-700 text-[22px]">badge</span>
+            <h2 class="text-base font-bold text-gray-900 font-['Montserrat',sans-serif]">Personal Details</h2>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Full Name</p>
+              <p class="text-base font-semibold text-gray-900 mt-1"><%= user.name %></p>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Account Status</p>
+              <div class="mt-1 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full <%= user.isBlocked ? 'bg-red-500' : 'bg-emerald-500' %>"></span>
+                <span class="text-sm font-semibold text-gray-800"><%= user.isBlocked ? 'Blocked' : 'Active' %></span>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <section class="info-section">
-        <h1 class="section-title">Password</h1>
-        <p class="password-text">Do you want to change your password?</p>
-        <a href="/changePassword" class="change-password-btn">Change Password</a>
-    </section>
+      <!-- Contact Info Card -->
+      <div class="bg-white rounded-2xl p-6 border border-gray-200/70 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-2.5 pb-4 border-b border-gray-100 mb-5">
+            <span class="material-symbols-outlined text-gray-700 text-[22px]">contact_phone</span>
+            <h2 class="text-base font-bold text-gray-900 font-['Montserrat',sans-serif]">Contact Info</h2>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Email Address</p>
+              <p class="text-base font-semibold text-gray-900 mt-1 break-all"><%= user.email %></p>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Phone Number</p>
+              <p class="text-base font-semibold text-gray-900 mt-1"><%= user.phone || 'Not provided' %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Card -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-200/70 shadow-sm">
+      <div class="flex items-center gap-2.5 pb-4 border-b border-gray-100 mb-4">
+        <span class="material-symbols-outlined text-gray-700 text-[22px]">security</span>
+        <h2 class="text-base font-bold text-gray-900 font-['Montserrat',sans-serif]">Security & Login</h2>
+      </div>
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-xl bg-gray-50 border border-gray-100">
+        <div>
+          <h3 class="text-sm font-semibold text-gray-900">Account Password</h3>
+          <p class="text-xs text-gray-500 mt-0.5">Keep your account safe by updating your password periodically.</p>
+        </div>
+        <a href="/changePassword" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-gray-200 text-sm font-semibold text-gray-800 hover:text-black hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 shadow-sm flex-shrink-0">
+          <span class="material-symbols-outlined text-[18px]">lock_reset</span>
+          <span>Change Password</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  </main>
 </div>
-<%-include('../partials/user/profile-sidebar-footer')%>
 </body>
 </html>
