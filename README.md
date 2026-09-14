@@ -1,6 +1,7 @@
-# 🎒 PackSmart -  E-Commerce Platform
+# 🎒 PackSmart - E-Commerce Platform
 
-PackSmart is a full-stack, scalable e-commerce platform dedicated to premium bag items. Built with a robust **Node.js/Express** backend and **MongoDB**, it features a traditional **MVC (Model-View-Controller)** architecture rendered via **EJS** templating.
+
+PackSmart is a full-stack, scalable e-commerce platform dedicated to premium bag items and travel accessories. Built with a robust **Node.js/Express** backend and **MongoDB**, it features a traditional **MVC (Model-View-Controller)** architecture rendered via **EJS** templating and styled with an ahead-of-time (AOT) compiled **Tailwind CSS** design system.
 
 This project demonstrates modern backend capabilities including secure authentication, third-party payment integration, cloud media storage, and automated report generation.
 
@@ -21,28 +22,29 @@ This project demonstrates modern backend capabilities including secure authentic
 
 Built with a robust **MVC (Model-View-Controller)** architecture:
 
-* **Backend & Database:** Node.js, Express.js (v5), MongoDB & MongoDB Atlas, Mongoose (v8), `express-session`
-* **Frontend & UI:** Tailwind CSS, EJS Templating, HTML5, Custom CSS3, Vanilla JS (ES6+), Chart.js, Cropper.js, SweetAlert2
-* **Authentication & Security:** Passport.js (Google OAuth 2.0 & Local), Bcrypt.js, Nocache, Dotenv
+* **Backend & Database:** Node.js, Express.js (v5), MongoDB & MongoDB Atlas, Mongoose ODM (v8)
+* **Authentication & Security:** Session-based Authentication (`express-session`), Passport.js (Google OAuth 2.0 & Local Strategy), Bcrypt.js, OTP Email Verification (Resend API), Nocache, Dotenv
+* **Frontend & UI:** Tailwind CSS (AOT CLI Pipeline), EJS Templating, HTML5, Custom CSS3, Vanilla JS (ES6+), Chart.js, Cropper.js, SweetAlert2
 * **Cloud & Media Storage:** Cloudinary API, Multer & `multer-storage-cloudinary`
-* **Payments & Communication:** Razorpay API, Resend API (Transactional Emails/OTP)
+* **Payments & Communication:** Razorpay Payment Gateway, Resend API (Transactional Emails)
 * **Reporting & Data Export:** PDFKit (PDF Invoices & Reports), ExcelJS (Excel Sales Data)
 
-
+---
 
 ## ☁️ Deployment & Cloud Infrastructure
+
+### Current Live Deployment (Render)
+> *Note: Migrated application hosting to Render following the conclusion of the initial AWS deployment tenure.*
+
+* **Live URL:** 🔗 [https://packsmart-psry.onrender.com/](https://packsmart-psry.onrender.com/)
+* **Cloud Hosting:** Deployed as a web service on **Render**.
+* **Uptime Optimization:** Integrated with **cron-job.org** for automated health checks to keep the live server active 24/7.
 
 ### Primary Infrastructure (AWS Setup)
 * **Cloud Hosting:** Deployed on an **AWS EC2** virtual server instance running Ubuntu Server.
 * **Reverse Proxy & Web Server:** Configured **Nginx** as a reverse proxy for request routing, static file handling, and SSL termination.
 * **Process Management:** Utilized **PM2** (Process Manager 2) for background process monitoring, log management, and automatic restarts.
 * **Security & Infrastructure:** Manual configuration of AWS Security Groups, environment variable isolation, and SSL/TLS encryption for HTTPS communication.
-
-### Current Live Deployment (Render & Atlas)
-> *Note: Migrated to Render and MongoDB Atlas after the AWS Free Tier expired.*
-
-* **Cloud Hosting & DB:** Deployed on **Render** paired with **MongoDB Atlas** cloud database.
-* **Uptime Optimization:** Integrated with **cron-job.org** for automated pings to keep the live server active 24/7.
 
 ---
 
@@ -53,18 +55,18 @@ The codebase is organized adhering to industry-standard separation of concerns:
 ```text
 EPROJECT/
 ├── App/
-│   ├── config/         # Database and third-party API configurations
-│   ├── controllers/    # Business logic handling request/response
-│   ├── helpers/        # Reusable utility functions
-│   ├── middlewares/    # Custom route middleware (Auth, Error handling)
-│   ├── models/         # Mongoose schemas and database models
-│   ├── public/         # Static assets (CSS, client-side JS, images)
-│   ├── routes/         # Express route definitions
-│   └── views/          # EJS templates (Admin and User UI)
-├── .env                # Environment variables (Ignored in Git)
-├── app.js              # Application entry point and server setup
-└── package.json        # Project metadata and dependencies
-
-
-
-   
+│   ├── config/              # Database & third-party service configs
+│   ├── controllers/         # MVC Controllers handling request/response logic
+│   ├── helpers/             # Utility functions & helpers
+│   ├── middlewares/         # Custom Express middlewares (Auth, Multer, Error guards)
+│   ├── models/              # Mongoose schemas and data models
+│   ├── public/              # Static assets (Compiled Tailwind CSS, client JS, media)
+│   │   └── user/css/        # tailwind-input.css (Source) & tailwind.css (Compiled)
+│   ├── routes/              # Express router definitions (User & Admin)
+│   ├── views/               # EJS server-rendered templates (User & Admin UI)
+│   ├── app.js               # Application entry point & Express configuration
+│   ├── package.json         # Dependencies & Tailwind build/watch scripts
+│   └── tailwind.config.js   # Central Tailwind design system & content configuration
+├── .env                     # Environment variables (Ignored in Git)
+└── README.md                # Project documentation
+```

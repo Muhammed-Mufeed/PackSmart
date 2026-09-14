@@ -20,15 +20,15 @@ app.set('trust proxy', 1)
 app.set('view engine', 'ejs')
 app.set('views', [path.join(__dirname, 'views/user'), path.join(__dirname, 'views/admin')])
 
+// Serve static assets 
+app.use(express.static(path.join(__dirname, 'public')))
 
+
+// Body Parsers
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-
-
-app.use(nocache());
-
-
+// Session & Authentication
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -40,12 +40,12 @@ app.use(session({
   }
 }))
 
-//GoogleAuth:
-app.use(passport.initialize())  //Initializes Passport, which is a middleware for authentication.    
+// GoogleAuth:
+app.use(passport.initialize())  // Initializes Passport, which is a middleware for authentication.    
 app.use(passport.session())    // Integrates Passport with session-based authentication.
 
-
-app.use(express.static(path.join(__dirname, 'public')))
+// Cache Control for Dynamic Routes:
+app.use(nocache());  // Placed after express.static so static assets (images, CSS, JS) are cached by browsers. Placed before routes to prevent browsers from caching sensitive dynamic pages (auth, cart, orders, back-button history).
 
 
 app.use('/admin', adminRoutes)
