@@ -21,7 +21,9 @@
             </div>
             <% if (typeof totalOrders !== 'undefined' && totalOrders > 0) { %>
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold">
-                <span class="material-symbols-outlined text-[16px] text-gray-500">inventory_2</span>
+                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
                 <span><%= totalOrders %> Total Order<%= totalOrders > 1 ? 's' : '' %></span>
             </div>
             <% } %>
@@ -38,14 +40,18 @@
                       <span class="px-2.5 py-1 rounded-lg bg-black text-white text-xs font-mono font-bold tracking-wide">
                         #<%= order.orderId %>
                       </span>
-                      <span class="text-xs text-gray-500 flex items-center gap-1">
-                        <span class="material-symbols-outlined text-[15px] text-gray-400">calendar_today</span>
+                      <span class="text-xs text-gray-500 flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
                         Ordered on <%= new Date(order.createdAt).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }) %>
                       </span>
                     </div>
                     <a href="/userOrders/<%= order.orderId %>" class="inline-flex items-center gap-1.5 text-xs font-bold text-gray-900 hover:text-gray-600 transition-colors">
                       <span>View Details</span>
-                      <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                      </svg>
                     </a>
                   </div>
 
@@ -99,8 +105,10 @@
                     <!-- Order Summary: Delivery & Payment Details -->
                     <div class="pt-5 border-t border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-5 bg-gray-50/50 p-4 rounded-xl">
                       <div>
-                        <div class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 flex items-center gap-1">
-                          <span class="material-symbols-outlined text-[14px]">local_shipping</span>
+                        <div class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 flex items-center gap-1.5">
+                          <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 17a2 2 0 100 4 2 2 0 000-4zm10 0a2 2 0 100 4 2 2 0 000-4zM4 17h1m11 0h1m-9-6h8m-8-4h5m3 0l3 3v5h-2m-1-8V4a1 1 0 00-1-1H4a1 1 0 00-1 1v13h2"></path>
+                          </svg>
                           <span>Delivered to:</span>
                         </div>
                         <div class="text-xs text-gray-600 leading-relaxed">
@@ -112,8 +120,10 @@
                       </div>
                       <div class="flex flex-col justify-between sm:items-end">
                         <div class="sm:text-right">
-                          <div class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 flex items-center sm:justify-end gap-1">
-                            <span class="material-symbols-outlined text-[14px]">credit_card</span>
+                          <div class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 flex items-center sm:justify-end gap-1.5">
+                            <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                            </svg>
                             <span>Payment Info</span>
                           </div>
                           <div class="text-xs text-gray-600">
@@ -135,7 +145,9 @@
                     <div class="mt-4 flex justify-end">
                       <a href="/userOrders/<%= order.orderId %>" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-black text-white text-xs font-semibold hover:bg-gray-800 transition-all duration-200 shadow-sm active:scale-[0.98]">
                         <span>View Details</span>
-                        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                        </svg>
                       </a>
                     </div>
                   </div>
@@ -145,12 +157,16 @@
               <!-- Empty State -->
               <div class="bg-white rounded-2xl p-12 text-center border border-gray-200/70 shadow-sm">
                 <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
-                  <span class="material-symbols-outlined text-gray-400 text-3xl">inventory_2</span>
+                  <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                  </svg>
                 </div>
                 <h3 class="text-lg font-bold text-gray-900 font-['Montserrat',sans-serif]">No orders placed yet</h3>
                 <p class="text-sm text-gray-500 max-w-sm mx-auto mt-1 mb-6">Looks like you haven't placed any orders with us. Explore our catalog and discover amazing travel gear.</p>
                 <a href="/userProducts" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-black text-white text-sm font-semibold hover:bg-gray-800 transition-all duration-200 shadow-sm active:scale-[0.98]">
-                  <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                  </svg>
                   <span>Start Shopping</span>
                 </a>
               </div>

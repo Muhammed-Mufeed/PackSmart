@@ -1,75 +1,95 @@
 <%- include('header') %>
 
-<style>
-  .sidebar-link.active {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  }
-  .sidebar-link.active span {
-    color: #ffffff !important;
-  }
-</style>
+  <style>
+    .sidebar-link.active {
+      background-color: #000000 !important;
+      color: #ffffff !important;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    }
 
-<!-- Profile Page Wrapper -->
-<div class="flex flex-col md:flex-row min-h-[calc(100vh-64px)] bg-[#f7f9fb] font-sans">
-  <!-- Modern Sidebar -->
-  <aside class="w-full md:w-72 md:min-w-[280px] bg-white border-b md:border-b-0 md:border-r border-gray-200 p-6 flex flex-col gap-6 md:sticky md:top-16 md:h-[calc(100vh-64px)] overflow-y-auto">
-    <!-- User Badge -->
-    <div class="flex items-center gap-3.5 pb-6 border-b border-gray-100">
-      <div class="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center font-bold text-lg font-['Montserrat',sans-serif] shadow-sm flex-shrink-0">
-        <%= userData && userData.name ? userData.name.trim().charAt(0).toUpperCase() : 'U' %>
+    .sidebar-link.active span,
+    .sidebar-link.active svg {
+      color: #ffffff !important;
+    }
+  </style>
+
+  <!-- Profile Page Wrapper -->
+  <div class="flex flex-col md:flex-row min-h-[calc(100vh-64px)] bg-[#f7f9fb] font-sans">
+    <!-- Modern Sidebar -->
+    <aside
+      class="w-full md:w-72 md:min-w-[280px] bg-white border-b md:border-b-0 md:border-r border-gray-200 p-6 flex flex-col gap-6 md:sticky md:top-16 md:h-[calc(100vh-64px)] overflow-y-auto">
+      <!-- User Badge -->
+      <div class="flex items-center gap-3.5 pb-6 border-b border-gray-100">
+        <div
+          class="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center font-bold text-lg font-['Montserrat',sans-serif] shadow-sm flex-shrink-0">
+          <%= userData && userData.name ? userData.name.trim().charAt(0).toUpperCase() : 'U' %>
+        </div>
+        <div class="min-w-0">
+          <h2 class="text-base font-bold text-gray-900 font-['Montserrat',sans-serif] truncate">
+            <%= userData ? userData.name : 'My Account' %>
+          </h2>
+          <span class="text-xs text-gray-500 font-medium">Personal Account</span>
+        </div>
       </div>
-      <div class="min-w-0">
-        <h2 class="text-base font-bold text-gray-900 font-['Montserrat',sans-serif] truncate">
-          <%= userData ? userData.name : 'My Account' %>
-        </h2>
-        <span class="text-xs text-gray-500 font-medium">Personal Account</span>
-      </div>
-    </div>
 
-    <!-- Navigation Menu -->
-    <nav class="flex flex-col gap-1.5 font-['Montserrat',sans-serif]">
-      <a href="/userProfile" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
-        <span class="material-symbols-outlined text-[20px]">person</span>
-        <span>Profile Information</span>
-      </a>
-      <a href="/userAddress" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
-        <span class="material-symbols-outlined text-[20px]">location_on</span>
-        <span>Manage Addresses</span>
-      </a>
-      <a href="/userOrders" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
-        <span class="material-symbols-outlined text-[20px]">shopping_bag</span>
-        <span>My Orders</span>
-      </a>
-      <a href="/wishlist" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
-        <span class="material-symbols-outlined text-[20px]">favorite</span>
-        <span>My Wishlist</span>
-      </a>
-      <a href="/wallet" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
-        <span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
-        <span>My Wallet</span>
-      </a>
-    </nav>
-  </aside>
-  
-  <!-- Main Content Area -->
-  <main class="flex-1 p-6 md:p-10 min-w-0 bg-[#f7f9fb]">
+      <!-- Navigation Menu -->
+      <nav class="flex flex-col gap-1.5 font-['Montserrat',sans-serif]">
+        <a href="/userProfile"
+          class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
+          <svg class="w-5 h-5 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+          <span>Profile Information</span>
+        </a>
+        <a href="/userAddress"
+          class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
+          <svg class="w-5 h-5 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+          <span>Manage Addresses</span>
+        </a>
+        <a href="/userOrders"
+          class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
+          <svg class="w-5 h-5 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+          </svg>
+          <span>My Orders</span>
+        </a>
+        <a href="/wishlist"
+          class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
+          <svg class="w-5 h-5 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg>
+          <span>My Wishlist</span>
+        </a>
+        <a href="/wallet"
+          class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200">
+          <svg class="w-5 h-5 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+          </svg>
+          <span>My Wallet</span>
+        </a>
+      </nav>
+    </aside>
 
-  <!-- JavaScript to Set Active Class for Sidebar -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const sidebarLinks = document.querySelectorAll('.sidebar-link');
-      const currentPath = window.location.pathname;
+    <!-- Main Content Area -->
+    <main class="flex-1 p-6 md:p-10 min-w-0 bg-[#f7f9fb]">
 
-      sidebarLinks.forEach(link => {
-        const linkPath = link.getAttribute('href');
-        if (linkPath === currentPath || 
-           (linkPath === '/userAddress' && (currentPath === '/addAddress' || currentPath.startsWith('/editAddress'))) ||
-           (linkPath === '/userProfile' && currentPath === '/editUserProfile') ||
-           (linkPath === '/userOrders' && currentPath.startsWith('/orderDetails'))) {
-          link.classList.add('active');
-        }
-      });
-    });
-  </script>
+      <!-- JavaScript to Set Active Class for Sidebar -->
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const sidebarLinks = document.querySelectorAll('.sidebar-link');
+          const currentPath = window.location.pathname;
+
+          sidebarLinks.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (linkPath === currentPath ||
+              (linkPath === '/userAddress' && (currentPath === '/addAddress' || currentPath.startsWith('/editAddress'))) ||
+              (linkPath === '/userProfile' && currentPath === '/editUserProfile') ||
+              (linkPath === '/userOrders' && currentPath.startsWith('/orderDetails'))) {
+              link.classList.add('active');
+            }
+          });
+        });
+      </script>
