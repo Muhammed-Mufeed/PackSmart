@@ -7,12 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="/user/css/tailwind.css">
     <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .material-symbols-outlined.filled {
-            font-variation-settings: 'FILL' 1;
-        }
         .shadow-ambient {
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
@@ -39,7 +33,9 @@
                 <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-primary mb-stack-lg">How can we help you?</h1>
                 <!-- Search Bar -->
                 <div class="relative w-full max-w-2xl mx-auto">
-                    <span class="material-symbols-outlined absolute left-4 top-1/2 transform -translate-y-1/2 text-on-surface-variant">search</span>
+                    <svg class="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-on-surface-variant pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
                     <input class="w-full pl-12 pr-4 py-4 rounded-full bg-surface text-on-surface font-body-lg text-body-lg border-none shadow-ambient focus:ring-2 focus:ring-primary focus:outline-none transition-all placeholder:text-on-surface-variant" placeholder="Search the Help Center..." type="text">
                 </div>
             </div>
@@ -52,7 +48,9 @@
                 <a class="group block bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-8 shadow-ambient shadow-ambient-hover transition-all" href="#shipping">
                     <div class="flex items-start gap-6">
                         <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                            <span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 17a2 2 0 100 4 2 2 0 000-4zm10 0a2 2 0 100 4 2 2 0 000-4zM4 17h1m11 0h1m-9-6h8m-8-4h5m3 0l3 3v5h-2m-1-8V4a1 1 0 00-1-1H4a1 1 0 00-1 1v13h2"></path>
+                            </svg>
                         </div>
                         <div>
                             <h2 class="font-headline-md text-headline-md text-primary mb-2">Shipping & Delivery</h2>
@@ -65,7 +63,9 @@
                 <a class="group block bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-8 shadow-ambient shadow-ambient-hover transition-all" href="#returns">
                     <div class="flex items-start gap-6">
                         <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                            <span class="material-symbols-outlined" data-icon="swap_horiz">swap_horiz</span>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                            </svg>
                         </div>
                         <div>
                             <h2 class="font-headline-md text-headline-md text-primary mb-2">Returns & Exchanges</h2>
@@ -78,7 +78,9 @@
                 <a class="group block bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-8 shadow-ambient shadow-ambient-hover transition-all" href="#warranty">
                     <div class="flex items-start gap-6">
                         <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                            <span class="material-symbols-outlined" data-icon="verified">verified</span>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
                         </div>
                         <div>
                             <h2 class="font-headline-md text-headline-md text-primary mb-2">Warranty & Repairs</h2>
@@ -91,7 +93,9 @@
                 <a class="group block bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-8 shadow-ambient shadow-ambient-hover transition-all" href="#care">
                     <div class="flex items-start gap-6">
                         <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                            <span class="material-symbols-outlined" data-icon="cleaning_services">cleaning_services</span>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                            </svg>
                         </div>
                         <div>
                             <h2 class="font-headline-md text-headline-md text-primary mb-2">Product Care & Setup</h2>
@@ -131,17 +135,23 @@
         <section class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-stack-xl">
             <div class="bg-surface-container border border-outline-variant/30 rounded-2xl p-8 md:p-12 text-center shadow-ambient flex flex-col items-center">
                 <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-on-primary mb-6">
-                    <span class="material-symbols-outlined filled" data-icon="support_agent">support_agent</span>
+                    <svg class="w-8 h-8 text-on-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
                 </div>
                 <h3 class="font-headline-md text-headline-md text-primary mb-4">Still need help?</h3>
                 <p class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-md">Our dedicated concierge team is ready to assist you with any inquiries regarding your PackSmart experience.</p>
                 <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-8">
                     <div class="flex items-center gap-3 bg-surface-container-lowest py-3 px-6 rounded-full border border-outline-variant/50">
-                        <span class="material-symbols-outlined text-primary" data-icon="mail">mail</span>
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
                         <a class="font-label-bold text-label-bold text-primary hover:text-surface-tint transition-colors" href="mailto:concierge@packsmart.com">concierge@packsmart.com</a>
                     </div>
                     <div class="flex items-center gap-3 bg-surface-container-lowest py-3 px-6 rounded-full border border-outline-variant/50">
-                        <span class="material-symbols-outlined text-primary" data-icon="schedule">schedule</span>
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
                         <span class="font-body-md text-body-md text-on-surface-variant">Mon-Fri, 9am - 6pm EST</span>
                     </div>
                 </div>

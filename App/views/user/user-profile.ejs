@@ -1,112 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Information | PackSmart</title>
-    <!-- Add Font Awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Information | PackSmart</title>
+  <!-- Add Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
-  <%-include('../partials/user/profile-sidebar-header')%>
+  <%-include('.. /partials/user/profile-sidebar-header')%>
 
-  <div class="max-w-4xl mx-auto space-y-6">
-    <!-- Profile Header Banner Card -->
-    <div class="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200/70 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5">
-      <div class="flex items-center gap-4 sm:gap-5">
-        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-black text-white flex items-center justify-center font-bold text-2xl sm:text-3xl font-['Montserrat',sans-serif] shadow-md flex-shrink-0">
-          <%= user.name ? user.name.trim().charAt(0).toUpperCase() : 'U' %>
-        </div>
-        <div>
-          <div class="flex flex-wrap items-center gap-2.5">
-            <h1 class="text-xl sm:text-2xl font-bold text-gray-900 font-['Montserrat',sans-serif] tracking-tight">
-              <%= user.name %>
-            </h1>
-            <% if (user.isBlocked) { %>
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-700 border border-red-200">
-                Blocked
-              </span>
-            <% } else { %>
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                Active Account
-              </span>
-            <% } %>
+    <div class="max-w-4xl mx-auto space-y-6">
+      <!-- Profile Header Banner Card -->
+      <div
+        class="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200/70 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5">
+        <div class="flex items-center gap-4 sm:gap-5">
+          <div
+            class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-black text-white flex items-center justify-center font-bold text-2xl sm:text-3xl font-['Montserrat',sans-serif] shadow-md flex-shrink-0">
+            <%= user.name ? user.name.trim().charAt(0).toUpperCase() : 'U' %>
           </div>
-          <p class="text-sm text-gray-500 font-medium mt-1"><%= user.email %></p>
-        </div>
-      </div>
-      <a href="/editUserProfile" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-black text-white text-sm font-semibold hover:bg-gray-800 transition-all duration-200 shadow-sm active:scale-[0.98]">
-        <span class="material-symbols-outlined text-[18px]">edit</span>
-        <span>Edit Profile</span>
-      </a>
-    </div>
-
-    <!-- Information Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Personal Info Card -->
-      <div class="bg-white rounded-2xl p-6 border border-gray-200/70 shadow-sm flex flex-col justify-between">
-        <div>
-          <div class="flex items-center gap-2.5 pb-4 border-b border-gray-100 mb-5">
-            <span class="material-symbols-outlined text-gray-700 text-[22px]">badge</span>
-            <h2 class="text-base font-bold text-gray-900 font-['Montserrat',sans-serif]">Personal Details</h2>
-          </div>
-          <div class="space-y-4">
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Full Name</p>
-              <p class="text-base font-semibold text-gray-900 mt-1"><%= user.name %></p>
+          <div>
+            <div class="flex flex-wrap items-center gap-2.5">
+              <h1 class="text-xl sm:text-2xl font-bold text-gray-900 font-['Montserrat',sans-serif] tracking-tight">
+                <%= user.name %>
+              </h1>
+              <% if (user.isBlocked) { %>
+                <span
+                  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-700 border border-red-200">
+                  Blocked
+                </span>
+                <% } else { %>
+                  <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    Active Account
+                  </span>
+                  <% } %>
             </div>
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Account Status</p>
-              <div class="mt-1 flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full <%= user.isBlocked ? 'bg-red-500' : 'bg-emerald-500' %>"></span>
-                <span class="text-sm font-semibold text-gray-800"><%= user.isBlocked ? 'Blocked' : 'Active' %></span>
+            <p class="text-sm text-gray-500 font-medium mt-1">
+              <%= user.email %>
+            </p>
+          </div>
+        </div>
+        <a href="/editUserProfile"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-black text-white text-sm font-semibold hover:bg-gray-800 transition-all duration-200 shadow-sm active:scale-[0.98]">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+          </svg>
+          <span>Edit Profile</span>
+        </a>
+      </div>
+
+      <!-- Information Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Personal Info Card -->
+        <div class="bg-white rounded-2xl p-6 border border-gray-200/70 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2.5 pb-4 border-b border-gray-100 mb-5">
+              <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path>
+              </svg>
+              <h2 class="text-base font-bold text-gray-900 font-['Montserrat',sans-serif]">Personal Details</h2>
+            </div>
+            <div class="space-y-4">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Full Name</p>
+                <p class="text-base font-semibold text-gray-900 mt-1">
+                  <%= user.name %>
+                </p>
+              </div>
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Account Status</p>
+                <div class="mt-1 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full <%= user.isBlocked ? 'bg-red-500' : 'bg-emerald-500' %>"></span>
+                  <span class="text-sm font-semibold text-gray-800">
+                    <%= user.isBlocked ? 'Blocked' : 'Active' %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Info Card -->
+        <div class="bg-white rounded-2xl p-6 border border-gray-200/70 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2.5 pb-4 border-b border-gray-100 mb-5">
+              <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+              </svg>
+              <h2 class="text-base font-bold text-gray-900 font-['Montserrat',sans-serif]">Contact Info</h2>
+            </div>
+            <div class="space-y-4">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Email Address</p>
+                <p class="text-base font-semibold text-gray-900 mt-1 break-all">
+                  <%= user.email %>
+                </p>
+              </div>
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Phone Number</p>
+                <p class="text-base font-semibold text-gray-900 mt-1">
+                  <%= user.phone || 'Not provided' %>
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Contact Info Card -->
-      <div class="bg-white rounded-2xl p-6 border border-gray-200/70 shadow-sm flex flex-col justify-between">
-        <div>
-          <div class="flex items-center gap-2.5 pb-4 border-b border-gray-100 mb-5">
-            <span class="material-symbols-outlined text-gray-700 text-[22px]">contact_phone</span>
-            <h2 class="text-base font-bold text-gray-900 font-['Montserrat',sans-serif]">Contact Info</h2>
+      <!-- Security Card -->
+      <div class="bg-white rounded-2xl p-6 border border-gray-200/70 shadow-sm">
+        <div class="flex items-center gap-2.5 pb-4 border-b border-gray-100 mb-4">
+          <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+          </svg>
+          <h2 class="text-base font-bold text-gray-900 font-['Montserrat',sans-serif]">Security & Login</h2>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-xl bg-gray-50 border border-gray-100">
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900">Account Password</h3>
+            <p class="text-xs text-gray-500 mt-0.5">Keep your account safe by updating your password periodically.</p>
           </div>
-          <div class="space-y-4">
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Email Address</p>
-              <p class="text-base font-semibold text-gray-900 mt-1 break-all"><%= user.email %></p>
-            </div>
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Phone Number</p>
-              <p class="text-base font-semibold text-gray-900 mt-1"><%= user.phone || 'Not provided' %></p>
-            </div>
-          </div>
+          <a href="/changePassword"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-gray-200 text-sm font-semibold text-gray-800 hover:text-black hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 shadow-sm flex-shrink-0">
+            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+            </svg>
+            <span>Change Password</span>
+          </a>
         </div>
       </div>
     </div>
 
-    <!-- Security Card -->
-    <div class="bg-white rounded-2xl p-6 border border-gray-200/70 shadow-sm">
-      <div class="flex items-center gap-2.5 pb-4 border-b border-gray-100 mb-4">
-        <span class="material-symbols-outlined text-gray-700 text-[22px]">security</span>
-        <h2 class="text-base font-bold text-gray-900 font-['Montserrat',sans-serif]">Security & Login</h2>
-      </div>
-      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-xl bg-gray-50 border border-gray-100">
-        <div>
-          <h3 class="text-sm font-semibold text-gray-900">Account Password</h3>
-          <p class="text-xs text-gray-500 mt-0.5">Keep your account safe by updating your password periodically.</p>
-        </div>
-        <a href="/changePassword" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-gray-200 text-sm font-semibold text-gray-800 hover:text-black hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 shadow-sm flex-shrink-0">
-          <span class="material-symbols-outlined text-[18px]">lock_reset</span>
-          <span>Change Password</span>
-        </a>
-      </div>
+    </main>
     </div>
-  </div>
-
-  </main>
-</div>
 </body>
+
 </html>
