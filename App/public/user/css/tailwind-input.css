@@ -1,3 +1,148 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Montserrat', sans-serif;
+  }
+  .font-serif {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+}
+
+@layer components {
+  /* Navigation Active States */
+  header, header * {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+  }
+  header nav a, .nav-link, .mobile-nav-link {
+    font-family: 'Montserrat', sans-serif !important;
+  }
+  .nav-link {
+    position: relative;
+    padding-bottom: 4px;
+  }
+  .nav-link.active {
+    color: #000000 !important;
+    font-weight: 700 !important;
+  }
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2.5px;
+    background-color: #000000;
+    border-radius: 9999px;
+  }
+  .mobile-nav-link.active {
+    color: #000000 !important;
+    font-weight: 700 !important;
+    background-color: #f3f4f6;
+    border-left: 3px solid #000000;
+    padding-left: 0.75rem;
+  }
+
+  /* Profile Sidebar Navigation */
+  .sidebar-link.active {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  .sidebar-link.active span,
+  .sidebar-link.active svg {
+    color: #ffffff !important;
+  }
+
+  /* Hero Banner Slider States */
+  .banner-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(1.04);
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+  }
+  .banner-slide.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 2;
+  }
+  .indicator {
+    display: inline-block;
+    width: 28px;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 9999px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+  .indicator.active {
+    width: 56px;
+    background-color: #ffffff;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  }
+
+  /* Global Wishlist & Cart Hooks (Used across Home, Products, Details, Wishlist) */
+  .wishlist-icon {
+    color: #9ca3af;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .wishlist-icon:hover {
+    color: #f43f5e;
+    transform: scale(1.15);
+  }
+  .wishlist-icon.active {
+    color: #f43f5e !important;
+  }
+
+  .go-to-cart-active {
+    background-color: #111827 !important;
+    color: #ffffff !important;
+    border-color: #111827 !important;
+  }
+
+  /* Ambient shadows */
+  .shadow-ambient {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  .shadow-ambient-hover:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+
+  /* Auth Input & Transition Classes */
+  .premium-input {
+    transition: all 0.2s ease;
+  }
+  .premium-input:focus {
+    outline: none;
+    border-color: #191c1e;
+    box-shadow: 0 0 0 2px rgba(25, 28, 30, 0.08);
+  }
+  .smooth-transition {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* SweetAlert2 Modal Customizations */
+  .swal2-popup {
+    font-family: 'Montserrat', sans-serif !important;
+    border-radius: 16px !important;
+  }
+  .swal2-input#custom-reason {
+    display: none;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+}

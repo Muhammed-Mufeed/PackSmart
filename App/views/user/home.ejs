@@ -4,66 +4,167 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/user/css/home.css" />
-  <!-- Add SweetAlert  -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Tailwind & Fonts -->
+  <link rel="stylesheet" href="/user/css/tailwind.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Add SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <!--Include AddtoCart Fn,AddtoWishlist Fn-->
+  <!-- Include AddtoCart Fn, AddtoWishlist Fn -->
   <script src="/user/js/addToCart.js"></script>
   <script src="/user/js/addToWishlist.js"></script>
 
-  <title>Home Page</title>
+  <title>Home - PackSmart</title>
 </head>
 
-<body>
+<body class="bg-gray-50/50 text-gray-900 antialiased min-h-screen flex flex-col">
   <%- include('../partials/user/header') %>
 
-    <section class="banner-slider">
-      <div class="banner-slides">
+    <!-- Cinematic Hero Banner Slider -->
+    <section class="banner-slider relative w-full h-[520px] sm:h-[580px] lg:h-[660px] overflow-hidden bg-neutral-950">
+      <div class="banner-slides relative w-full h-full">
+        <!-- Slide 1 -->
         <div class="banner-slide active" style="background-image: url('/user/images/banner1.jpg')">
-          <div class="banner-content">
-            <h1>Welcome to PackSmart</h1>
-            <p>Your ultimate destination for packing products</p>
-            <a href="/userproducts"><button>Shop Now</button></a>
+          <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 via-40% to-transparent flex items-center">
+            <div class="max-w-7xl mx-auto w-full px-6 sm:px-12 lg:px-16">
+              <div class="banner-content max-w-lg lg:max-w-xl text-left text-white space-y-4 sm:space-y-6">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/40 backdrop-blur-md text-white/95 border border-white/20 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span class="text-[10px] sm:text-[11px] font-mono tracking-[0.25em] uppercase font-semibold">Edition 2026 // Archive</span>
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.03em] leading-[1.08] text-white drop-shadow-[0_2px_15px_rgba(0,0,0,0.85)] font-display">
+                  Movement <br />
+                  <span class="font-serif italic font-normal text-neutral-100">Perfected.</span>
+                </h1>
+                <p class="text-neutral-200/95 text-sm sm:text-base font-light max-w-md leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.9)]">
+                  Engineered carry solutions built for modern transit, uncompromising endurance, and understated luxury.
+                </p>
+                <div class="pt-2">
+                  <a href="/userproducts" class="inline-block">
+                    <button class="px-8 py-3.5 rounded-full bg-white text-black font-bold text-xs tracking-[0.15em] uppercase shadow-2xl hover:bg-neutral-100 hover:scale-105 active:scale-95 transition-all duration-300 font-display">
+                      Shop Now
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
+        <!-- Slide 2 -->
         <div class="banner-slide" style="background-image: url('/user/images/banner2.jpg')">
-          <div class="banner-content">
-            <h1>Discover Smart Packing Solutions</h1>
-            <p>Quality Products, Unmatched Convenience</p>
-            <a href="/userproducts"><button>Shop Now</button></a>
+          <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 via-40% to-transparent flex items-center">
+            <div class="max-w-7xl mx-auto w-full px-6 sm:px-12 lg:px-16">
+              <div class="banner-content max-w-lg lg:max-w-xl text-left text-white space-y-4 sm:space-y-6">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/40 backdrop-blur-md text-white/95 border border-white/20 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                  <span class="text-[10px] sm:text-[11px] font-mono tracking-[0.25em] uppercase font-semibold">All-Terrain Utility</span>
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.03em] leading-[1.08] text-white drop-shadow-[0_2px_15px_rgba(0,0,0,0.85)] font-display">
+                  Engineered for <br />
+                  <span class="font-serif italic font-normal text-neutral-100">Every Horizon.</span>
+                </h1>
+                <p class="text-neutral-200/95 text-sm sm:text-base font-light max-w-md leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.9)]">
+                  Expedition-grade weather resistance crafted with timeless architectural simplicity.
+                </p>
+                <div class="pt-2">
+                  <a href="/userproducts" class="inline-block">
+                    <button class="px-8 py-3.5 rounded-full bg-white text-black font-bold text-xs tracking-[0.15em] uppercase shadow-2xl hover:bg-neutral-100 hover:scale-105 active:scale-95 transition-all duration-300 font-display">
+                      Shop Now
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="banner-indicators">
+      <!-- Slide Indicator Pills -->
+      <div class="banner-indicators absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-white/10">
         <span class="indicator active"></span>
         <span class="indicator"></span>
       </div>
     </section>
 
+    <!-- Brand Value Trust Bar -->
+    <div class="premium-banner border-b border-gray-200 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-neutral-100 flex items-center justify-center flex-shrink-0 text-gray-900">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <div>
+              <h3 class="font-display text-sm font-bold text-gray-900 tracking-wide">Lifetime Warranty</h3>
+              <p class="text-xs text-gray-500 mt-0.5 font-light">Built to endure every trip</p>
+            </div>
+          </div>
 
+          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-neutral-100 flex items-center justify-center flex-shrink-0 text-gray-900">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            </div>
+            <div>
+              <h3 class="font-display text-sm font-bold text-gray-900 tracking-wide">Artisanal Craft</h3>
+              <p class="text-xs text-gray-500 mt-0.5 font-light">Precision-engineered fabrics</p>
+            </div>
+          </div>
 
+          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-neutral-100 flex items-center justify-center flex-shrink-0 text-gray-900">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+            </div>
+            <div>
+              <h3 class="font-display text-sm font-bold text-gray-900 tracking-wide">Sustainable Materials</h3>
+              <p class="text-xs text-gray-500 mt-0.5 font-light">Eco-friendly recycled polymers</p>
+            </div>
+          </div>
 
-    <!-- Premium Banner -->
-    <div class="premium-banner">
-      <h3>Premium Quality Bags</h3>
-      <p>Handcrafted with Excellence | Lifetime Warranty | Sustainable Materials| Bags for Every Journey</p>
+          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-neutral-100 flex items-center justify-center flex-shrink-0 text-gray-900">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <div>
+              <h3 class="font-display text-sm font-bold text-gray-900 tracking-wide">Express Dispatch</h3>
+              <p class="text-xs text-gray-500 mt-0.5 font-light">Fast tracked global delivery</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Categories Section -->
-    <section class="categories">
-      <div class="categories-header">Shop by Categories</div>
-      <div class="categories-grid">
+    <!-- Categories Showcase Section -->
+    <section class="categories max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 w-full">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-12 gap-4 pb-4 border-b border-gray-200/70">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="h-px w-6 bg-neutral-900"></span>
+            <span class="text-[11px] font-mono font-semibold uppercase tracking-[0.25em] text-neutral-500">Curated Series</span>
+          </div>
+          <h2 class="categories-header text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-neutral-900 font-display">
+            Explore <span class="font-serif italic font-normal text-neutral-600">by</span> Category
+          </h2>
+        </div>
+        <a href="/userproducts" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold tracking-widest uppercase text-neutral-900 hover:text-black font-display group">
+          <span>View Full Catalog</span>
+          <span class="w-7 h-7 rounded-full bg-neutral-100 flex items-center justify-center group-hover:bg-neutral-900 group-hover:text-white transition-all duration-300 text-xs">&rarr;</span>
+        </a>
+      </div>
+
+      <div class="categories-grid grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
         <% categories.forEach(category=> { %>
-          <a href="/categoryProducts/<%=category._id%>" class="category-link">
-            <div class="category">
-              <img src="<%= category.image %>" alt="<%= category.name %>" />
-              <span>
-                <%= category.name %>
-              </span>
+          <a href="/categoryProducts/<%=category._id%>" class="category-link group block">
+            <div class="category relative overflow-hidden rounded-2xl bg-white border border-gray-200/70 shadow-sm hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
+              <div class="aspect-square w-full overflow-hidden bg-gray-100">
+                <img src="<%= category.image %>" alt="<%= category.name %>" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div class="p-4 text-center bg-white border-t border-gray-100">
+                <span class="block text-sm sm:text-base font-bold text-gray-900 tracking-wide font-display group-hover:text-black transition-colors">
+                  <%= category.name %>
+                </span>
+              </div>
             </div>
           </a>
           <% }) %>
@@ -71,62 +172,289 @@
     </section>
 
     <!-- Top Products Banner -->
-    <div class="top-products-banner">
-      <h2>Trending Products</h2>
-      <p>From daily essentials to travel must haves ,pack smart with our exclusive collection</p>
+    <div class="top-products-banner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-6">
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 text-neutral-800 text-[10px] font-mono tracking-[0.25em] uppercase font-semibold">
+          <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Featured Releases
+        </div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-neutral-900 font-display">
+          Trending <span class="font-serif italic font-normal text-neutral-600">Essentials</span>
+        </h2>
+        <p class="text-xs sm:text-sm text-neutral-500 leading-relaxed max-w-md mx-auto font-light">
+          From high-frequency daily commutes to international expeditions, discover the silhouettes favored by global travelers.
+        </p>
+      </div>
     </div>
 
     <!-- Products Section -->
-    <section class="products-section">
-      <div class="products-grid">
+    <section class="products-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24 w-full">
+      <div class="products-grid grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
         <% if (products.length> 0) { %>
           <% products.forEach((product)=> { %>
             <!-- Check if the product has at least one listed variant -->
             <% if (product.variants.some(v=> v.isListed)) { %>
-              <div class="product-card">
+              <div class="product-card group relative flex flex-col justify-between bg-white rounded-2xl border border-gray-200/80 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
                 <!-- Use the first listed variant -->
                 <% const listedVariant=product.variants.find(v=> v.isListed); %>
-                  <a href="/productdetail/<%= product._id %>?variantId=<%= listedVariant._id %>" class="product-link">
-                    <div class="product-image">
+                <div class="relative">
+                  <a href="/productdetail/<%= product._id %>?variantId=<%= listedVariant._id %>" class="product-link block">
+                    <div class="product-image relative aspect-square w-full overflow-hidden bg-gray-50 flex items-center justify-center p-4">
                       <img src="<%= listedVariant.images.length > 0 ? listedVariant.images[0] : '/default-image.jpg' %>"
-                        alt="<%= product.name %>">
+                        alt="<%= product.name %>"
+                        class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
                       <!-- Display the highest offer badge -->
                       <% if (product.appliedDiscount> 0) { %>
-                        <div class="offer-badge">
+                        <div class="offer-badge absolute top-2.5 left-2.5 bg-rose-600 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full shadow-md uppercase tracking-wider">
                           <%= product.appliedDiscount %>% OFF
                         </div>
-                        <% } %>
+                      <% } %>
+                    </div>
                   </a>
-                  <div class="product-wishlist">
-                    <i class="fas fa-heart wishlist-icon" data-product="<%= product._id %>"
-                      data-variant="<%= listedVariant._id %>"
-                      onclick="addToWishlist('<%= product._id %>', '<%= listedVariant._id %>')"></i>
+
+                  <!-- Wishlist Button -->
+                  <div class="product-wishlist absolute top-2.5 right-2.5 z-10">
+                    <button type="button" aria-label="Add to wishlist" class="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-sm hover:shadow hover:scale-110 active:scale-95 transition-all duration-200">
+                      <i class="fas fa-heart wishlist-icon text-gray-300 text-sm sm:text-base cursor-pointer" data-product="<%= product._id %>"
+                        data-variant="<%= listedVariant._id %>"
+                        onclick="addToWishlist('<%= product._id %>', '<%= listedVariant._id %>')"></i>
+                    </button>
                   </div>
+                </div>
+
+                <div class="product-details p-3.5 sm:p-5 flex flex-col flex-grow justify-between border-t border-gray-100 bg-white">
+                  <div>
+                    <h3 class="product-name text-xs sm:text-sm font-semibold text-gray-900 mb-1.5 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] font-display hover:text-black leading-snug">
+                      <%= product.name %>
+                    </h3>
+                    <div class="price-container flex flex-wrap items-baseline gap-1.5 sm:gap-2 mb-1.5">
+                      <span class="selling-price text-sm sm:text-base font-bold text-gray-900 font-display">₹<%= product.sellingPrice %></span>
+                      <span class="mrp text-[11px] sm:text-xs text-gray-400 line-through">M.R.P ₹<%= product.actualPrice %></span>
+                    </div>
+                    <div class="product-rating text-amber-400 text-xs mb-3">★★★★☆</div>
+                  </div>
+
+                  <% const inCart=locals.cartProductIds &&
+                    locals.cartProductIds.includes(`${product._id}_${listedVariant._id}`); %>
+                  <button class="add-to-cart w-full py-2 sm:py-2.5 px-3 rounded-xl text-xs sm:text-sm font-semibold tracking-wide transition-all duration-200 shadow-sm <%= inCart ? 'go-to-cart-active bg-black text-white hover:bg-neutral-800' : 'bg-neutral-900 text-white hover:bg-neutral-800 active:scale-[0.98]' %>"
+                    onclick="addToCart('<%= product._id %>', '<%= listedVariant._id %>', this)"><%= inCart ? 'Go to Cart' : 'Add to Cart' %></button>
+                </div>
+              </div>
+            <% } %>
+          <% }) %>
+        <% } else { %>
+          <div class="col-span-full py-16 text-center text-gray-500">
+            <p class="text-base sm:text-lg">No products found.</p>
+          </div>
+        <% } %>
+      </div>
+    </section>
+
+    <!-- The Anatomy of Effortless Travel (Interactive Spotlight Feature) -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 w-full">
+      <div class="bg-white rounded-3xl border border-gray-200/80 shadow-lg overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center p-6 sm:p-10 lg:p-14">
+          
+          <!-- Left Visual Card with Floating Material Badges -->
+          <div class="lg:col-span-6 relative">
+            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] sm:aspect-[16/11] bg-neutral-100 shadow-md group">
+              <img src="/user/images/about-materials.jpg" alt="Artisanal PackSmart Craftsmanship" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" />
+              
+              <!-- Dark gradient overlay for bottom badge legibility -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+
+              <!-- Floating Hotspot Badges -->
+              <div class="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md shadow-md text-[11px] font-semibold text-neutral-900 border border-white/60">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 100% Water-Impervious
               </div>
 
-              <div class="product-details">
-                <h3 class="product-name">
-                  <%= product.name %>
-                </h3>
-                <div class="price-container">
-                  <span class="mrp">M.R.P₹<%= product.actualPrice %></span>
-                  <span class="selling-price">₹<%= product.sellingPrice %></span>
+              <div class="absolute bottom-4 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-md shadow-md text-[11px] font-semibold text-white border border-white/10">
+                <span class="w-2 h-2 rounded-full bg-amber-400"></span> Full-Grain Italian Leather
+              </div>
+
+              <div class="absolute bottom-4 right-4 hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-md shadow-md text-[11px] font-semibold text-white border border-white/10">
+                Aerospace Aluminum
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Content: 4 Real-World Travel Utilities -->
+          <div class="lg:col-span-6 space-y-6">
+            <div class="space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="h-px w-6 bg-neutral-900"></span>
+                <span class="text-[11px] font-mono font-semibold uppercase tracking-[0.25em] text-neutral-500">Travel Architecture</span>
+              </div>
+              <h3 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-neutral-900 font-display">
+                Engineered for Transit, <br />
+                <span class="font-serif italic font-normal text-neutral-600">Built for a Lifetime.</span>
+              </h3>
+              <p class="text-neutral-500 text-xs sm:text-sm leading-relaxed font-light">
+                Designed to eliminate travel friction. Every pocket, zipper, and seam is purposefully positioned to streamline your airport transit and daily commutes.
+              </p>
+            </div>
+
+            <!-- 4 Practical Grid Points -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div class="p-4 rounded-xl bg-neutral-50 border border-gray-100 space-y-1.5 hover:border-gray-300 transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-neutral-900">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
                 </div>
-                <div class="product-rating">★★★★☆</div>
-                <% const inCart=locals.cartProductIds &&
-                  locals.cartProductIds.includes(`${product._id}_${listedVariant._id}`); %>
-                  <button class="add-to-cart <%= inCart ? 'go-to-cart-active' : '' %>"
-                    onclick="addToCart('<%= product._id %>', '<%= listedVariant._id %>', this)">
-                    <%= inCart ? 'Go to Cart' : 'Add to Cart' %>
-                  </button>
+                <h4 class="text-xs sm:text-sm font-bold text-neutral-900 font-display">IATA Carry-On Size</h4>
+                <p class="text-[11px] sm:text-xs text-neutral-500 font-light">Slides easily into overhead compartments of 99% of global airlines.</p>
               </div>
+
+              <div class="p-4 rounded-xl bg-neutral-50 border border-gray-100 space-y-1.5 hover:border-gray-300 transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-neutral-900">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                </div>
+                <h4 class="text-xs sm:text-sm font-bold text-neutral-900 font-display">180° TSA Tech Vault</h4>
+                <p class="text-[11px] sm:text-xs text-neutral-500 font-light">Unzips completely flat at airport checkpoints without removing your laptop.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-neutral-50 border border-gray-100 space-y-1.5 hover:border-gray-300 transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-neutral-900">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+                </div>
+                <h4 class="text-xs sm:text-sm font-bold text-neutral-900 font-display">+35% Compression</h4>
+                <p class="text-[11px] sm:text-xs text-neutral-500 font-light">Adaptive dual-stage internal expansion for extended 7-day adventures.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-neutral-50 border border-gray-100 space-y-1.5 hover:border-gray-300 transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-neutral-900">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+                <h4 class="text-xs sm:text-sm font-bold text-neutral-900 font-display">Hydrophobic Shield</h4>
+                <p class="text-[11px] sm:text-xs text-neutral-500 font-light">Repels torrential rain, coffee spills, and heavy humidity effortlessly.</p>
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <a href="/userproducts" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-neutral-900 text-white font-bold text-xs tracking-wider uppercase hover:bg-black transition-all duration-200 shadow-md font-display">
+                <span>Explore The Travel Collection</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-      <% } %>
-        <% }) %>
-          <% } else { %>
-            <p>No products found.</p>
-            <% } %>
+    </section>
+
+    <!-- Verified Traveler Stories & Social Proof -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14 w-full">
+      <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-14 space-y-2">
+        <span class="text-xs font-bold uppercase tracking-wider text-gray-400 font-display">Verified Journeys</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight font-display">
+          Trusted by 25,000+ Explorers Worldwide
+        </h2>
+        <p class="text-xs sm:text-sm text-gray-500">
+          From alpine expeditions to high-stakes boardrooms, see how PackSmart travels with our community.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        <!-- Review 1 -->
+        <div class="bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/80 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex text-amber-400 text-xs sm:text-sm">
+                ★★★★★
               </div>
+              <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Verified Explorer
+              </span>
+            </div>
+            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed italic">
+              "Took the 50L Expedition Rucksack across three weeks in the Swiss Alps through rain and rocky trails. Zero water seepage, and the ergonomic load-distribution was a lifesaver."
+            </p>
+          </div>
+          <div class="pt-4 border-t border-gray-100 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-neutral-100 text-neutral-800 font-bold text-xs flex items-center justify-center font-display">
+              MK
+            </div>
+            <div>
+              <h5 class="text-xs sm:text-sm font-bold text-gray-900 font-display">Marcus K.</h5>
+              <p class="text-[11px] text-gray-400">Zurich, Switzerland</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/80 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex text-amber-400 text-xs sm:text-sm">
+                ★★★★★
+              </div>
+              <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Verified Commuter
+              </span>
+            </div>
+            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed italic">
+              "The Executive Laptop Bag easily houses my 16-inch MacBook, tech pouch, and headphones with room to spare. Sleek silhouette that looks razor-sharp in client presentations."
+            </p>
+          </div>
+          <div class="pt-4 border-t border-gray-100 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-neutral-100 text-neutral-800 font-bold text-xs flex items-center justify-center font-display">
+              ER
+            </div>
+            <div>
+              <h5 class="text-xs sm:text-sm font-bold text-gray-900 font-display">Elena R.</h5>
+              <p class="text-[11px] text-gray-400">Tokyo, Japan</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/80 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex text-amber-400 text-xs sm:text-sm">
+                ★★★★★
+              </div>
+              <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Verified Traveler
+              </span>
+            </div>
+            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed italic">
+              "The Weekender Canvas Duffle turns heads at every airport check-in. The leather accents are rich, and the hardware feels built to survive a lifetime. Best purchase of the year."
+            </p>
+          </div>
+          <div class="pt-4 border-t border-gray-100 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-neutral-100 text-neutral-800 font-bold text-xs flex items-center justify-center font-display">
+              DP
+            </div>
+            <div>
+              <h5 class="text-xs sm:text-sm font-bold text-gray-900 font-display">Dev P.</h5>
+              <p class="text-[11px] text-gray-400">London, United Kingdom</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIP Inner Circle Club Strip -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 w-full">
+      <div class="relative overflow-hidden rounded-3xl bg-neutral-950 text-white p-8 sm:p-12 lg:p-14 border border-neutral-800 shadow-xl">
+        <div class="max-w-2xl mx-auto text-center space-y-4 relative z-10">
+          <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold tracking-widest uppercase bg-white/10 text-gray-300 border border-white/10">
+            PackSmart Private Circle
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight font-display">
+            Unlock 10% Off Your Next Journey
+          </h2>
+          <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed max-w-md mx-auto">
+            Subscribe for exclusive private drop access, curated global packing guides, and lifetime member perks.
+          </p>
+
+          <form onsubmit="event.preventDefault(); Swal.fire({icon: 'success', title: 'Welcome to the Pack', text: 'You are now subscribed to the PackSmart Private Circle with 10% off your next purchase!', confirmButtonText: 'Great'}); this.reset();" class="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-2 max-w-md mx-auto w-full">
+            <input type="email" required placeholder="Enter your email address" class="w-full px-4 py-3 rounded-full bg-neutral-900 border border-neutral-700 text-white text-xs sm:text-sm placeholder-neutral-500 focus:outline-none focus:border-white transition-colors" />
+            <button type="submit" class="w-full sm:w-auto px-6 py-3 rounded-full bg-white text-neutral-950 font-bold text-xs sm:text-sm tracking-wide uppercase hover:bg-neutral-200 active:scale-95 transition-all duration-200 flex-shrink-0 shadow-lg font-display">
+              Subscribe
+            </button>
+          </form>
+          <p class="text-[10px] text-neutral-500">No spam. Unsubscribe anytime with one click.</p>
+        </div>
+      </div>
     </section>
 
     <script>
@@ -159,7 +487,6 @@
           });
         });
       });
-
     </script>
     <%- include('../partials/user/footer') %>
 

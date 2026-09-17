@@ -1,39 +1,6 @@
 <!-- Tailwind & Fonts Dependencies -->
 <link rel="stylesheet" href="/user/css/tailwind.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-<style>
-  header, header * {
-    font-family: 'Montserrat', 'Inter', sans-serif;
-  }
-  header nav a, .nav-link, .mobile-nav-link {
-    font-family: 'Montserrat', sans-serif !important;
-  }
-  .nav-link {
-    position: relative;
-    padding-bottom: 4px;
-  }
-  .nav-link.active {
-    color: #000000 !important;
-    font-weight: 700 !important;
-  }
-  .nav-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 2.5px;
-    background-color: #000000;
-    border-radius: 9999px;
-  }
-  .mobile-nav-link.active {
-    color: #000000 !important;
-    font-weight: 700 !important;
-    background-color: #f3f4f6;
-    border-left: 3px solid #000000;
-    padding-left: 0.75rem;
-  }
-</style>
 
 <!-- TopNavBar -->
 <header class="sticky top-0 w-full z-50 bg-white shadow-sm border-b border-gray-200 font-sans">
