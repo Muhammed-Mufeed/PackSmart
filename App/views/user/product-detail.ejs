@@ -19,7 +19,7 @@
         <div class="breadcrumb">
             <a href="/">Home</a>
             <span class="separator">></span>
-            <a href="/categoryProducts/<%=productData.category._id%>"><%= productData.category.name %></a>
+            <a href="/userproducts?category=<%=productData.category._id%>"><%= productData.category.name %></a>
             <span class="separator">></span>
             <a href="/productdetail/<%= productData._id %>"><%= productData.name %></a>
         </div>
