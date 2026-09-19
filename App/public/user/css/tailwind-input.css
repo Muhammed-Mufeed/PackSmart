@@ -145,4 +145,20 @@
     font-size: 14px;
     margin-top: 10px;
   }
+
+  /* Image Zoom Preview for Product Detail */
+  .zoom-box {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border: 2px solid rgba(0, 0, 0, 0.25);
+    border-radius: 14px;
+    background-repeat: no-repeat;
+    background-size: 200%;
+    display: none;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.22);
+    pointer-events: none;
+    z-index: 50;
+    background-color: #ffffff;
+  }
 }

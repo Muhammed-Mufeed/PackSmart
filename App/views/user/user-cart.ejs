@@ -1,282 +1,585 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/user/css/user-cart.css">
-   <!-- Add SweetAlert  -->
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <title>Cart</title>
-  <style>
-    .strikethrough {
-      text-decoration: line-through;
-      color: #999; /* Optional: Add a lighter color for the actual price */
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - PackSmart</title>
+    <!-- Tailwind CSS & Editorial Google Fonts -->
+    <link rel="stylesheet" href="/user/css/tailwind.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .strikethrough {
+            text-decoration: line-through;
+            color: #a8a29e;
+        }
+    </style>
 </head>
-<body>
-  <%- include('../partials/user/header') %>
+<body class="bg-[#faf8f5] text-neutral-900 font-sans antialiased min-h-screen flex flex-col">
+    <%- include('../partials/user/header') %>
 
-  <div class="cart-container">
-    <h1>Your Cart</h1>
-    <% if (cartItems.length > 0) { %>
-      <div class="cart-items">
-        <% cartItems.forEach((item, index) => { %>
-          <div class="cart-item" data-product-id="<%= item.product._id %>" data-variant-id="<%= item.variant._id %>" data-stock="<%= item.variant.stock %>">
-            <img
-              src="<%= item.variant.images && item.variant.images[0] ? item.variant.images[0] : '/default-image.jpg' %>"
-              alt="<%= item.product.name %>"
-            />
-            <div class="item-details">
-              <h3><%= item.product.name %></h3>
-              <p>Color: <%= item.variant.colorName %></p>
-              <!-- Display actual price with strikethrough -->
-              <p>
-                <span class="strikethrough">₹<%= item.product.actualPrice %></span>
-                <span> ₹<%= item.product.sellingPrice %></span>
-                
-              </p>
-              <div class="quantity-controls">
-                <button class="decrease-quantity">-</button>
-                <span class="quantity" id="quantity-<%= index %>"><%= item.quantity %></span>
-                <button class="increase-quantity">+</button>
-              </div>
-              <button class="remove-item">Remove</button>
+    <!-- Breadcrumb & Funnel Progress Bar -->
+    <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 pb-2">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-stone-200/60">
+            <!-- Breadcrumb Navigation -->
+            <nav class="flex items-center gap-2 text-xs text-stone-500 font-medium overflow-x-auto whitespace-nowrap">
+                <a href="/" class="hover:text-stone-900 transition-colors flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    Home
+                </a>
+                <span class="text-stone-300">/</span>
+                <span class="text-stone-900 font-semibold">Shopping Cart</span>
+            </nav>
+
+            <!-- 3-Step Checkout Funnel Indicator -->
+            <div class="hidden md:flex items-center gap-3 text-xs font-mono">
+                <div class="inline-flex items-center gap-2 text-stone-950 font-bold">
+                    <span class="w-5 h-5 rounded-full bg-stone-900 text-white flex items-center justify-center text-[10px]">1</span>
+                    <span>SHOPPING BAG</span>
+                </div>
+                <span class="w-8 h-px bg-stone-300"></span>
+                <div class="inline-flex items-center gap-2 text-stone-400 font-medium">
+                    <span class="w-5 h-5 rounded-full bg-stone-200/80 text-stone-500 flex items-center justify-center text-[10px]">2</span>
+                    <span>DELIVERY</span>
+                </div>
+                <span class="w-8 h-px bg-stone-200"></span>
+                <div class="inline-flex items-center gap-2 text-stone-400 font-medium">
+                    <span class="w-5 h-5 rounded-full bg-stone-200/80 text-stone-500 flex items-center justify-center text-[10px]">3</span>
+                    <span>PAYMENT</span>
+                </div>
             </div>
-          </div>
-        <% }) %>
-      </div>
-      <div class="cart-summary">
-        <h3 id="subtotal">Subtotal: ₹<%= subtotal %></h3>
-        <h3 id="estimated-total">Estimated Total: ₹<%= subtotal %></h3>
-        <button class="checkout-btn" id="checkoutbtn">Proceed to Checkout</button>
-      </div>
-    <% } else { %>
-      <div class="empty-cart">
-       <p>Your cart is empty.</p>
-       <a href="/userProducts" class="btn-shop">Start Shopping</a>
-      </div>
-    <% } %>
+        </div>
+    </div>
 
-    
-   
-  <script>
-    // Function to calculate and update subtotal and estimated total
-    function updateTotals() {
-      let subtotal = 0;
-
-      // Loop through all cart items and calculate subtotal
-      document.querySelectorAll('.cart-item').forEach((cartItem, index) => {
-        const price = parseFloat(cartItem.querySelector('.item-details p span:not(.strikethrough)').textContent.replace('₹', ''));
-        const quantity = parseInt(document.getElementById(`quantity-${index}`).textContent);
-        subtotal += price * quantity;
-      });
-
-      // Update subtotal and estimated total in the UI
-      document.getElementById('subtotal').textContent = `Subtotal: ₹${subtotal}`;
-      document.getElementById('estimated-total').textContent = `Estimated Total: ₹${subtotal}`;
-    }
-
-    // Function to update the disabled state and opacity of increase/decrease quantity buttons
-    function updateButtonStates(cartItem, stockVal) {
-      const quantityElement = cartItem.querySelector('.quantity');
-      const quantity = parseInt(quantityElement.textContent);
-      const stock = stockVal !== undefined ? stockVal : parseInt(cartItem.dataset.stock || 0);
-      const increaseButton = cartItem.querySelector('.increase-quantity');
-      const decreaseButton = cartItem.querySelector('.decrease-quantity');
-
-      // Disable '+' button if quantity is 5 or reaches stock limit
-      if (quantity >= 5 || quantity >= stock) {
-        increaseButton.disabled = true;
-        increaseButton.style.opacity = '0.5';
-      } else {
-        increaseButton.disabled = false;
-        increaseButton.style.opacity = '1';
-      }
-
-      // Disable '-' button if quantity is 1 or less
-      if (quantity <= 1) {
-        decreaseButton.disabled = true;
-        decreaseButton.style.opacity = '0.5';
-      } else {
-        decreaseButton.disabled = false;
-        decreaseButton.style.opacity = '1';
-      }
-    }
-
-    // Initialize button states for all items on page load
-    document.querySelectorAll('.cart-item').forEach(cartItem => {
-      updateButtonStates(cartItem);
-    });
-
-    // Debounce timer mapping
-    const debounceTimers = new Map();
-
-    document.querySelectorAll('.quantity-controls button').forEach(button => {
-      button.addEventListener('click', (e) => {
-        const cartItem = e.target.closest('.cart-item');
-        const productId = cartItem.dataset.productId;
-        const variantId = cartItem.dataset.variantId;
-        const quantityElement = cartItem.querySelector('.quantity');
-        let quantity = parseInt(quantityElement.textContent);
-        const stock = parseInt(cartItem.dataset.stock);
-
-        if (e.target.classList.contains('increase-quantity')) {
-          if (quantity >= 5) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Limit Reached',
-              text: 'You cannot add more than 5 units of a single product.',
-              confirmButtonText: 'OK'
-            });
-            return;
-          }
-          if (quantity >= stock) {
-            Swal.fire({
-              icon: 'error',
-              title: 'Out of Stock',
-              text: 'You cannot add more than the available stock.',
-              confirmButtonText: 'OK',
-            });
-            return;
-          }
-          quantity += 1;
-        } else if (e.target.classList.contains('decrease-quantity')) {
-          if (quantity <= 1) return;
-          quantity -= 1;
-        }
-
-        // 1. Instantly update the UI quantity display
-        quantityElement.textContent = quantity;
+    <!-- Main Content Container -->
+    <main class="cart-container max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1">
         
-        // 2. Instantly recalculate subtotal and estimated total
-        updateTotals();
-        
-        // 3. Instantly update the button states locally
-        updateButtonStates(cartItem);
+        <!-- Cart Editorial Header -->
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100/90 border border-stone-200/80 text-[11px] font-mono uppercase tracking-wider text-stone-600 mb-2 shadow-2xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    <span>Curated Gear Queue</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-stone-950 font-display">
+                    Your Shopping <span class="font-serif italic font-normal text-stone-500 lowercase">bag</span>
+                </h1>
+            </div>
+            <% if (cartItems.length > 0) { %>
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-stone-200/80 text-xs font-mono text-stone-700 shadow-2xs">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span><%= cartItems.length %> <%= cartItems.length === 1 ? 'product selected' : 'products selected' %></span>
+                </div>
+            <% } %>
+        </div>
 
-        // 4. Alert user if limit of 5 or stock limit is reached
-        if (quantity === 5) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Limit Reached',
-            text: 'You have reached the maximum limit of 5 units.',
-            confirmButtonText: 'OK',
-          });
-        } else if (quantity === stock) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Stock Limit Reached',
-            text: 'You have reached the maximum available stock.',
-            confirmButtonText: 'OK',
-          });
-        }
+        <% if (cartItems.length > 0) { %>
+            <div class="space-y-8">
+                
+                <!-- Cart Items List (Full Width) -->
+                <div class="cart-items bg-white rounded-3xl border border-stone-200/80 shadow-xs p-5 sm:p-8 divide-y divide-stone-200">
+                    <% cartItems.forEach((item, index) => { %>
+                        <div class="cart-item py-7 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6 group" 
+                             data-product-id="<%= item.product._id %>" 
+                             data-variant-id="<%= item.variant._id %>" 
+                             data-stock="<%= item.variant.stock %>">
+                            
+                            <!-- Product Image Thumbnail -->
+                            <a href="/productdetail/<%= item.product._id %>?variantId=<%= item.variant._id %>" class="shrink-0 w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-gradient-to-b from-stone-50 to-stone-100/60 border border-stone-200/60 p-2 flex items-center justify-center overflow-hidden relative shadow-2xs">
+                                <img src="<%= item.variant.images && item.variant.images[0] ? item.variant.images[0] : '/default-image.jpg' %>"
+                                     alt="<%= item.product.name %>"
+                                     class="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-300" />
+                            </a>
 
-        // 5. Debounce the API call
-        const timerKey = `${productId}_${variantId}`;
-        if (debounceTimers.has(timerKey)) {
-          clearTimeout(debounceTimers.get(timerKey));
-        }
+                            <!-- Item Details Container -->
+                            <div class="item-details flex-1 w-full flex flex-col justify-between gap-3">
+                                <div>
+                                    <div class="flex items-start justify-between gap-4">
+                                        <div>
+                                            <% if (item.product.brand && item.product.brand.name) { %>
+                                                <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-stone-50 border border-stone-200/60 text-stone-600 mb-1.5">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500/70"></span>
+                                                    <span class="text-[9px] font-mono uppercase tracking-widest text-stone-400 font-medium">Brand</span>
+                                                    <span class="h-2.5 w-px bg-stone-200"></span>
+                                                    <span class="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-stone-600 font-display"><%= item.product.brand.name %></span>
+                                                </div>
+                                            <% } %>
+                                            <a href="/productdetail/<%= item.product._id %>?variantId=<%= item.variant._id %>" class="group/title block">
+                                                <h3 class="text-base sm:text-lg font-bold text-stone-900 font-display line-clamp-1 group-hover/title:text-stone-600 transition-colors">
+                                                    <%= item.product.name %>
+                                                </h3>
+                                            </a>
+                                        </div>
 
-        const newTimer = setTimeout(async () => {
-          try {
-            const response = await fetch('/update-cart', {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ productId, variantId, quantity }),
+                                        <!-- Remove Item Button (Desktop top-right) -->
+                                        <button class="remove-item hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold text-stone-400 hover:text-rose-600 transition-colors py-1.5 px-3 rounded-xl hover:bg-rose-50 border border-transparent hover:border-rose-200/60 cursor-pointer" type="button" title="Remove item">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                            <span class="text-[11px] uppercase tracking-wider font-mono">Remove</span>
+                                        </button>
+                                    </div>
+
+                                    <!-- Color Swatch & Tag (Kept as <div> to protect JS selector) -->
+                                    <div class="flex items-center gap-2 mt-1.5 text-xs text-stone-600 font-medium">
+                                        <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-stone-100/90 border border-stone-200/70 text-xs text-stone-600">
+                                            <div class="w-2.5 h-2.5 rounded-full border border-black/10 shrink-0 shadow-2xs" 
+                                                 style="background-color: <%= item.variant.color %>"></div>
+                                            <span>Color: <%= item.variant.colorName %></span>
+                                        </div>
+                                        <% if (item.product.actualPrice > item.product.sellingPrice) { %>
+                                            <span class="text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200/80 px-2.5 py-0.5 rounded-full shadow-2xs">
+                                                Save ₹<%= item.product.actualPrice - item.product.sellingPrice %>
+                                            </span>
+                                        <% } %>
+                                    </div>
+
+                                    <!-- Price Line (Only <p> in .item-details for strict JS calculation) -->
+                                    <p class="flex items-baseline gap-2.5 mt-2">
+                                        <span class="strikethrough text-xs sm:text-sm text-stone-400 line-through font-medium">₹<%= item.product.actualPrice %></span>
+                                        <span class="text-base sm:text-lg font-extrabold text-stone-950 font-display tracking-tight">₹<%= item.product.sellingPrice %></span>
+                                    </p>
+                                </div>
+
+                                <!-- Bottom Row: Quantity Stepper & Stock Warning -->
+                                <div class="flex items-center justify-between gap-4 pt-1">
+                                    <div class="flex items-center gap-3">
+                                        <!-- Quantity Controls Stepper -->
+                                        <div class="quantity-controls inline-flex items-center rounded-xl bg-stone-100/90 border border-stone-200/80 p-0.5 shadow-2xs">
+                                            <button class="decrease-quantity w-8 h-8 rounded-lg bg-white hover:bg-stone-50 text-stone-700 font-bold flex items-center justify-center transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95 cursor-pointer text-sm" type="button">−</button>
+                                            <span class="quantity w-9 text-center font-mono font-bold text-stone-900 text-xs sm:text-sm" id="quantity-<%= index %>"><%= item.quantity %></span>
+                                            <button class="increase-quantity w-8 h-8 rounded-lg bg-white hover:bg-stone-50 text-stone-700 font-bold flex items-center justify-center transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95 cursor-pointer text-sm" type="button">+</button>
+                                        </div>
+
+                                        <% if (item.variant.stock <= 5 && item.variant.stock > 0) { %>
+                                            <span class="inline-flex items-center gap-1.5 text-[11px] text-amber-800 font-medium bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/70">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                                Only <%= item.variant.stock %> units available
+                                            </span>
+                                        <% } else if (item.variant.stock <= 0) { %>
+                                            <span class="inline-flex items-center gap-1.5 text-[11px] text-rose-800 font-medium bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200/70">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                                                Currently Out of Stock
+                                            </span>
+                                        <% } else { %>
+                                            <span class="inline-flex items-center gap-1.5 text-[11px] text-stone-700 font-medium bg-stone-100/90 px-2.5 py-0.5 rounded-full border border-stone-200/80 shadow-2xs">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                                In Stock
+                                            </span>
+                                        <% } %>
+                                    </div>
+
+                                    <!-- Remove Item Button (Mobile Only) -->
+                                    <button class="remove-item sm:hidden inline-flex items-center gap-1.5 text-xs font-semibold text-stone-500 hover:text-rose-600 py-1.5 px-3 rounded-xl bg-stone-100 hover:bg-rose-50 border border-stone-200/70 hover:border-rose-200/70 cursor-pointer transition-colors" type="button">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                        <span class="text-[11px] uppercase tracking-wider font-mono">Remove</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+
+                <!-- Order Summary & Checkout Area (Placed Down Below Items) -->
+                <div class="cart-summary bg-white rounded-3xl border border-stone-200/80 shadow-xs p-6 sm:p-8 lg:p-10">
+                    <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-8 lg:gap-12">
+                        
+                        <!-- Left Details: Editorial Storytelling, Perks & Guarantees -->
+                        <div class="flex-1 space-y-6">
+                            
+                            <div class="space-y-2.5">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100/90 border border-stone-200/70 text-[11px] font-mono font-semibold uppercase tracking-widest text-stone-600">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                    <span>PackSmart Expedition Guarantee</span>
+                                </div>
+                                <h3 class="text-xl sm:text-2xl font-black tracking-tight text-stone-950 font-display">
+                                    Crafted for the <span class="font-serif italic font-normal text-stone-500 lowercase">journey ahead</span>
+                                </h3>
+                                <p class="text-xs sm:text-[13px] text-stone-600 leading-relaxed max-w-xl">
+                                    Every item in your order undergoes individual multi-point craft verification, wrapped in reinforced transit packaging, and backed by complimentary doorstep support.
+                                </p>
+                            </div>
+
+                            <!-- Express Dispatch Notice Banner -->
+                            <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-amber-50/90 border border-amber-200/70 text-xs font-semibold text-amber-900 shadow-2xs">
+                                <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0"></span>
+                                <span>Complimentary Express Dispatch unlocked on this order</span>
+                            </div>
+
+                            <!-- Trust Micro-Assurance Tiles -->
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                                <div class="flex items-center gap-3 p-3 rounded-2xl bg-stone-50/80 border border-stone-200/60 transition-colors hover:bg-stone-50">
+                                    <div class="w-8 h-8 rounded-xl bg-white border border-stone-200/70 flex items-center justify-center text-stone-700 shrink-0 shadow-2xs">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                                    </div>
+                                    <div>
+                                        <div class="text-[11px] font-bold text-stone-900 font-display uppercase tracking-wide">256-Bit SSL</div>
+                                        <div class="text-[10px] text-stone-500">Bank-grade checkout</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 rounded-2xl bg-stone-50/80 border border-stone-200/60 transition-colors hover:bg-stone-50">
+                                    <div class="w-8 h-8 rounded-xl bg-white border border-stone-200/70 flex items-center justify-center text-stone-700 shrink-0 shadow-2xs">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                    </div>
+                                    <div>
+                                        <div class="text-[11px] font-bold text-stone-900 font-display uppercase tracking-wide">7-Day Returns</div>
+                                        <div class="text-[10px] text-stone-500">Hassle-free doorstep</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 rounded-2xl bg-stone-50/80 border border-stone-200/60 transition-colors hover:bg-stone-50">
+                                    <div class="w-8 h-8 rounded-xl bg-white border border-stone-200/70 flex items-center justify-center text-stone-700 shrink-0 shadow-2xs">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                    </div>
+                                    <div>
+                                        <div class="text-[11px] font-bold text-stone-900 font-display uppercase tracking-wide">Direct Craft</div>
+                                        <div class="text-[10px] text-stone-500">100% genuine gear</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Navigation & Payment Reassurance Footer -->
+                            <div class="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-stone-100">
+                                <a href="/userproducts" class="inline-flex items-center gap-2 text-xs font-semibold text-stone-600 hover:text-stone-950 transition-colors group">
+                                    <span class="transition-transform group-hover:-translate-x-1 font-mono">&larr;</span>
+                                    <span>Continue Shopping</span>
+                                </a>
+                                <div class="flex items-center gap-2 text-[10px] font-mono text-stone-400 uppercase tracking-wider">
+                                    <span>Cards</span>
+                                    <span class="text-stone-300">•</span>
+                                    <span>UPI</span>
+                                    <span class="text-stone-300">•</span>
+                                    <span>NetBanking</span>
+                                    <span class="text-stone-300">•</span>
+                                    <span>COD</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Details: Subtotal, Estimated Total, Checkout Button -->
+                        <div class="w-full lg:w-[400px] bg-gradient-to-b from-stone-50/90 to-stone-100/50 p-6 sm:p-7 rounded-3xl border border-stone-200/80 shadow-xs flex flex-col gap-5 shrink-0">
+                            <div class="flex items-center justify-between pb-3 border-b border-stone-200/80">
+                                <span class="text-xs font-mono uppercase tracking-widest text-stone-500 font-semibold">Summary</span>
+                                <span class="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/70">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                    <span>Tax Inclusive</span>
+                                </span>
+                            </div>
+
+                            <div class="space-y-3 text-xs">
+                                <div class="flex items-center justify-between">
+                                    <h3 id="subtotal" class="text-sm font-semibold text-stone-800 font-display">
+                                        Subtotal: ₹<%= subtotal %>
+                                    </h3>
+                                    <span class="text-[10px] font-mono text-stone-400 uppercase tracking-wider">Gross</span>
+                                </div>
+                                <div class="flex items-center justify-between text-stone-500">
+                                    <span class="font-medium">Shipping &amp; Handling</span>
+                                    <span class="text-emerald-700 font-bold uppercase tracking-wider text-[11px] bg-emerald-50 px-2.5 py-0.5 rounded-md border border-emerald-200/60">Free</span>
+                                </div>
+                                <div class="flex items-center justify-between text-stone-500">
+                                    <span class="font-medium">Estimated Taxes</span>
+                                    <span class="text-stone-700 font-medium font-mono text-[11px]">Included in MRP</span>
+                                </div>
+                            </div>
+
+                            <div class="pt-4 border-t border-stone-200/90 space-y-1">
+                                <div class="flex items-baseline justify-between gap-3">
+                                    <h3 id="estimated-total" class="text-xl sm:text-2xl font-black text-stone-950 font-display tracking-tight">
+                                        Estimated Total: ₹<%= subtotal %>
+                                    </h3>
+                                    <span class="text-[10px] font-mono uppercase tracking-wider font-semibold text-stone-500 bg-stone-200/60 px-2 py-0.5 rounded shrink-0">INR</span>
+                                </div>
+                                <p class="text-[11px] text-stone-400">All applicable taxes and duties included</p>
+                            </div>
+
+                            <div class="space-y-2.5 pt-1">
+                                <button class="checkout-btn w-full py-4 px-6 rounded-2xl bg-stone-950 hover:bg-stone-800 text-white font-bold text-xs sm:text-sm uppercase tracking-widest transition-all shadow-md hover:shadow-lg active:scale-[0.99] flex items-center justify-center gap-2.5 cursor-pointer group" 
+                                        id="checkoutbtn">
+                                    <span>Proceed to Checkout</span>
+                                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                </button>
+                                <div class="flex items-center justify-center gap-1.5 text-[10px] text-stone-400 font-mono">
+                                    <svg class="w-3.5 h-3.5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                                    <span>Encrypted 256-bit Checkout Protocol</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Expedition Assurance Strip -->
+            <div class="mt-12 pt-8 border-t border-stone-200/80 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="flex items-center gap-3 p-4 rounded-2xl bg-white border border-stone-200/60 shadow-2xs">
+                    <div class="w-10 h-10 rounded-xl bg-stone-50 flex items-center justify-center text-stone-700 shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-stone-900 font-display uppercase tracking-wide">Rapid Dispatch</h4>
+                        <p class="text-[11px] text-stone-500">Orders packed and dispatched in 24 hours</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 p-4 rounded-2xl bg-white border border-stone-200/60 shadow-2xs">
+                    <div class="w-10 h-10 rounded-xl bg-stone-50 flex items-center justify-center text-stone-700 shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-stone-900 font-display uppercase tracking-wide">Certified Craft</h4>
+                        <p class="text-[11px] text-stone-500">Rigorous multi-point quality inspection</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 p-4 rounded-2xl bg-white border border-stone-200/60 shadow-2xs">
+                    <div class="w-10 h-10 rounded-xl bg-stone-50 flex items-center justify-center text-stone-700 shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-stone-900 font-display uppercase tracking-wide">Flexible Checkout</h4>
+                        <p class="text-[11px] text-stone-500">UPI, Cards, NetBanking, and COD ready</p>
+                    </div>
+                </div>
+            </div>
+        <% } else { %>
+            <!-- Empty Cart State -->
+            <div class="empty-cart bg-white rounded-3xl border border-stone-200/80 p-12 sm:p-16 text-center shadow-xs my-8 max-w-xl mx-auto">
+                <div class="w-20 h-20 mx-auto mb-5 rounded-3xl bg-stone-50 border border-stone-200/80 flex items-center justify-center text-stone-400">
+                    <svg class="w-10 h-10 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-bold font-display text-stone-900 mb-2">
+                    Your Cart is Empty
+                </h2>
+                <p class="text-sm text-stone-500 max-w-sm mx-auto mb-8 leading-relaxed">
+                    Looks like you haven't selected any expedition gear yet. Explore our curated collection to start packing smart.
+                </p>
+                <a href="/userproducts" class="btn-shop inline-flex items-center gap-2 px-7 py-3.5 bg-stone-950 hover:bg-stone-800 text-white text-xs font-bold uppercase tracking-widest rounded-xl transition-all shadow-md active:scale-95">
+                    <span>Start Shopping</span>
+                    <span class="text-xs">&rarr;</span>
+                </a>
+            </div>
+        <% } %>
+
+    </main>
+
+    <!-- Client-Side Scripts (100% Preserved Logic & Selectors) -->
+    <script>
+        // Function to calculate and update subtotal and estimated total
+        function updateTotals() {
+            let subtotal = 0;
+
+            // Loop through all cart items and calculate subtotal
+            document.querySelectorAll('.cart-item').forEach((cartItem, index) => {
+                const price = parseFloat(cartItem.querySelector('.item-details p span:not(.strikethrough)').textContent.replace('₹', ''));
+                const quantity = parseInt(document.getElementById(`quantity-${index}`).textContent);
+                subtotal += price * quantity;
             });
 
-            const data = await response.json();
+            // Update subtotal and estimated total in the UI
+            document.getElementById('subtotal').textContent = `Subtotal: ₹${subtotal}`;
+            document.getElementById('estimated-total').textContent = `Estimated Total: ₹${subtotal}`;
+        }
 
-            if (response.ok && data.success) {
-              if (data.stock !== undefined) {
-                cartItem.dataset.stock = data.stock;      // Update the HTML attribute with the FRESH stock number from MongoDB (2)
-                updateButtonStates(cartItem, data.stock);    //  Re-evaluate button disabled states using the NEW server stock (2)!
-              }
+        // Function to update the disabled state and opacity of increase/decrease quantity buttons
+        function updateButtonStates(cartItem, stockVal) {
+            const quantityElement = cartItem.querySelector('.quantity');
+            const quantity = parseInt(quantityElement.textContent);
+            const stock = stockVal !== undefined ? stockVal : parseInt(cartItem.dataset.stock || 0);
+            const increaseButton = cartItem.querySelector('.increase-quantity');
+            const decreaseButton = cartItem.querySelector('.decrease-quantity');
+
+            // Disable '+' button if quantity is 5 or reaches stock limit
+            if (quantity >= 5 || quantity >= stock) {
+                increaseButton.disabled = true;
+                increaseButton.style.opacity = '0.5';
             } else {
-              Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: data.message || 'Failed to update quantity',
-                confirmButtonText: 'OK'
-              }).then(() => {
-                window.location.reload(); // Revert UI to database state
-              });
+                increaseButton.disabled = false;
+                increaseButton.style.opacity = '1';
             }
-          } catch (error) {
-            console.log("Error while updating the quantity in the cart", error);
-            window.location.reload(); // Revert UI to database state
-          }
-        }, 500); // 500ms delay
 
-        debounceTimers.set(timerKey, newTimer);
-      });
-    });
-
-    // Add event listeners for remove buttons
-    document.querySelectorAll('.remove-item').forEach(button => {
-      button.addEventListener('click', async (e) => {
-        const cartItem = e.target.closest('.cart-item');
-        const productId = cartItem.dataset.productId;
-        const variantId = cartItem.dataset.variantId;
-
-        const response = await fetch('/remove-cart', {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ productId, variantId }),
-        });
-
-        if (response.ok ) {
-          cartItem.remove(); // Remove the item from the UI
-          updateTotals(); // Update subtotal and estimated total
-          window.location.reload()
+            // Disable '-' button if quantity is 1 or less
+            if (quantity <= 1) {
+                decreaseButton.disabled = true;
+                decreaseButton.style.opacity = '0.5';
+            } else {
+                decreaseButton.disabled = false;
+                decreaseButton.style.opacity = '1';
+            }
         }
-      });
-    });
 
-    document.getElementById('checkoutbtn').addEventListener('click', async (e) => {
-      e.preventDefault(); 
-
-      try {
-        const response = await fetch('/cart-checkout', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({}), // You can send additional data if needed
+        // Initialize button states for all items on page load
+        document.querySelectorAll('.cart-item').forEach(cartItem => {
+            updateButtonStates(cartItem);
         });
 
-        if (response.ok) {
-          // Redirect to the checkout page if the backend validation passes
-          window.location.href = '/checkout';
-        } 
-        else {
-          const data = await response.json();
-            Swal.fire({
-              title: 'Error',
-              text: data.message || 'Something went wrong. Please try again.',
-              icon: 'error',
-              confirmButtonText: 'OK'
+        // Debounce timer mapping
+        const debounceTimers = new Map();
+
+        document.querySelectorAll('.quantity-controls button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const cartItem = e.target.closest('.cart-item');
+                const productId = cartItem.dataset.productId;
+                const variantId = cartItem.dataset.variantId;
+                const quantityElement = cartItem.querySelector('.quantity');
+                let quantity = parseInt(quantityElement.textContent);
+                const stock = parseInt(cartItem.dataset.stock);
+
+                if (e.target.classList.contains('increase-quantity')) {
+                    if (quantity >= 5) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Limit Reached',
+                            text: 'You cannot add more than 5 units of a single product.',
+                            confirmButtonText: 'OK'
+                        });
+                        return;
+                    }
+                    if (quantity >= stock) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Out of Stock',
+                            text: 'You cannot add more than the available stock.',
+                            confirmButtonText: 'OK',
+                        });
+                        return;
+                    }
+                    quantity += 1;
+                } else if (e.target.classList.contains('decrease-quantity')) {
+                    if (quantity <= 1) return;
+                    quantity -= 1;
+                }
+
+                // 1. Instantly update the UI quantity display
+                quantityElement.textContent = quantity;
+                
+                // 2. Instantly recalculate subtotal and estimated total
+                updateTotals();
+                
+                // 3. Instantly update the button states locally
+                updateButtonStates(cartItem);
+
+                // 4. Alert user if limit of 5 or stock limit is reached
+                if (quantity === 5) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Limit Reached',
+                        text: 'You have reached the maximum limit of 5 units.',
+                        confirmButtonText: 'OK',
+                    });
+                } else if (quantity === stock) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Stock Limit Reached',
+                        text: 'You have reached the maximum available stock.',
+                        confirmButtonText: 'OK',
+                    });
+                }
+
+                // 5. Debounce the API call
+                const timerKey = `${productId}_${variantId}`;
+                if (debounceTimers.has(timerKey)) {
+                    clearTimeout(debounceTimers.get(timerKey));
+                }
+
+                const newTimer = setTimeout(async () => {
+                    try {
+                        const response = await fetch('/update-cart', {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ productId, variantId, quantity }),
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok && data.success) {
+                            if (data.stock !== undefined) {
+                                cartItem.dataset.stock = data.stock;
+                                updateButtonStates(cartItem, data.stock);
+                            }
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: data.message || 'Failed to update quantity',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        }
+                    } catch (error) {
+                        console.log("Error while updating the quantity in the cart", error);
+                        window.location.reload();
+                    }
+                }, 500);
+
+                debounceTimers.set(timerKey, newTimer);
             });
-        }
-
-      } catch (error) {
-        console.error('Error during checkout:', error);
-        Swal.fire({
-          title: 'Error',
-          text: 'Something went wrong. Please try again.',
-          icon: 'error',
-          confirmButtonText: 'OK'
         });
-      }
-    });
 
-  </script>
-  </div>
-  <%- include('../partials/user/footer') %>
+        // Add event listeners for remove buttons
+        document.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', async (e) => {
+                const cartItem = e.target.closest('.cart-item');
+                const productId = cartItem.dataset.productId;
+                const variantId = cartItem.dataset.variantId;
+
+                const response = await fetch('/remove-cart', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ productId, variantId }),
+                });
+
+                if (response.ok) {
+                    cartItem.remove();
+                    updateTotals();
+                    window.location.reload();
+                }
+            });
+        });
+
+        // Checkout Button Handler
+        document.getElementById('checkoutbtn')?.addEventListener('click', async (e) => {
+            e.preventDefault(); 
+
+            try {
+                const response = await fetch('/cart-checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({}),
+                });
+
+                if (response.ok) {
+                    window.location.href = '/checkout';
+                } else {
+                    const data = await response.json();
+                    Swal.fire({
+                        title: 'Error',
+                        text: data.message || 'Something went wrong. Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            } catch (error) {
+                console.error('Error during checkout:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Something went wrong. Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    </script>
+
+    <%- include('../partials/user/footer') %>
 </body>
 </html>
