@@ -161,4 +161,45 @@
     z-index: 50;
     background-color: #ffffff;
   }
+
+  /* Navbar Profile Dropdown Active State */
+  #profile-dropdown-menu.show-dropdown {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) scale(1) !important;
+  }
+
+  /* Checkout Interactive States & Validation */
+  .error-message:empty {
+    display: none;
+  }
+  .error-message.hidden {
+    display: none !important;
+  }
+  .error-message.visible {
+    display: block !important;
+  }
+  .apply-btn.applied {
+    background-color: #f5f5f4 !important;
+    color: #047857 !important;
+    border: 1px solid #d6d3d1 !important;
+    cursor: default !important;
+    box-shadow: none !important;
+    opacity: 0.85;
+  }
+  .coupon-card.coupon-applied-card {
+    background-color: #fbfbfa !important;
+    border: 1px dashed #10b981 !important;
+    opacity: 0.65;
+    filter: saturate(85%);
+    transition: all 0.3s ease;
+  }
+  .available-coupons.has-applied-coupon .coupon-card:not(.coupon-applied-card) {
+    opacity: 0.4;
+    filter: grayscale(40%);
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
 }
+
