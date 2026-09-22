@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/user/icons/favicon.png">
   <title>Edit Profile | PackSmart</title>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
+  </head>
 
 <body>
   <%-include('../partials/user/profile-sidebar-header')%>
@@ -146,31 +146,27 @@
               .then(response => response.json())
               .then(data => {
                 if (data.success) {
-                  Swal.fire({
-                    icon: 'success',
-                    title: 'Profile Updated!',
-                    text: 'Your profile has been successfully updated.',
-                    confirmButtonText: 'OK'
-                  }).then(() => {
-                    window.location.href = '/userProfile'; // Redirect to profile page
-                  });
+                  if (window.notyf) {
+                    window.notyf.success('Your profile has been successfully updated.');
+                  }
+                  setTimeout(() => {
+                    window.location.href = '/userProfile';
+                  }, 1200);
                 } else {
-                  Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: data.message,
-                    confirmButtonText: 'OK'
-                  });
+                  if (window.notyf) {
+                    window.notyf.error(data.message || 'Failed to update profile');
+                  } else {
+                    alert(data.message || 'Failed to update profile');
+                  }
                 }
               })
               .catch(error => {
                 console.error('Error while changing user profile:', error);
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Error',
-                  text: 'An error occurred while updating your profile.',
-                  confirmButtonText: 'OK'
-                });
+                if (window.notyf) {
+                  window.notyf.error('An error occurred while updating your profile.');
+                } else {
+                  alert('An error occurred while updating your profile.');
+                }
               });
           }
         });

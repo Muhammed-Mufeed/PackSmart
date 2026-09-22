@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
     <title>Add Category Offer - Admin Dashboard</title>
     <link rel="stylesheet" href="/admin/css/add-offer.css">
     <link rel="stylesheet" href="/admin/css/partial.css">
@@ -143,21 +144,19 @@
                             }
                         });
                     } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: data.message || 'Failed to add category offer',
-                            confirmButtonText: 'OK'
-                        });
+                        if (window.notyf) {
+                            window.notyf.error(data.message || 'Failed to add category offer');
+                        } else {
+                            alert(data.message || 'Failed to add category offer');
+                        }
                     }
                 } catch (error) {
                     console.error('Error during add category offer:', error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An error occurred while adding the category offer',
-                        confirmButtonText: 'OK'
-                    });
+                    if (window.notyf) {
+                        window.notyf.error('An error occurred while adding the category offer');
+                    } else {
+                        alert('An error occurred while adding the category offer');
+                    }
                 }
             });
         });

@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/user/icons/favicon.png">
   <title>Checkout - PackSmart</title>
   <!-- Tailwind CSS & Editorial Google Fonts -->
   <link rel="stylesheet" href="/user/css/tailwind.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- SweetAlert2 & Razorpay SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <!-- Razorpay SDK & Notyf Toasts -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body class="bg-[#faf8f5] text-neutral-900 font-sans antialiased min-h-screen flex flex-col">
   <%- include('../partials/user/header') %>
@@ -527,31 +527,27 @@
           const data = await response.json();
 
           if (data.success) {
-            Swal.fire({
-              icon: 'success',
-              title: 'Success!',
-              text: 'Address added successfully.',
-              confirmButtonText: 'OK',
-            }).then(() => {
-              document.getElementById('addAddressModal').style.display = 'none';
-              location.reload(); // Refresh the page to update the address list
-            });
+            if (window.notyf) {
+              window.notyf.success('Address added successfully.');
+            }
+            document.getElementById('addAddressModal').style.display = 'none';
+            setTimeout(() => {
+              location.reload();
+            }, 1000);
           } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: data.message || 'Failed to add address.',
-              confirmButtonText: 'OK',
-            });
+            if (window.notyf) {
+              window.notyf.error(data.message || 'Failed to add address.');
+            } else {
+              alert(data.message || 'Failed to add address.');
+            }
           }
         } catch (error) {
           console.error('Error:', error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Something went wrong. Please try again.',
-            confirmButtonText: 'OK',
-          });
+          if (window.notyf) {
+            window.notyf.error('Something went wrong. Please try again.');
+          } else {
+            alert('Something went wrong. Please try again.');
+          }
         }
       }
     });
@@ -728,22 +724,20 @@
       const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
 
       if (!selectedAddress) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Please select a shipping address.',
-          confirmButtonText: 'OK',
-        });
+        if (window.notyf) {
+          window.notyf.error('Please select a shipping address.');
+        } else {
+          alert('Please select a shipping address.');
+        }
         return;
       }
 
       if (!selectedPaymentMethod) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Please select a payment method.',
-          confirmButtonText: 'OK',
-        });
+        if (window.notyf) {
+          window.notyf.error('Please select a payment method.');
+        } else {
+          alert('Please select a payment method.');
+        }
         return;
       }
 
@@ -789,14 +783,12 @@
                 if (verifyData.success) {
                   window.location.href = verifyData.redirectUrl;
                 } else {
-                  Swal.fire({
-                    icon: 'error',
-                    title: 'Payment Failed',
-                    text: verifyData.message || 'Payment verification failed.',
-                    confirmButtonText: 'OK',
-                  }).then(() => {
+                  if (window.notyf) {
+                    window.notyf.error(verifyData.message || 'Payment verification failed.');
+                  }
+                  setTimeout(() => {
                     window.location.href = verifyData.redirectUrl;
-                  });
+                  }, 1200);
                 }
               },
               prefill: {
@@ -826,14 +818,12 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ orderId: mongoOrderId }),
               });
-              Swal.fire({
-                icon: 'error',
-                title: 'Payment Failed',
-                text: response.error.description || 'Payment failed. Please try again.',
-                confirmButtonText: 'OK',
-              }).then(() => {
+              if (window.notyf) {
+                window.notyf.error(response.error.description || 'Payment failed. Please try again.');
+              }
+              setTimeout(() => {
                 window.location.href = `/userOrders/${mongoOrderId}`;
-              });
+              }, 1200);
             });
             rzp.open();
 
@@ -842,21 +832,19 @@
           }
             
         } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: data.message || 'Failed to place order.',
-            confirmButtonText: 'OK',
-          });
+          if (window.notyf) {
+            window.notyf.error(data.message || 'Failed to place order.');
+          } else {
+            alert(data.message || 'Failed to place order.');
+          }
         }
       } catch (error) {
         console.error('Error during order placement', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Something went wrong. Please try again.',
-          confirmButtonText: 'OK',
-        });
+        if (window.notyf) {
+          window.notyf.error('Something went wrong. Please try again.');
+        } else {
+          alert('Something went wrong. Please try again.');
+        }
       }
     });
 

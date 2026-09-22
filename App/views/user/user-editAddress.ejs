@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Address | PackSmart</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
+    </head>
 <body>
     <%-include('../partials/user/profile-sidebar-header')%>
     
@@ -244,31 +243,26 @@
                         const data = await response.json();
     
                         if (data.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Address Updated!',
-                                text: 'Your address has been successfully updated.',
-                                confirmButtonText: 'OK'
-                            }).then(() => {
-                                window.location.href = '/userAddress'; // Redirect to addresses page
-                            });
+                            if (window.notyf) {
+                                window.notyf.success('Your address has been successfully updated.');
+                            }
+                            setTimeout(() => {
+                                window.location.href = '/userAddress';
+                            }, 1200);
                         } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: data.message,
-                                confirmButtonText: 'OK'
-                            });
+                            if (window.notyf) {
+                                window.notyf.error(data.message || 'Failed to update address');
+                            } else {
+                                alert(data.message || 'Failed to update address');
+                            }
                         }
-    
                     } catch (error) {
                         console.error('Error while updating address:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'An error occurred while updating your address.',
-                            confirmButtonText: 'OK'
-                        });
+                        if (window.notyf) {
+                            window.notyf.error('An error occurred while updating your address.');
+                        } else {
+                            alert('An error occurred while updating your address.');
+                        }
                     }
                 }
             });

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
     <title>Edit Coupon - Admin Dashboard</title>
     <link rel="stylesheet" href="/admin/css/add-coupons.css">
     <link rel="stylesheet" href="/admin/css/partial.css">
@@ -187,21 +188,19 @@
                             }
                         });
                     } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: data.message || 'Failed to update coupon',
-                            confirmButtonText: 'OK'
-                        });
+                        if (window.notyf) {
+                            window.notyf.error(data.message || 'Failed to update coupon');
+                        } else {
+                            alert(data.message || 'Failed to update coupon');
+                        }
                     }
                 } catch (error) {
                     console.error('Error during updating coupon:', error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An error occurred while updating the coupon',
-                        confirmButtonText: 'OK'
-                    });
+                    if (window.notyf) {
+                        window.notyf.error('An error occurred while updating the coupon');
+                    } else {
+                        alert('An error occurred while updating the coupon');
+                    }
                 }
             });
         });

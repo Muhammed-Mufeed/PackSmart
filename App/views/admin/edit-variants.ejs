@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
     <title>Edit Variant - Admin Dashboard</title>
     <link rel="stylesheet" href="/admin/css/add-variants.css">
     <link rel="stylesheet" href="/admin/css/partial.css">
@@ -329,11 +330,11 @@
                     }
                 } catch (error) {
                     console.error('Error during variant update:', error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: error.message || 'An error occurred while updating the variant'
-                    });
+                    if (window.notyf) {
+                        window.notyf.error(error.message || 'An error occurred while updating the variant');
+                    } else {
+                        alert(error.message || 'An error occurred while updating the variant');
+                    }
                     submitButton.disabled = false;
                     submitButton.textContent = 'Update Variant';
                 }

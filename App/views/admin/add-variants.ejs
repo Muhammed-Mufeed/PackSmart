@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
     <title>Add Variant - Admin Dashboard</title>
     <link rel="stylesheet" href="/admin/css/add-variants.css">
     <link rel="stylesheet" href="/admin/css/partial.css">
@@ -117,12 +118,11 @@
             if (file) {
                 const validImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
                 if (!validImageTypes.includes(file.type)) {
-                    Swal.fire({
-                        icon:'error',
-                        title:'Error',
-                        text:'Please select a valid image file (JPEG, PNG, or WEBP)',
-                        confirmButtonText:"OK"
-                    })
+                    if (window.notyf) {
+                        window.notyf.error('Please select a valid image file (JPEG, PNG, or WEBP)');
+                    } else {
+                        alert('Please select a valid image file (JPEG, PNG, or WEBP)');
+                    }
                     this.value = '';
                     return;
                 }
@@ -306,11 +306,11 @@
             }
         } catch (error) {
             console.error('Error during variant addition:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: error.message || 'An error occurred while adding the variant'
-            });
+            if (window.notyf) {
+                        window.notyf.error(error.message || 'An error occurred while adding the variant');
+                    } else {
+                        alert(error.message || 'An error occurred while adding the variant');
+                    }
             submitButton.disabled = false;
             submitButton.textContent = 'Add Variant';
         }

@@ -1,10 +1,23 @@
 <!-- Tailwind & Fonts Dependencies -->
+<link rel="icon" type="image/png" href="/user/icons/favicon.png">
 <link rel="stylesheet" href="/user/css/tailwind.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link
   href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
   rel="stylesheet" />
+
+<!-- Notyf Notification Toast -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<script>
+  window.notyf = window.notyf || new Notyf({
+    duration: 3000,
+    position: { x: 'right', y: 'top' },
+    ripple: true,
+    dismissible: true
+  });
+</script>
 
 <!-- TopNavBar -->
 <header class="sticky top-0 w-full z-50 bg-white shadow-sm border-b border-gray-200 font-sans">

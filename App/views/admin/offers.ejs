@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
     <title>Offers - Admin Dashboard</title>
     <link rel="stylesheet" href="/admin/css/offers.css">
     <link rel="stylesheet" href="/admin/css/partial.css">
-    <!-- Add SweetAlert  -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
+    <!-- Notyf JS Toast (Loaded via Admin Header) -->
+    </head>
 <body>
     <%-include('../partials/admin/header')%>
     
@@ -128,27 +128,25 @@
                         statusCell.textContent = 'Inactive';
                     }
                     
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: data.message,
-                    });
+                    if (window.notyf) {
+                        window.notyf.success(data.message);
+                    }
                 } 
                 else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Failed to update offer status',
-                    });
+                    if (window.notyf) {
+                        window.notyf.error('Failed to update status');
+                    } else {
+                        alert('Failed to update status');
+                    }
                 }
             } 
             catch (error) {
                 console.error('Error during offer management:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred during offer management',
-                });
+                if (window.notyf) {
+                    window.notyf.error('An error occurred during offer management');
+                } else {
+                    alert('An error occurred during offer management');
+                }
             }
         }
     </script>

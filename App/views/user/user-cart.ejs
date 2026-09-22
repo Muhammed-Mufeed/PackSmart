@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
     <title>Your Cart - PackSmart</title>
     <!-- Tailwind CSS & Editorial Google Fonts -->
     <link rel="stylesheet" href="/user/css/tailwind.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
+    <!-- Notyf JS Toast (Loaded via Header) -->
+    </head>
 <body class="bg-[#faf8f5] text-neutral-900 font-sans antialiased min-h-screen flex flex-col">
     <%- include('../partials/user/header') %>
 
@@ -422,21 +422,19 @@
 
                 if (e.target.classList.contains('increase-quantity')) {
                     if (quantity >= 5) {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Limit Reached',
-                            text: 'You cannot add more than 5 units of a single product.',
-                            confirmButtonText: 'OK'
-                        });
+                        if (window.notyf) {
+                            window.notyf.error('You cannot add more than 5 units of a single product.');
+                        } else {
+                            alert('You cannot add more than 5 units of a single product.');
+                        }
                         return;
                     }
                     if (quantity >= stock) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Out of Stock',
-                            text: 'You cannot add more than the available stock.',
-                            confirmButtonText: 'OK',
-                        });
+                        if (window.notyf) {
+                            window.notyf.error('You cannot add more than the available stock.');
+                        } else {
+                            alert('You cannot add more than the available stock.');
+                        }
                         return;
                     }
                     quantity += 1;
@@ -456,19 +454,13 @@
 
                 // 4. Alert user if limit of 5 or stock limit is reached
                 if (quantity === 5) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Limit Reached',
-                        text: 'You have reached the maximum limit of 5 units.',
-                        confirmButtonText: 'OK',
-                    });
+                    if (window.notyf) {
+                        window.notyf.error('You have reached the maximum limit of 5 units.');
+                    }
                 } else if (quantity === stock) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Stock Limit Reached',
-                        text: 'You have reached the maximum available stock.',
-                        confirmButtonText: 'OK',
-                    });
+                    if (window.notyf) {
+                        window.notyf.error('You have reached the maximum available stock.');
+                    }
                 }
 
                 // 5. Debounce the API call
@@ -495,14 +487,12 @@
                                 updateButtonStates(cartItem, data.stock);
                             }
                         } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: data.message || 'Failed to update quantity',
-                                confirmButtonText: 'OK'
-                            }).then(() => {
+                            if (window.notyf) {
+                                window.notyf.error(data.message || 'Failed to update quantity');
+                            }
+                            setTimeout(() => {
                                 window.location.reload();
-                            });
+                            }, 1200);
                         }
                     } catch (error) {
                         console.log("Error while updating the quantity in the cart", error);
@@ -554,21 +544,19 @@
                     window.location.href = '/checkout';
                 } else {
                     const data = await response.json();
-                    Swal.fire({
-                        title: 'Error',
-                        text: data.message || 'Something went wrong. Please try again.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
+                    if (window.notyf) {
+                        window.notyf.error(data.message || 'Something went wrong. Please try again.');
+                    } else {
+                        alert(data.message || 'Something went wrong. Please try again.');
+                    }
                 }
             } catch (error) {
                 console.error('Error during checkout:', error);
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Something went wrong. Please try again.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
+                if (window.notyf) {
+                    window.notyf.error('Something went wrong. Please try again.');
+                } else {
+                    alert('Something went wrong. Please try again.');
+                }
             }
         });
     </script>

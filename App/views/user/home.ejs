@@ -8,13 +8,12 @@
   <link rel="stylesheet" href="/user/css/tailwind.css">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <!-- Add SweetAlert -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- Include AddtoCart Fn, AddtoWishlist Fn -->
   <script src="/user/js/addToCart.js"></script>
   <script src="/user/js/addToWishlist.js"></script>
 
+  <link rel="icon" type="image/png" href="/user/icons/favicon.png">
   <title>Home - PackSmart</title>
 </head>
 
@@ -446,7 +445,7 @@
             Subscribe for exclusive private drop access, curated global packing guides, and lifetime member perks.
           </p>
 
-          <form onsubmit="event.preventDefault(); Swal.fire({icon: 'success', title: 'Welcome to the Pack', text: 'You are now subscribed to the PackSmart Private Circle with 10% off your next purchase!', confirmButtonText: 'Great'}); this.reset();" class="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-2 max-w-md mx-auto w-full">
+          <form onsubmit="event.preventDefault(); (window.notyf ? window.notyf.success('Welcome to the Pack! You are now subscribed with 10% off.') : alert('Welcome to the Pack! You are now subscribed.')); this.reset();" class="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-2 max-w-md mx-auto w-full">
             <input type="email" required placeholder="Enter your email address" class="w-full px-4 py-3 rounded-full bg-neutral-900 border border-neutral-700 text-white text-xs sm:text-sm placeholder-neutral-500 focus:outline-none focus:border-white transition-colors" />
             <button type="submit" class="w-full sm:w-auto px-6 py-3 rounded-full bg-white text-neutral-950 font-bold text-xs sm:text-sm tracking-wide uppercase hover:bg-neutral-200 active:scale-95 transition-all duration-200 flex-shrink-0 shadow-lg font-display">
               Subscribe

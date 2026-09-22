@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
     <title>Add Product - Admin Dashboard</title>
     <link rel="stylesheet" href="/admin/css/add-product.css">
     <link rel="stylesheet" href="/admin/css/partial.css">
@@ -230,22 +231,20 @@
                  })
              }
              else{
-                Swal.fire({
-                    icon:'error',
-                    title:'Error',
-                    text: data.message || 'Failed to add product',
-                    confirmButtonText: "OK"
-                })
+                if (window.notyf) {
+                    window.notyf.error(data.message || 'Failed to add product');
+                } else {
+                    alert(data.message || 'Failed to add product');
+                }
              }
 
          } catch (error) {
             console.error('Error during add product:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'An error occurred while adding the product',
-                confirmButtonText: 'OK'
-            });
+            if (window.notyf) {
+                window.notyf.error('An error occurred while adding the product');
+            } else {
+                alert('An error occurred while adding the product');
+            }
          }
 
        })

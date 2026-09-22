@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
     <title>Edit Product - Admin Dashboard</title>
     <link rel="stylesheet" href="/admin/css/add-product.css">
     <link rel="stylesheet" href="/admin/css/partial.css">
@@ -232,22 +233,20 @@
                             }
                           })
                     }else{
-                        Swal.fire({
-                            icon:'error',
-                            title:'Error',
-                            text:data.message || 'Failed to update Product',
-                            confirmButtonText: "OK"
-                        });
+                        if (window.notyf) {
+                            window.notyf.error(data.message || 'Failed to update Product');
+                        } else {
+                            alert(data.message || 'Failed to update Product');
+                        }
                     }
                 }
                 catch(error){
                   console.log("Error during product update:",error)
-                  Swal.fire({
-                    icon:'error',
-                    title:'Error',
-                    text: "An error occured while updating the product",
-                    confirmButtonText:"OK"
-                  })
+                  if (window.notyf) {
+                    window.notyf.error('An error occurred while updating the product');
+                  } else {
+                    alert('An error occurred while updating the product');
+                  }
                 }
 
             });

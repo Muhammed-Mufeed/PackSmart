@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
     <title>Add Category - Admin Dashboard</title>
     <link rel="stylesheet" href="/admin/css/add-category.css">
     <link rel="stylesheet" href="/admin/css/partial.css">
-    <!-- Add SweetAlert  -->
+    <!-- SweetAlert2 (Confirmation Modals) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -153,13 +154,11 @@
                     }
                     else{
 
-                        Swal.fire({
-                            icon:'error',
-                            title:'error',
-                            text: data.message || "Failed to add Category",
-                            confirmButtonText: 'OK'
-
-                        })
+                        if (window.notyf) {
+                            window.notyf.error(data.message || "Failed to add Category");
+                        } else {
+                            alert(data.message || "Failed to add Category");
+                        }
                         submitButton.disabled = false; // Re-enable button
                         submitButton.textContent = "Add Category"; // Restore button text
                     }
@@ -167,12 +166,11 @@
                 }
                 catch(error){
                     console.log('Error during add Category',error)
-                    Swal.fire({
-                        icon:'error',
-                        title:'error',
-                        text:"An error occurred while adding the category",
-                        confirmButtonText:'OK'
-                    })
+                    if (window.notyf) {
+                        window.notyf.error("An error occurred while adding the category");
+                    } else {
+                        alert("An error occurred while adding the category");
+                    }
                     submitButton.disabled = false; 
                     submitButton.textContent = "Add Category";          
                 }

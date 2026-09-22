@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
     <title>Add Brand - Admin Dashboard</title>
     <link rel="stylesheet" href="/admin/css/add-brand.css">
     <link rel="stylesheet" href="/admin/css/partial.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
+    </head>
 <body>
     <%-include('../partials/admin/header')%>
     <div class="add-brand-container">
@@ -36,11 +36,11 @@
             
             // Simple validation
             if(brandName === '') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Please enter a brand name'
-                });
+                if (window.notyf) {
+                    window.notyf.error('Please enter a brand name');
+                } else {
+                    alert('Please enter a brand name');
+                }
                 return;
             }
             
@@ -56,28 +56,25 @@
                 const data = await response.json();
 
                 if(response.ok) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Brand added successfully!',
-                        timer: 1500,
-                        showConfirmButton: false
-                    }).then(() => {
+                    if (window.notyf) {
+                        window.notyf.success('Brand added successfully!');
+                    }
+                    setTimeout(() => {
                         window.location.href = '/admin/brands';
-                    });
+                    }, 1200);
                 } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: data.message || 'Failed to add brand'
-                    });
+                    if (window.notyf) {
+                        window.notyf.error(data.message || 'Failed to add brand');
+                    } else {
+                        alert(data.message || 'Failed to add brand');
+                    }
                 }
             } catch(error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Something went wrong'
-                });
+                if (window.notyf) {
+                    window.notyf.error('Something went wrong');
+                } else {
+                    alert('Something went wrong');
+                }
             }
         });
     </script>

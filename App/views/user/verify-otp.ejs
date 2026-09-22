@@ -8,9 +8,18 @@
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome & SweetAlert2 -->
+    <!-- Font Awesome & Notyf Toast -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script>
+      window.notyf = new Notyf({
+        duration: 3000,
+        position: { x: 'right', y: 'top' },
+        ripple: true,
+        dismissible: true
+      });
+    </script>
     <!-- Tailwind CSS -->
     <link rel="stylesheet" href="/user/css/tailwind.css">
 </head>
@@ -162,27 +171,26 @@
         const data = await response.json(); 
 
         if (data.success) {
-          Swal.fire({
-            icon: "success",
-            title: "OTP Verified!",
-            text: data.message || "Redirecting...",
-          }).then(() => {
+          if (window.notyf) {
+            window.notyf.success(data.message || "OTP Verified! Redirecting...");
+          }
+          setTimeout(() => {
             window.location.href = data.redirectUrl || "/login";
-          });
+          }, 1200);
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "Verification Failed",
-            text: data.message || "Please try again.",
-          });
+          if (window.notyf) {
+            window.notyf.error(data.message || "Please try again.");
+          } else {
+            alert(data.message || "Please try again.");
+          }
         }
       } catch (error) {
         console.error("Error verifying OTP:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Something went wrong. Please try again.",
-        });
+        if (window.notyf) {
+          window.notyf.error("Something went wrong. Please try again.");
+        } else {
+          alert("Something went wrong. Please try again.");
+        }
       }
     });
 
@@ -210,22 +218,18 @@
           
         // ================== SMART CONDITIONAL UI ================== //
         if (data.isDemoMode) {
-          // If a recruiter is testing: Update the banner and show the SweetAlert with the OTP
+          // If a recruiter is testing: Update the banner and show toast with the OTP
           const displayElement = document.getElementById("displayOtp");
           if(displayElement) displayElement.innerText = data.newDemoOtp;
 
-          Swal.fire({
-            icon: "success",
-            title: "OTP Sent!",
-            text: `New Demo OTP Generated: ${data.newDemoOtp}`,
-          });
+          if (window.notyf) {
+            window.notyf.success(`New Demo OTP Generated: ${data.newDemoOtp}`);
+          }
         } else {
           // If YOU are testing (real email): Tell them to check their inbox!
-          Swal.fire({
-            icon: "success",
-            title: "Email Sent!",
-            text: "A real OTP has been successfully sent to your inbox.",
-          });
+          if (window.notyf) {
+            window.notyf.success("A real OTP has been successfully sent to your inbox.");
+          }
         }
         // ========================================================== //
 
@@ -233,11 +237,11 @@
         
       } catch (error) {
         console.error("Error resending OTP:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: error.message || "Something went wrong. Please try again.",
-        });
+        if (window.notyf) {
+          window.notyf.error(error.message || "Something went wrong. Please try again.");
+        } else {
+          alert(error.message || "Something went wrong. Please try again.");
+        }
         
         timerElement.textContent = "You can now resend the OTP.";
         timerElement.style.color = "#28a745";
