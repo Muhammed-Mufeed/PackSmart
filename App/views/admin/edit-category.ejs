@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
     <title>Edit Category - Admin Dashboard</title>
     <link rel="stylesheet" href="/admin/css/add-category.css">
     <link rel="stylesheet" href="/admin/css/partial.css">
-    <!-- Add SweetAlert -->
+    <!-- SweetAlert2 (Confirmation Modals) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -152,13 +153,11 @@
                     }
                     else{
 
-                        Swal.fire({
-                          icon:'error',
-                          title:'error',
-                          text: data.message || "Failed to update Category",
-                          confirmButtonText: 'OK'
-
-                        })
+                        if (window.notyf) {
+                          window.notyf.error(data.message || "Failed to update Category");
+                        } else {
+                          alert(data.message || "Failed to update Category");
+                        }
                         submitButton.disabled = false
                         submitButton.textContent = "Update Category"
                     }
@@ -166,12 +165,11 @@
                 }
                 catch(error){
                    console.log('Error updating Category',error)
-                   Swal.fire({
-                     icon:'error',
-                     title:'error',
-                     text:"An error occurred while updating the category",
-                     confirmButtonText:'OK'
-                    }) 
+                   if (window.notyf) {
+                     window.notyf.error("An error occurred while updating the category");
+                   } else {
+                     alert("An error occurred while updating the category");
+                   } 
                     submitButton.disabled = false
                     submitButton.textContent = "Update Category"         
                 }

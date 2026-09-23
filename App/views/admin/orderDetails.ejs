@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/user/icons/favicon.png">
   <title>Order Details - Admin Dashboard</title>
   <link rel="stylesheet" href="/admin/css/partial.css" />
   <link rel="stylesheet" href="/admin/css/orderDetails.css" />
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
+  </head>
 <body>
   <%- include('../partials/admin/header') %>
 
@@ -162,13 +162,24 @@
         });
         const data = await response.json();
         if (data.success) {
-          Swal.fire({ icon: 'success', title: 'Success', text: data.message }).then(() => location.reload());
+          if (window.notyf) {
+          window.notyf.success(data.message);
+        }
+        setTimeout(() => location.reload(), 1200);
         } else {
-          Swal.fire({ icon: 'error', title: 'Error', text: data.message });
+          if (window.notyf) {
+          window.notyf.error(data.message);
+        } else {
+          alert(data.message);
+        }
         }
       } catch (error) {
         console.log("Error due to changing status of order", error);
-        Swal.fire({ icon: 'error', title: 'Error', text: 'Something went wrong.' });
+        if (window.notyf) {
+        window.notyf.error('Something went wrong.');
+      } else {
+        alert('Something went wrong.');
+      }
       }
     }
 
@@ -179,9 +190,16 @@
       });
       const data = await response.json();
       if (data.success) {
-        Swal.fire({ icon: 'success', title: 'Success', text: data.message }).then(() => location.reload());
+        if (window.notyf) {
+        window.notyf.success(data.message);
+      }
+      setTimeout(() => location.reload(), 1200);
       } else {
-        Swal.fire({ icon: 'error', title: 'Error', text: data.message });
+        if (window.notyf) {
+        window.notyf.error(data.message);
+      } else {
+        alert(data.message);
+      }
       }
     }
 
@@ -192,9 +210,16 @@
       });
       const data = await response.json();
       if (data.success) {
-        Swal.fire({ icon: 'success', title: 'Success', text: data.message }).then(() => location.reload());
+        if (window.notyf) {
+        window.notyf.success(data.message);
+      }
+      setTimeout(() => location.reload(), 1200);
       } else {
-        Swal.fire({ icon: 'error', title: 'Error', text: data.message });
+        if (window.notyf) {
+        window.notyf.error(data.message);
+      } else {
+        alert(data.message);
+      }
       }
     }
   </script>

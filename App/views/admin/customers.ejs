@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
     <title>Users - Admin Dashboard</title>
     <link rel="stylesheet" href="/admin/css/customers.css">
     <link rel="stylesheet" href="/admin/css/partial.css">
-    <!-- Add SweetAlert  -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
+    <!-- Notyf JS Toast (Loaded via Admin Header) -->
+    </head>
    <body>
   
       <%-include('../partials/admin/header')%>
@@ -125,29 +125,27 @@
             
 
              //show success message(optional)
-             Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: data.message,        //message from backend
-                    });
+             if (window.notyf) {
+                        window.notyf.success(data.message);
+                    }
            }
 
            else {
-            Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: data.message ||'Failed to update User status',
-                    });
+            if (window.notyf) {
+                        window.notyf.error(data.message || 'Failed to update user status');
+                    } else {
+                        alert(data.message || 'Failed to update user status');
+                    }
              }
             
         } 
         catch (error) {
           console.log("Error during user Management",error) //error will be displayed on frontend
-          Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text:  data.message ||'An error occurred during User Management',
-                });  
+          if (window.notyf) {
+                    window.notyf.error(data.message || 'An error occurred during user management');
+                } else {
+                    alert(data.message || 'An error occurred during user management');
+                }  
         }
     }
 

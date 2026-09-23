@@ -4,28 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/user/icons/favicon.png">
   <title>Order Details - PackSmart</title>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
-    .swal2-popup {
-      font-family: 'Montserrat', sans-serif !important;
-      border-radius: 16px !important;
-    }
-
-    .swal2-input#custom-reason {
-      display: none;
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #e5e7eb;
-      font-size: 14px;
-      margin-top: 10px;
-    }
-  </style>
 </head>
 
 <body>
@@ -407,9 +389,16 @@
           });
           const data = await response.json();
           if (data.success) {
-            Swal.fire('Success', data.message, 'success').then(() => location.reload());
+            if (window.notyf) {
+              window.notyf.success(data.message);
+            }
+            setTimeout(() => location.reload(), 1200);
           } else {
-            Swal.fire('Error', data.message, 'error');
+            if (window.notyf) {
+              window.notyf.error(data.message);
+            } else {
+              alert(data.message);
+            }
           }
         }
       }
@@ -466,9 +455,16 @@
           });
           const data = await response.json();
           if (data.success) {
-            Swal.fire('Success', data.message, 'success').then(() => location.reload());
+            if (window.notyf) {
+              window.notyf.success(data.message);
+            }
+            setTimeout(() => location.reload(), 1200);
           } else {
-            Swal.fire('Error', data.message, 'error');
+            if (window.notyf) {
+              window.notyf.error(data.message);
+            } else {
+              alert(data.message);
+            }
           }
         }
       }
@@ -502,13 +498,10 @@
                     .then((res) => res.json())
                     .then((data) => {
                       if (data.success) {
-                        Swal.fire('Success', 'Payment successful!', 'success').then(() => {
-                          window.location.href = `/orderSuccess/${orderId}`;
-                        });
-                      } else {
-                        Swal.fire('Error', data.message || 'Payment retry failed.', 'error').then(() => {
-                          window.location.reload(); // Stay on details page
-                        });
+                        if (window.notyf) {
+                            window.notyf.success('Payment successful!');
+                        }
+                        setTimeout(() => location.reload(), 1200);
                       }
                     });
                 },
@@ -521,33 +514,37 @@
                 },
                 modal: {
                   ondismiss: function () {
-                    Swal.fire({
-                      icon: 'info',
-                      title: 'Payment Cancelled',
-                      text: 'You closed the payment window. Please retry if needed.',
-                      confirmButtonText: 'OK',
-                    });
+                    if (window.notyf) {
+                      window.notyf.error('Payment cancelled: You closed the payment window.');
+                    }
                   },
                 },
               };
 
               const rzp = new Razorpay(options);
               rzp.on('payment.failed', function (response) {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Payment Failed',
-                  text: response.error.description || 'Retry attempt failed. Please try again.',
-                  confirmButtonText: 'OK',
-                });
+                if (window.notyf) {
+                  window.notyf.error(response.error.description || 'Retry attempt failed. Please try again.');
+                } else {
+                  alert(response.error.description || 'Retry attempt failed. Please try again.');
+                }
               });
               rzp.open();
             } else {
-              Swal.fire('Error', data.message, 'error');
+              if (window.notyf) {
+                window.notyf.error(data.message);
+              } else {
+                alert(data.message);
+              }
             }
           })
           .catch((error) => {
             console.error('Error initiating retry payment:', error);
-            Swal.fire('Error', 'Failed to initiate payment retry.', 'error');
+            if (window.notyf) {
+              window.notyf.error('Failed to initiate payment retry.');
+            } else {
+              alert('Failed to initiate payment retry.');
+            }
           });
       }
 

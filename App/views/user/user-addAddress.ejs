@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
     <title>Add New Address | PackSmart</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
     <%-include('../partials/user/profile-sidebar-header')%>
@@ -239,31 +240,27 @@
                         const data = await response.json();
     
                         if (data.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Address Added!',
-                                text: 'Your address has been successfully added.',
-                                confirmButtonText: 'OK'
-                            }).then(() => {
-                                window.location.href = '/userAddress'; // Redirect to addresses page
-                            });
+                            if (window.notyf) {
+                                window.notyf.success('Your address has been successfully added.');
+                            }
+                            setTimeout(() => {
+                                window.location.href = '/userAddress';
+                            }, 1200);
                         } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: data.message,
-                                confirmButtonText: 'OK'
-                            });
+                            if (window.notyf) {
+                                window.notyf.error(data.message || 'Failed to add address');
+                            } else {
+                                alert(data.message || 'Failed to add address');
+                            }
                         }
     
                     } catch (error) {
                         console.error('Error while adding address :', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'An error occurred while adding your address.',
-                            confirmButtonText: 'OK'
-                        });
+                        if (window.notyf) {
+                            window.notyf.error('An error occurred while adding your address.');
+                        } else {
+                            alert('An error occurred while adding your address.');
+                        }
                     }
                 }
             });

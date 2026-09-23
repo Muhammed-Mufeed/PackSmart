@@ -3,100 +3,218 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/user/icons/favicon.png">
   <title>Order Confirmed | PackSmart</title>
-  <!-- Add Confetti.js from CDN -->
+  <!-- Canvas Confetti CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <!-- Google Fonts: Inter & Montserrat -->
+  <!-- Google Fonts: Cormorant Garamond, Inter & Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <!-- Tailwind CSS -->
   <link rel="stylesheet" href="/user/css/tailwind.css">
 </head>
-<body class="min-h-screen bg-gradient-to-b from-gray-50 via-gray-50/50 to-gray-100 flex items-center justify-center p-4 sm:p-6 font-['Inter',sans-serif]">
-  <div class="max-w-lg w-full bg-white rounded-3xl border border-gray-200/80 shadow-xl p-8 sm:p-10 text-center relative z-10 transition-all duration-300">
-    <!-- Animated Checkmark Icon -->
-    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center ring-8 ring-emerald-50/60 shadow-inner">
-      <svg class="w-10 h-10 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-      </svg>
+<body class="min-h-screen bg-[#faf8f5] text-stone-900 font-sans antialiased flex flex-col justify-between p-4 sm:p-8 relative overflow-x-hidden selection:bg-stone-900 selection:text-white">
+
+  <!-- Ambient Luxury Halos -->
+  <div class="absolute -top-40 -left-40 w-[450px] h-[450px] rounded-full bg-gradient-to-br from-amber-200/30 via-emerald-100/20 to-transparent blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-40 -right-40 w-[450px] h-[450px] rounded-full bg-gradient-to-tl from-stone-300/40 via-amber-100/20 to-transparent blur-3xl pointer-events-none"></div>
+
+  <!-- Main Floating Atelier Card -->
+  <main class="max-w-xl w-full mx-auto my-auto bg-white rounded-3xl border border-stone-200/90 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.02)] p-6 sm:p-10 text-center relative z-10 overflow-hidden transition-all duration-300">
+    
+    <!-- Top Accent Ribbon -->
+    <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-stone-950 via-amber-700/80 to-stone-950"></div>
+
+    <!-- Top Header Row Inside Card (Logo Left, Status Indicator Right) -->
+    <div class="flex items-center justify-between mb-6 pt-1">
+      <a href="/" class="transition-transform hover:scale-105 duration-200 inline-block text-left">
+        <img src="/user/images/logo.png" alt="PackSmart" class="h-7 sm:h-8 w-auto object-contain">
+      </a>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-stone-100/90 border border-stone-200/80 text-[10px] font-mono uppercase tracking-wider text-stone-600 font-semibold shadow-2xs">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>Atelier Protocol</span>
+      </span>
     </div>
 
-    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 font-['Montserrat',sans-serif] tracking-tight">
-      Thank You for Your Order!
+    <!-- Quiet Luxury Seal & Aura -->
+    <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-5">
+      <div class="absolute inset-0 rounded-full bg-emerald-500/15 animate-ping duration-1000"></div>
+      <div class="relative w-full h-full rounded-full bg-stone-50 border border-stone-200/90 flex items-center justify-center text-stone-900 shadow-2xs ring-4 ring-stone-100/80">
+        <svg class="w-7 h-7 sm:w-8 sm:h-8 text-stone-900" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Pre-title Kicker -->
+    <span class="inline-block text-[10px] font-mono uppercase tracking-[0.25em] text-amber-800 font-bold mb-2">
+      Commission Verified • Atelier Preparation
+    </span>
+
+    <!-- Editorial Headline -->
+    <h1 class="text-3xl sm:text-4xl lg:text-[40px] font-serif italic text-stone-950 font-normal tracking-tight leading-[1.15]">
+      Your Journey Begins Here.
     </h1>
-    <p class="text-sm text-gray-500 mt-2 max-w-sm mx-auto leading-relaxed">
-      Your order has been placed successfully. We'll send you an update as soon as your items ship.
+    <p class="text-xs sm:text-[14px] text-stone-600 font-normal max-w-md mx-auto leading-relaxed mt-3">
+      We have received your order with gratitude. PackSmart specialists are currently inspecting, conditioning, and packaging your travel gear for secure transit.
     </p>
 
-    <!-- Order Reference Pill -->
-    <div class="my-6 p-4 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-between gap-3">
-      <div class="text-left">
-        <span class="text-[11px] font-bold uppercase tracking-wider text-gray-400 block">Order Confirmation</span>
-        <span class="font-mono text-sm font-bold text-gray-900">#<%= orderId %></span>
+    <!-- Luxury Transit Manifest Card -->
+    <div class="my-7 rounded-2xl bg-stone-50/70 border border-stone-200/80 p-4 sm:p-5 text-left text-xs space-y-3.5">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-200/60">
+        <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-stone-400 font-bold">Transit Manifest Record</span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-50 border border-emerald-200/80 text-emerald-800">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Allocated &amp; Confirmed</span>
+        </span>
       </div>
-      <span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase bg-emerald-100 text-emerald-800">Confirmed</span>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        <div>
+          <span class="text-[10px] font-mono uppercase tracking-wider text-stone-400 block mb-0.5">Order Reference</span>
+          <div class="flex items-center gap-2">
+            <span id="order-id-val" class="font-mono text-sm sm:text-base font-bold text-stone-950 select-all tracking-tight">#<%= orderId %></span>
+            <button type="button" onclick="copyOrderId('<%= orderId %>')" class="p-1 rounded text-stone-400 hover:text-stone-950 transition-colors cursor-pointer" title="Copy Order Reference">
+              <svg id="copy-icon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <svg id="copied-icon" class="w-3.5 h-3.5 text-emerald-600 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            </button>
+            <span id="copy-toast" class="text-[9px] font-mono font-bold text-emerald-700 opacity-0 transition-opacity">Copied!</span>
+          </div>
+        </div>
+        <div>
+          <span class="text-[10px] font-mono uppercase tracking-wider text-stone-400 block mb-0.5">Dispatch Class</span>
+          <span class="font-mono text-xs sm:text-sm font-medium text-stone-800">Complimentary Express Courier</span>
+        </div>
+      </div>
     </div>
 
-    <!-- Action Buttons -->
-    <div class="flex flex-col sm:flex-row gap-3 pt-2">
-      <a href="/userOrders/<%= orderId %>" class="flex-1 py-3.5 px-5 rounded-xl bg-black text-white text-xs font-semibold hover:bg-gray-800 transition-all duration-200 shadow-sm active:scale-[0.98] inline-flex items-center justify-center gap-2">
+    <!-- Hairline Milestone Progress Tracker -->
+    <div class="mb-8 px-2 sm:px-6">
+      <div class="relative flex items-center justify-between">
+        <!-- Track Line Background -->
+        <div class="absolute left-6 right-6 top-3 -translate-y-1/2 h-px bg-stone-200"></div>
+        <div class="absolute left-6 w-1/2 top-3 -translate-y-1/2 h-px bg-stone-950"></div>
+
+        <!-- Step 1: Commissioned -->
+        <div class="relative z-10 flex flex-col items-center gap-2 text-center">
+          <div class="w-6 h-6 rounded-full bg-stone-950 text-white flex items-center justify-center text-[10px] ring-4 ring-white shadow-2xs">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-950">01. Ordered</span>
+        </div>
+
+        <!-- Step 2: Conditioning -->
+        <div class="relative z-10 flex flex-col items-center gap-2 text-center">
+          <div class="w-6 h-6 rounded-full bg-stone-950 text-white flex items-center justify-center text-[10px] ring-4 ring-white shadow-2xs">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+          </div>
+          <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-950">02. Inspection</span>
+        </div>
+
+        <!-- Step 3: Courier Transit -->
+        <div class="relative z-10 flex flex-col items-center gap-2 text-center">
+          <div class="w-6 h-6 rounded-full bg-stone-100 text-stone-400 border border-stone-200 flex items-center justify-center text-[10px] ring-4 ring-white">
+            <span class="w-1.5 h-1.5 rounded-full bg-stone-300"></span>
+          </div>
+          <span class="text-[10px] font-mono font-medium uppercase tracking-wider text-stone-400">03. Transit</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiet Luxury Action Pills -->
+    <div class="flex flex-col sm:flex-row gap-3 pt-1">
+      <a href="/userOrders/<%= orderId %>" class="flex-1 py-3.5 px-6 rounded-full bg-stone-950 hover:bg-stone-800 text-white font-mono font-bold text-xs uppercase tracking-widest transition-all shadow-xs hover:shadow-md active:scale-[0.99] flex items-center justify-center gap-2 group cursor-pointer">
         <span>View Order Details</span>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+        <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
         </svg>
       </a>
-      <a href="/userProducts" class="flex-1 py-3.5 px-5 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 text-xs font-semibold transition-all duration-200 active:scale-[0.98] inline-flex items-center justify-center gap-2">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-        </svg>
+      <a href="/userproducts" class="flex-1 py-3.5 px-6 rounded-full bg-white hover:bg-stone-100 text-stone-800 hover:text-stone-950 border border-stone-300/80 font-mono font-bold text-xs uppercase tracking-widest transition-all active:scale-[0.99] flex items-center justify-center gap-2 group cursor-pointer">
         <span>Continue Shopping</span>
       </a>
     </div>
 
-    <!-- Micro Trust Indicators -->
-    <div class="mt-8 pt-6 border-t border-gray-100 grid grid-cols-3 gap-2 text-gray-500 text-[11px]">
-      <div class="flex flex-col items-center gap-1">
-        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-        </svg>
-        <span>100% Genuine</span>
-      </div>
-      <div class="flex flex-col items-center gap-1">
-        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8 17a2 2 0 100 4 2 2 0 000-4zm10 0a2 2 0 100 4 2 2 0 000-4zM4 17h1m11 0h1m-9-6h8m-8-4h5m3 0l3 3v5h-2m-1-8V4a1 1 0 00-1-1H4a1 1 0 00-1 1v13h2"></path>
-        </svg>
-        <span>Fast Dispatch</span>
-      </div>
-      <div class="flex flex-col items-center gap-1">
-        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
-        </svg>
-        <span>24/7 Support</span>
-      </div>
+    <!-- Signature Atelier Seal & Protocol -->
+    <div class="mt-8 pt-6 border-t border-stone-200/70 flex items-center justify-center gap-2 text-[10px] text-stone-400 font-mono uppercase tracking-widest">
+      <svg class="w-3.5 h-3.5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      <span>PackSmart Certified Transit Guarantee • Insured Protocol</span>
     </div>
-  </div>
+
+  </main>
+
+  <!-- Bottom Brand Copyright Footer -->
+  <footer class="w-full max-w-xl mx-auto py-2 sm:py-4 text-center text-[10px] sm:text-[11px] font-mono text-stone-400 relative z-10">
+    <span>© <%= new Date().getFullYear() %> PackSmart Atelier. All rights reserved.</span>
+  </footer>
 
   <script>
-    // Confetti Celebration
-    document.addEventListener('DOMContentLoaded', () => {
+    // Multi-Stage Luxury Confetti Physics
+    function fireLuxuryConfetti() {
+      if (typeof confetti !== 'function') return;
+
+      // Stage 1: Central Champagne & Obsidian Burst
       confetti({
-        particleCount: 100,
+        particleCount: 75,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#ff6f61', '#4a5568', '#2d3748', '#e5645a'],
+        colors: ['#0c0a09', '#d97706', '#10b981', '#f59e0b', '#e7e5e4', '#fbbf24'],
       });
 
-      // Optional: Trigger confetti again after 1 second for extra celebration
+      // Stage 2: Dual Cross-Fire Cannons from screen edges
       setTimeout(() => {
         confetti({
-          particleCount: 50,
-          spread: 50,
-          origin: { y: 0.4 },
-          colors: ['#ff6f61', '#4a5568'],
+          particleCount: 40,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0, y: 0.65 },
+          colors: ['#0c0a09', '#d97706', '#fbbf24', '#10b981'],
         });
-      }, 1000);
-    });
+        confetti({
+          particleCount: 40,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1, y: 0.65 },
+          colors: ['#0c0a09', '#d97706', '#fbbf24', '#10b981'],
+        });
+      }, 250);
+
+      // Stage 3: Gentle golden flutter drift
+      setTimeout(() => {
+        confetti({
+          particleCount: 30,
+          spread: 90,
+          origin: { y: 0.35 },
+          colors: ['#f59e0b', '#d97706', '#fbbf24'],
+          ticks: 200,
+          gravity: 0.7,
+        });
+      }, 650);
+    }
+
+    document.addEventListener('DOMContentLoaded', fireLuxuryConfetti);
+
+    // 1-Click Clipboard Copy
+    function copyOrderId(text) {
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(text).then(() => {
+        const copyIcon = document.getElementById('copy-icon');
+        const copiedIcon = document.getElementById('copied-icon');
+        const toast = document.getElementById('copy-toast');
+        if (copyIcon && copiedIcon && toast) {
+          copyIcon.classList.add('hidden');
+          copiedIcon.classList.remove('hidden');
+          toast.classList.remove('opacity-0');
+          setTimeout(() => {
+            copyIcon.classList.remove('hidden');
+            copiedIcon.classList.add('hidden');
+            toast.classList.add('opacity-0');
+          }, 2000);
+        }
+      }).catch(err => {
+        console.error('Failed to copy', err);
+      });
+    }
   </script>
- </body>
- </html>
+</body>
+</html>

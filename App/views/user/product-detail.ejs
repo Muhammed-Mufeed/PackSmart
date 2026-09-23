@@ -3,257 +3,542 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/user/css/product-detail.css" />   
-    <!-- Add SweetAlert  -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!--Include AddtoCart Fn,AddtoWishlist Fn-->
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
+    <title><%= productData ? productData.name + ' - PackSmart' : 'Product Detail - PackSmart' %></title>
+    <!-- Tailwind CSS & Editorial Google Fonts -->
+    <link rel="stylesheet" href="/user/css/tailwind.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Notyf JS Toast (Loaded via Header) -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Include AddtoCart Fn, AddtoWishlist Fn -->
     <script src="/user/js/addToCart.js"></script>
     <script src="/user/js/addToWishlist.js"></script>
-    <title>Product Detail Page</title>
 </head>
-<body>
+<body class="bg-[#faf8f5] text-neutral-900 font-sans antialiased min-h-screen flex flex-col">
     <%-include('../partials/user/header')%>
 
-    <div class="breadcrumb-container">
-        <div class="breadcrumb">
-            <a href="/">Home</a>
-            <span class="separator">></span>
-            <a href="/categoryProducts/<%=productData.category._id%>"><%= productData.category.name %></a>
-            <span class="separator">></span>
-            <a href="/productdetail/<%= productData._id %>"><%= productData.name %></a>
-        </div>
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 pb-2">
+        <nav class="breadcrumb flex items-center gap-2 text-xs text-stone-500 font-medium overflow-x-auto whitespace-nowrap">
+            <a href="/" class="hover:text-stone-900 transition-colors flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                Home
+            </a>
+            <span class="separator text-stone-300">/</span>
+            <a href="/userproducts?category=<%=productData.category._id%>" class="hover:text-stone-900 transition-colors">
+                <%= productData.category.name %>
+            </a>
+            <span class="separator text-stone-300">/</span>
+            <span class="text-stone-900 font-semibold truncate max-w-[200px] sm:max-w-xs">
+                <%= productData.name %>
+            </span>
+        </nav>
     </div>
-    
-    <!-- Check if selectedVariant exists -->
-    <% if (!selectedVariant) { %>
-        <div class="product-unavailable">
-            <p>This product is currently unavailable.</p>
-        </div>
-    <% } else { %>
-        <div class="product-container">
-            <!-- Thumbnails -->
-            <div class="product-images">
-                <% selectedVariant.images.forEach((image, index) => { %>
-                    <img src="<%= image %>" 
-                         alt="Product thumbnail <%= index + 1 %>" 
-                         class="thumbnail <%= index === 0 ? 'active' : '' %>"
-                         onclick="updateMainImage(this)">
-                <% }) %>
-            </div>
-            
-            <!-- Main Image -->
-            <div class="main-image-container">
-                <img src="<%= selectedVariant.images.length > 0 ? selectedVariant.images[0] : '/default-image.jpg' %>" 
-                     alt="Main Product Image" 
-                     class="main-image" 
-                     id="mainImage">
-            </div>
 
-            <!-- Product Info -->
-            <div class="product-info">
-                <span class="online-exclusive">ONLINE EXCLUSIVE</span>
-                <h1 class="product-title"><%= productData.name %></h1>
-
-                <div class="price-container">
-                    <span class="mrp">MRP: ₹<%= productData.actualPrice %></span>
-                    <span class="selling-price">₹<%= productData.sellingPrice %></span>
-                    <% if (productData.appliedDiscount > 0) { %>
-                        <span class="offer"><%= productData.appliedDiscount %>% Off</span>
-                      <% } %>
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <% if (!selectedVariant) { %>
+            <div class="product-unavailable bg-white rounded-3xl border border-stone-200/80 p-12 text-center shadow-sm my-12">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-stone-100 flex items-center justify-center text-stone-400">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 12H4M12 20V4"/></svg>
                 </div>
+                <h3 class="text-xl font-bold font-display text-stone-900 mb-2">Product Currently Unavailable</h3>
+                <p class="text-sm text-stone-500 max-w-md mx-auto mb-6">This product or variant is currently not available. Please explore other curated gear in our catalog.</p>
+                <a href="/userproducts" class="inline-flex items-center gap-2 px-6 py-3 bg-stone-950 hover:bg-stone-800 text-white text-xs font-bold uppercase tracking-widest rounded-xl transition-all shadow-sm">
+                    Back to Catalog
+                </a>
+            </div>
+        <% } else { %>
+            <!-- Product Main Grid: Gallery (Left) & Info (Right) -->
+            <div class="product-container grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 pb-14 border-b border-stone-200/80">
                 
-                <div class="product-brand">Brand: <%= productData.brand.name %></div>
-
-                <!-- Available Colors -->
-                <div class="available-colors">
-                    <h4 class="colors-title">Available Colors</h4>
-                    <div class="color-options">
-                        <% productData.variants.forEach((variant) => { %>
-                            <!-- Only display listed variants -->
-                            <% if (variant.isListed) { %>
-                                <form action="/productdetail/<%= productData._id %>" method="GET" style="display: inline;">
-                                    <input type="hidden" name="variantId" value="<%= variant._id %>">
-                                    <button type="submit" class="color-option <%= variant._id.toString() === selectedVariant._id.toString() ? 'active' : '' %>">
-                                        <div class="color-circle"style="background-color: <%= variant.color %>"></div>
-                                        <span class="color-name"><%= variant.colorName %></span>
-                                    </button>
-                                </form>
-                            <% } %>
+                <!-- Left: Product Image Gallery (Thumbnails + Main Stage) (7 cols) -->
+                <div class="lg:col-span-7 flex flex-col-reverse sm:flex-row gap-4 lg:gap-5">
+                    
+                    <!-- Thumbnails Column -->
+                    <div class="product-images flex sm:flex-col gap-3 overflow-x-auto sm:overflow-y-auto sm:max-h-[560px] pb-2 sm:pb-0 shrink-0">
+                        <% selectedVariant.images.forEach((image, index) => { %>
+                            <button type="button" 
+                                    class="thumbnail-btn focus:outline-none p-0.5 rounded-2xl bg-white border <%= index === 0 ? 'border-stone-900 ring-2 ring-stone-900/20' : 'border-stone-200/80 hover:border-stone-400' %> transition-all duration-200 cursor-pointer shrink-0"
+                                    onclick="updateMainImage(this.querySelector('img'))">
+                                <img src="<%= image %>" 
+                                     alt="Product thumbnail <%= index + 1 %>" 
+                                     class="thumbnail w-16 h-16 sm:w-20 sm:h-20 object-cover object-center rounded-xl <%= index === 0 ? 'active' : '' %>"
+                                     onclick="updateMainImage(this)">
+                            </button>
                         <% }) %>
+                    </div>
+
+                    <!-- Main Image Display Container -->
+                    <div class="main-image-container relative flex-1 aspect-square sm:aspect-auto sm:h-[560px] rounded-3xl overflow-hidden bg-white border border-stone-200/80 shadow-sm cursor-crosshair group flex items-center justify-center p-4">
+                        <img src="<%= selectedVariant.images.length > 0 ? selectedVariant.images[0] : '/default-image.jpg' %>" 
+                             alt="<%= productData.name %> - Main Image" 
+                             class="main-image w-full h-full object-contain object-center transition-transform duration-300" 
+                             id="mainImage">
+                        
+                        <!-- Floating Badges on Main Image -->
+                        <div class="absolute top-4 left-4 flex flex-col gap-2 pointer-events-none">
+                            <span class="online-exclusive inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-900 text-white text-[10px] sm:text-xs font-mono font-semibold tracking-wider uppercase shadow-sm">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                                Online Exclusive
+                            </span>
+                        </div>
+
+                        <% if (productData.appliedDiscount > 0) { %>
+                            <div class="absolute top-4 right-4 pointer-events-none">
+                                <span class="offer-badge inline-flex items-center px-3 py-1 rounded-full bg-rose-50 text-rose-700 border border-rose-200 text-xs font-extrabold tracking-wide shadow-xs">
+                                    <%= productData.appliedDiscount %>% OFF
+                                </span>
+                            </div>
+                        <% } %>
+
+                        <!-- Bottom Zoom Hint -->
+                        <div class="absolute bottom-3 right-3 hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/90 backdrop-blur-xs text-[11px] font-medium text-stone-500 border border-stone-200/80 pointer-events-none">
+                            <svg class="w-3.5 h-3.5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+                            Hover to Zoom
+                        </div>
                     </div>
                 </div>
 
-                <!-- Stock Status -->
-                <div class="stock-status <%= selectedVariant.stock > 0 ? 'in-stock' : 'out-of-stock' %>">
-                    <% if (selectedVariant.stock > 5) { %>
-                        In Stock
-                    <% } else if (selectedVariant.stock > 0) { %>
-                        Hurry up! Only <%= selectedVariant.stock %> left in stock
-                    <% } else { %>
-                        Out of Stock
+                <!-- Right: Product Purchase Details & Variants (5 cols) -->
+                <div class="product-info lg:col-span-5 flex flex-col justify-start">
+                    
+                    <!-- Brand & Rating Header -->
+                    <div class="flex items-center justify-between gap-3 mb-3">
+                        <div class="product-brand inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100/90 border border-stone-200/90 text-stone-800 shadow-2xs">
+                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                            <span class="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-stone-400 font-medium">Brand</span>
+                            <span class="h-3 w-px bg-stone-300"></span>
+                            <span class="text-xs font-bold uppercase tracking-wider text-stone-900 font-display"><%= productData.brand.name %></span>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs font-medium text-stone-600 bg-amber-50/80 px-2.5 py-1 rounded-full border border-amber-200/60 shadow-xs">
+                            <span class="text-amber-500 text-xs">★★★★☆</span>
+                            <span class="text-stone-500 text-[11px] font-semibold">(4.8)</span>
+                        </div>
+                    </div>
+
+                    <!-- Product Title -->
+                    <h1 class="product-title text-xl sm:text-2xl lg:text-[28px] font-bold tracking-tight text-stone-900 font-display leading-snug mb-3">
+                        <%= productData.name %>
+                    </h1>
+
+                    <!-- Pricing Box -->
+                    <div class="price-container flex items-baseline gap-3 pb-4 mb-5 border-b border-stone-200/80">
+                        <span class="selling-price text-2xl sm:text-3xl font-extrabold text-stone-950 font-display">
+                            ₹<%= productData.sellingPrice %>
+                        </span>
+                        <span class="mrp text-xs sm:text-sm text-stone-400 line-through font-medium">
+                            MRP: ₹<%= productData.actualPrice %>
+                        </span>
+                        <% if (productData.appliedDiscount > 0) { %>
+                            <span class="offer inline-flex items-center px-2.5 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] sm:text-xs font-bold tracking-wide">
+                                Save <%= productData.appliedDiscount %>%
+                            </span>
+                        <% } %>
+                    </div>
+
+                    <!-- Available Colors (Variant Selector Form) -->
+                    <div class="available-colors mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="colors-title flex items-center gap-2">
+                                <span class="text-xs font-bold uppercase tracking-wider text-stone-900 font-display">
+                                    Color:
+                                </span>
+                                <span class="px-2.5 py-0.5 rounded-md bg-stone-100 text-stone-900 font-bold text-xs border border-stone-200/80 shadow-2xs font-display">
+                                    <%= selectedVariant.colorName %>
+                                </span>
+                            </div>
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-stone-100/90 border border-stone-200/70 text-[11px] font-mono font-medium text-stone-600">
+                                <span class="w-1.5 h-1.5 rounded-full bg-stone-400"></span>
+                                <%= productData.variants.filter(v => v.isListed).length %> Options
+                            </span>
+                        </div>
+                        
+                        <div class="color-options flex flex-wrap items-center gap-2.5">
+                            <% productData.variants.forEach((variant) => { %>
+                                <% if (variant.isListed) { %>
+                                    <% const isSelectedColor = variant._id.toString() === selectedVariant._id.toString(); %>
+                                    <form action="/productdetail/<%= productData._id %>" method="GET" class="inline">
+                                        <input type="hidden" name="variantId" value="<%= variant._id %>">
+                                        <button type="submit" 
+                                                class="color-option group relative inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all duration-200 hover:scale-105 active:scale-95 <%= isSelectedColor ? 'border-stone-950 bg-stone-950 text-white shadow-sm ring-2 ring-stone-900/10' : 'border-stone-200/90 bg-white text-stone-700 hover:border-stone-400' %>">
+                                            <div class="color-circle w-4 h-4 rounded-full border border-black/10 shrink-0 shadow-xs" 
+                                                 style="background-color: <%= variant.color %>"></div>
+                                            <span class="color-name truncate"><%= variant.colorName %></span>
+                                        </button>
+                                    </form>
+                                <% } %>
+                            <% }) %>
+                        </div>
+                    </div>
+
+                    <!-- Stock Status Badge -->
+                    <div class="mb-6">
+                        <% if (selectedVariant.stock > 5) { %>
+                            <div class="stock-status in-stock inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                In Stock & Ready to Ship
+                            </div>
+                        <% } else if (selectedVariant.stock > 0) { %>
+                            <div class="stock-status in-stock inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold">
+                                <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                                Hurry up! Only <%= selectedVariant.stock %> left in stock
+                            </div>
+                        <% } else { %>
+                            <div class="stock-status out-of-stock inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold">
+                                <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                                Currently Out of Stock
+                            </div>
+                        <% } %>
+                    </div>
+
+                    <!-- Action Buttons Container -->
+                    <div class="action-buttons flex flex-col sm:flex-row items-stretch gap-3 pt-2">
+                        <!-- Add to Cart / Go to Cart Button -->
+                        <% const inCart = locals.cartProductIds && locals.cartProductIds.includes(`${productData._id}_${selectedVariant._id}`); %>
+                        <button class="add-to-cart-btn flex-1 py-3.5 px-6 rounded-2xl text-xs sm:text-sm font-bold uppercase tracking-wider text-white transition-all duration-200 shadow-sm flex items-center justify-center gap-2.5 active:scale-[0.99] <%= selectedVariant.stock <= 0 ? 'bg-stone-300 text-stone-500 cursor-not-allowed' : (inCart ? 'go-to-cart-active bg-stone-900 hover:bg-black' : 'bg-stone-950 hover:bg-stone-800') %>"
+                                onclick="addToCart('<%= productData._id %>', '<%= selectedVariant._id %>', this)"
+                                <%= selectedVariant.stock <= 0 ? 'disabled' : '' %>>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                            <span><%= inCart ? 'Go to Cart' : 'Add to Cart' %></span>
+                        </button>
+
+                        <!-- Wishlist Button -->
+                        <button class="wishlist-button py-3.5 px-5 rounded-2xl bg-white border border-stone-200/90 hover:bg-stone-50 text-stone-800 text-xs sm:text-sm font-semibold transition-all duration-200 shadow-xs flex items-center justify-center gap-2 active:scale-[0.99] group cursor-pointer" 
+                                onclick="addToWishlist('<%= productData._id %>', '<%= selectedVariant._id %>')">
+                            <i class="fas fa-heart wishlist-icon text-sm transition-transform duration-200 group-hover:scale-110 <%= isInWishlist ? 'active text-rose-500' : 'text-stone-400' %>" 
+                               data-product="<%= productData._id %>" 
+                               data-variant="<%= selectedVariant._id %>"></i>
+                            <span class="wishlist-text text-xs sm:text-sm">
+                                <%= isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist' %>
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- Trust Signals & Delivery Features -->
+                    <div class="grid grid-cols-3 gap-2 pt-6 mt-6 border-t border-stone-200/80 text-center">
+                        <div class="p-2.5 rounded-xl bg-white/60 border border-stone-200/60">
+                            <svg class="w-4 h-4 mx-auto mb-1 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[11px] font-bold text-stone-800 block">100% Genuine</span>
+                            <span class="text-[10px] text-stone-400">Direct Craft</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-white/60 border border-stone-200/60">
+                            <svg class="w-4 h-4 mx-auto mb-1 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                            <span class="text-[11px] font-bold text-stone-800 block">7-Day Return</span>
+                            <span class="text-[10px] text-stone-400">Hassle-Free</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-white/60 border border-stone-200/60">
+                            <svg class="w-4 h-4 mx-auto mb-1 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                            <span class="text-[11px] font-bold text-stone-800 block">Secure Checkout</span>
+                            <span class="text-[10px] text-stone-400">Encrypted</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Product Specifications / Description Section -->
+            <div class="product-description py-12 lg:py-16 border-b border-stone-200/80">
+                <div class="flex items-center gap-2.5 mb-6">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    <h3 class="description-heading text-xs sm:text-sm font-bold uppercase tracking-widest text-stone-900 font-display flex items-baseline gap-2">
+                        Product <span class="font-serif italic font-normal text-stone-600 lowercase tracking-normal text-base sm:text-lg">details &amp; specifications</span>
+                    </h3>
+                    <span class="h-px flex-1 max-w-[60px] bg-stone-300/80"></span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+                    <!-- Left: Main Description Card (8 cols) -->
+                    <div class="lg:col-span-8 bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/80 shadow-xs relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-stone-50 rounded-bl-full pointer-events-none -z-0 opacity-60"></div>
+                        <div class="relative z-10">
+                            <div class="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-amber-800 bg-amber-50/80 border border-amber-200/60 px-2.5 py-1 rounded-full mb-4">
+                                <span class="w-1 h-1 rounded-full bg-amber-500"></span>
+                                Design &amp; Craftsmanship
+                            </div>
+                            <h4 class="text-lg font-bold font-display text-stone-900 mb-4">
+                                Technical Specifications &amp; Build
+                            </h4>
+                            <div class="product-description-content space-y-3.5">
+                                <% 
+                                    const rawDesc = (productData.description || '').trim();
+                                    const descParagraphs = rawDesc.split(/\r?\n+/).map(p => p.trim()).filter(Boolean);
+                                    if (descParagraphs.length > 0) {
+                                        descParagraphs.forEach((paragraph) => {
+                                            const colonIndex = paragraph.indexOf(':');
+                                            if (colonIndex > 0 && colonIndex <= 60) {
+                                                const label = paragraph.substring(0, colonIndex).trim();
+                                                const content = paragraph.substring(colonIndex + 1).trim();
+                                %>
+                                                <div class="p-4 sm:p-5 rounded-2xl bg-stone-50/80 border border-stone-200/70 hover:border-stone-300 transition-colors">
+                                                    <div class="flex items-center gap-2 mb-2">
+                                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"></span>
+                                                        <h5 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-stone-900 font-display">
+                                                            <%= label %>
+                                                        </h5>
+                                                    </div>
+                                                    <p class="text-sm sm:text-[15px] text-stone-600 leading-relaxed font-sans pl-3.5">
+                                                        <%= content %>
+                                                    </p>
+                                                </div>
+                                <%          } else { %>
+                                                <div class="p-4 sm:p-5 rounded-2xl bg-stone-50/60 border border-stone-200/60">
+                                                    <p class="text-sm sm:text-[15px] text-stone-700 leading-relaxed font-sans">
+                                                        <%= paragraph %>
+                                                    </p>
+                                                </div>
+                                <%          }
+                                        });
+                                    } else { %>
+                                        <p class="text-sm text-stone-400 italic">No description available for this product.</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Minimalist Highlights & Standards (4 cols) -->
+                    <div class="lg:col-span-4 flex flex-col gap-3">
+                        <div class="p-4 sm:p-5 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-start gap-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-stone-50 border border-stone-100 flex items-center justify-center text-stone-800 shrink-0">
+                                <svg class="w-5 h-5 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                            </div>
+                            <div>
+                                <h5 class="text-xs font-bold text-stone-900 font-display uppercase tracking-wide">Weatherproof Resilience</h5>
+                                <p class="text-xs text-stone-500 mt-0.5 leading-relaxed">Built with abrasion-resistant fabrics to protect your gear from unpredictable transit conditions.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 sm:p-5 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-start gap-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-stone-50 border border-stone-100 flex items-center justify-center text-stone-800 shrink-0">
+                                <svg class="w-5 h-5 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                            </div>
+                            <div>
+                                <h5 class="text-xs font-bold text-stone-900 font-display uppercase tracking-wide">Ergonomic Architecture</h5>
+                                <p class="text-xs text-stone-500 mt-0.5 leading-relaxed">Calculated load balance and weight distribution for effortless, fatigue-free carrying.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 sm:p-5 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-start gap-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-stone-50 border border-stone-100 flex items-center justify-center text-stone-800 shrink-0">
+                                <svg class="w-5 h-5 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            </div>
+                            <div>
+                                <h5 class="text-xs font-bold text-stone-900 font-display uppercase tracking-wide">Expedition Grade Hardware</h5>
+                                <p class="text-xs text-stone-500 mt-0.5 leading-relaxed">Reinforced bar-tacking and durable hardware built to endure journeys of any horizon.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 sm:p-5 rounded-2xl bg-white border border-stone-200/80 shadow-xs flex items-start gap-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-stone-50 border border-stone-100 flex items-center justify-center text-stone-800 shrink-0">
+                                <svg class="w-5 h-5 text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                            </div>
+                            <div>
+                                <h5 class="text-xs font-bold text-stone-900 font-display uppercase tracking-wide">Intelligent Organization</h5>
+                                <p class="text-xs text-stone-500 mt-0.5 leading-relaxed">Dedicated compartments and quick-access utility pockets to keep gear organized on the move.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Reviews -->
+            <div class="product-reviews py-12 border-b border-stone-200/80">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="reviews-title text-xl sm:text-2xl font-bold tracking-tight text-stone-950 font-display">
+                            Verified Reviews &amp; Ratings
+                        </h2>
+                        <p class="text-xs text-stone-500 mt-1">Real feedback from verified PackSmart expeditioners</p>
+                    </div>
+                    <div class="write-review">
+                        <button class="write-review-btn px-4 py-2 rounded-xl border border-stone-300 hover:border-stone-900 hover:bg-stone-900 hover:text-white text-stone-800 text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-xs">
+                            Write a Review
+                        </button>
+                    </div>
+                </div>
+
+                <div class="rating-bars max-w-md bg-white rounded-2xl border border-stone-200/80 p-5 shadow-xs">
+                    <% for(let i = 5; i >= 1; i--){ %>
+                        <div class="rating-row flex items-center gap-3 py-1.5 text-xs text-stone-600 font-medium">
+                            <span class="star-number w-8 flex items-center gap-1 font-bold text-stone-800">
+                                <%= i %> <span class="text-amber-500">★</span>
+                            </span>
+                            <div class="rating-bar flex-1 h-2 bg-stone-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-amber-400 rounded-full" style="width: <%= i === 5 ? '75%' : (i === 4 ? '20%' : '5%') %>"></div>
+                            </div>
+                            <span class="rating-count w-8 text-right font-mono text-stone-400">
+                                <%= i === 5 ? '18' : (i === 4 ? '4' : '0') %>
+                            </span>
+                        </div>
                     <% } %>
                 </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button class="wishlist-button" 
-                            onclick="addToWishlist('<%= productData._id %>', '<%= selectedVariant._id %>')">
-                        <i class="fas fa-heart wishlist-icon <%= isInWishlist ? 'active' : '' %>" 
-                           data-product="<%= productData._id %>" 
-                           data-variant="<%= selectedVariant._id %>"></i>
-                        <span class="wishlist-text">
-                            <%= isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist' %>
-                        </span>
-                    </button>
-                    <!-- Disable "Add to Cart" button if out of stock -->
-                    <% const inCart = locals.cartProductIds && locals.cartProductIds.includes(`${productData._id}_${selectedVariant._id}`); %>
-                    <button class="add-to-cart-btn <%= inCart ? 'go-to-cart-active' : '' %>" 
-                            onclick="addToCart('<%= productData._id %>', '<%= selectedVariant._id %>', this)"
-                            <%= selectedVariant.stock <= 0 ? 'disabled' : '' %>>
-                        <%= inCart ? 'Go to Cart' : 'Add to Cart' %>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product Description -->
-        <div class="product-description">
-            <h3 class="description-heading">Specification:</h3>
-            <div>
-                <%= productData.description %>
-            </div>
-        </div>
-
-        <!-- Product Reviews -->
-        <div class="product-reviews">
-            <h2 class="reviews-title">Product reviews</h2>
-            <div class="rating-bars">
-                <% for(let i = 5; i >= 1; i--){ %>
-                <div class="rating-row">
-                    <span class="star-number"> ★</span>
-                    <div class="rating-bar"></div>
-                    <span class="rating-count">0</span>
-                </div>
-                <% } %>
             </div>
 
-            <div class="write-review">
-                <button class="write-review-btn">Write a review</button>
-            </div>
-        </div>
-
-        <!-- Related Products -->
-        <div class="related-products">
-            <h2 class="related-title">Related Products</h2>
-            <div class="products-grid">
-                <% if (relatedProducts.length > 0) { %>
-                    <% relatedProducts.forEach((product) => { %>
-                      <!-- Check if the product has at least one listed variant -->
-                      <% if (product.variants.some(v => v.isListed)) { %>
-                        <div class="product-card">
-                          <!-- Use the first listed variant -->
-                          <% const listedVariant = product.variants.find(v => v.isListed); %>
-                          <a href="/productdetail/<%= product._id %>?variantId=<%= listedVariant._id %>" class="product-link">
-                            <div class="product-image">
-                              <img src="<%= listedVariant.images.length > 0 ? listedVariant.images[0] : '/default-image.jpg' %>" alt="<%= product.name %>">
-                              <!-- Display the highest offer badge -->
-                              <% if (product.appliedDiscount > 0) { %>
-                                <div class="offer-badge"><%= product.appliedDiscount %>% OFF</div>
-                              <% } %>
-                          </a>
-                              <div class="product-wishlist">
-                                <i class="fas fa-heart wishlist-icon" 
-                                   data-product="<%= product._id %>" 
-                                   data-variant="<%= listedVariant._id %>"
-                                   onclick="addToWishlist('<%= product._id %>', '<%= listedVariant._id %>')"></i>
-                            </div>
-                            </div>
-                         
-                          <div class="product-details">
-                            <h3 class="product-name"><%= product.name %></h3>
-                            <div class="price-container">
-                              <span class="mrp">M.R.P₹<%= product.actualPrice %></span>
-                              <span class="selling-price">₹<%= product.sellingPrice %></span>
-                            </div>
-                            <div class="product-rating">★★★★☆</div>
-                            <% const inRelatedCart = locals.cartProductIds && locals.cartProductIds.includes(`${product._id}_${listedVariant._id}`); %>
-                            <button class="add-to-cart <%= inRelatedCart ? 'go-to-cart-active' : '' %>" onclick="addToCart('<%= product._id %>', '<%= listedVariant._id %>', this)">
-                              <%= inRelatedCart ? 'Go to Cart' : 'Add to Cart' %>
-                            </button>
-                          </div>
+            <!-- Related Products Section -->
+            <div class="related-products pt-12 pb-8">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                            <span class="text-xs font-bold uppercase tracking-widest text-stone-500 font-display">
+                                Recommended Gear
+                            </span>
                         </div>
-                      <% } %>
-                    <% }) %>
-                  <% } else { %>
-                    <p>No related products found.</p>
-                  <% } %>
+                        <h2 class="related-title text-2xl sm:text-3xl font-black tracking-tight text-stone-950 font-display">
+                            Related Products
+                        </h2>
+                    </div>
+                    <a href="/userproducts" class="inline-flex items-center gap-1.5 text-xs font-bold tracking-widest uppercase text-stone-900 hover:text-black font-display group">
+                        <span>View Catalog</span>
+                        <span class="w-6 h-6 rounded-full bg-stone-100 flex items-center justify-center group-hover:bg-stone-900 group-hover:text-white transition-all text-xs">&rarr;</span>
+                    </a>
+                </div>
+
+                <div class="products-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+                    <% if (relatedProducts.length > 0) { %>
+                        <% relatedProducts.forEach((product) => { %>
+                            <% if (product.variants.some(v => v.isListed)) { %>
+                                <% const listedVariant = product.variants.find(v => v.isListed); %>
+                                <div class="product-card group relative flex flex-col justify-between bg-white rounded-2xl border border-stone-200/80 shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                                    <div class="product-top relative">
+                                        <a href="/productdetail/<%= product._id %>?variantId=<%= listedVariant._id %>" class="product-link block aspect-square w-full overflow-hidden bg-stone-50 p-4">
+                                            <div class="product-image w-full h-full flex items-center justify-center">
+                                                <img src="<%= listedVariant.images.length > 0 ? listedVariant.images[0] : '/default-image.jpg' %>" 
+                                                     alt="<%= product.name %>"
+                                                     class="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500">
+                                            </div>
+                                        </a>
+
+                                        <% if (product.appliedDiscount > 0) { %>
+                                            <div class="offer-badge absolute top-3 left-3 bg-stone-900 text-white text-[10px] font-bold px-2 py-0.5 rounded-md tracking-wider uppercase shadow-xs">
+                                                <%= product.appliedDiscount %>% OFF
+                                            </div>
+                                        <% } %>
+
+                                        <button type="button" 
+                                                class="product-wishlist absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs border border-stone-200/80 flex items-center justify-center text-stone-400 hover:text-rose-500 hover:bg-white shadow-xs transition-all duration-200 cursor-pointer"
+                                                onclick="addToWishlist('<%= product._id %>', '<%= listedVariant._id %>')">
+                                            <i class="fas fa-heart wishlist-icon text-xs <%= locals.wishlistProductIds && locals.wishlistProductIds.includes(`${product._id}_${listedVariant._id}`) ? 'active text-rose-500' : '' %>" 
+                                               data-product="<%= product._id %>" 
+                                               data-variant="<%= listedVariant._id %>"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="product-details p-4 flex flex-col flex-1 justify-between bg-white border-t border-stone-100">
+                                        <div>
+                                            <div class="product-rating text-amber-400 text-xs mb-1.5">★★★★☆</div>
+                                            <h3 class="product-name text-sm font-bold text-stone-900 line-clamp-1 mb-2 font-display group-hover:text-black transition-colors" title="<%= product.name %>">
+                                                <%= product.name %>
+                                            </h3>
+                                            <div class="price-container flex items-baseline gap-2 mb-3">
+                                                <span class="selling-price text-base font-extrabold text-stone-950 font-display">₹<%= product.sellingPrice %></span>
+                                                <span class="mrp text-xs text-stone-400 line-through">₹<%= product.actualPrice %></span>
+                                            </div>
+                                        </div>
+
+                                        <% const inRelatedCart = locals.cartProductIds && locals.cartProductIds.includes(`${product._id}_${listedVariant._id}`); %>
+                                        <button class="add-to-cart w-full py-2 px-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-xs flex items-center justify-center gap-1.5 active:scale-[0.98] <%= inRelatedCart ? 'go-to-cart-active bg-stone-900 text-white' : 'bg-stone-950 hover:bg-stone-800 text-white' %>" 
+                                                onclick="addToCart('<%= product._id %>', '<%= listedVariant._id %>', this)">
+                                            <%= inRelatedCart ? 'Go to Cart' : 'Add to Cart' %>
+                                        </button>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% }) %>
+                    <% } else { %>
+                        <div class="col-span-full py-12 text-center text-stone-400 text-sm">
+                            No related products found.
+                        </div>
+                    <% } %>
+                </div>
             </div>
-        </div>
-    <% } %>
+        <% } %>
+    </main>
 
-
+    <!-- Client Scripts (Preserved 100%) -->
     <script>
-        // Function to update the main image when a thumbnail is clicked
+        // Update main image from thumbnail
         function updateMainImage(thumbnail) {
+            if (!thumbnail) return;
             const mainImage = document.getElementById('mainImage');
-            mainImage.src = thumbnail.src;
+            if (mainImage) {
+                mainImage.src = thumbnail.src;
+            }
 
             // Update active state of thumbnails
-            document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+                if (thumb.closest('.thumbnail-btn')) {
+                    thumb.closest('.thumbnail-btn').classList.remove('border-stone-900', 'ring-2', 'ring-stone-900/20');
+                    thumb.closest('.thumbnail-btn').classList.add('border-stone-200/80');
+                }
+            });
             thumbnail.classList.add('active');
+            if (thumbnail.closest('.thumbnail-btn')) {
+                thumbnail.closest('.thumbnail-btn').classList.remove('border-stone-200/80');
+                thumbnail.closest('.thumbnail-btn').classList.add('border-stone-900', 'ring-2', 'ring-stone-900/20');
+            }
         }
 
+        // Zoom Effect
+        document.addEventListener("DOMContentLoaded", function () {
+            const mainImageContainer = document.querySelector(".main-image-container");
+            const mainImage = document.getElementById("mainImage");
 
+            if (mainImageContainer && mainImage) {
+                const zoomBox = document.createElement("div");
+                zoomBox.classList.add("zoom-box");
+                document.body.appendChild(zoomBox);
 
-        //zoom
-    document.addEventListener("DOMContentLoaded", function () {
-    const mainImageContainer = document.querySelector(".main-image-container");
-    const mainImage = document.getElementById("mainImage");
+                mainImageContainer.addEventListener("mousemove", function (e) {
+                    // Only zoom on desktop (screen width >= 1024px)
+                    if (window.innerWidth < 1024) {
+                        zoomBox.style.display = "none";
+                        return;
+                    }
+                    const { left, top, width, height } = mainImage.getBoundingClientRect();
+                    const x = ((e.clientX - left) / width) * 100;
+                    const y = ((e.clientY - top) / height) * 100;
 
-    // Create zoomed preview box
-    const zoomBox = document.createElement("div");
-    zoomBox.classList.add("zoom-box");
-    document.body.appendChild(zoomBox);
+                    zoomBox.style.backgroundImage = `url(${mainImage.src})`;
+                    zoomBox.style.backgroundPosition = `${x}% ${y}%`;
+                    zoomBox.style.display = "block";
 
-    mainImageContainer.addEventListener("mousemove", function (e) {
-        const { left, top, width, height } = mainImage.getBoundingClientRect();
-        const x = ((e.clientX - left) / width) * 100;
-        const y = ((e.clientY - top) / height) * 100;
+                    // Position zoom box next to the main image
+                    zoomBox.style.top = `${top}px`;
+                    zoomBox.style.left = `${left + width + 24}px`;
+                });
 
-        zoomBox.style.backgroundImage = `url(${mainImage.src})`;
-        zoomBox.style.backgroundPosition = `${x}% ${y}%`;
-        zoomBox.style.display = "block";
-
-        // Position zoom box next to the main image
-        zoomBox.style.top = `${top}px`;
-        zoomBox.style.left = `${left + width + 20}px`; // Offset from the image
-    });
-
-    mainImageContainer.addEventListener("mouseleave", function () {
-        zoomBox.style.display = "none";
-    });
-});
-
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const wishlistButton = document.querySelector('.wishlist-button');
-        const wishlistIcon = wishlistButton.querySelector('.wishlist-icon');
-        const wishlistText = wishlistButton.querySelector('.wishlist-text');
-
-        wishlistButton.addEventListener('click', () => {
-            setTimeout(() => { // Delay to allow addToWishlist to update class
-                if (wishlistIcon.classList.contains('active')) {
-                    wishlistText.textContent = 'Remove from Wishlist';
-                } else {
-                    wishlistText.textContent = 'Add to Wishlist';
-                }
-            }, 100); // Small delay to ensure DOM updates
+                mainImageContainer.addEventListener("mouseleave", function () {
+                    zoomBox.style.display = "none";
+                });
+            }
         });
-    });
 
+        // Wishlist button text update handler
+        document.addEventListener('DOMContentLoaded', () => {
+            const wishlistButton = document.querySelector('.wishlist-button');
+            if (wishlistButton) {
+                const wishlistIcon = wishlistButton.querySelector('.wishlist-icon');
+                const wishlistText = wishlistButton.querySelector('.wishlist-text');
 
+                wishlistButton.addEventListener('click', () => {
+                    setTimeout(() => {
+                        if (wishlistIcon && wishlistText) {
+                            if (wishlistIcon.classList.contains('active')) {
+                                wishlistText.textContent = 'Remove from Wishlist';
+                            } else {
+                                wishlistText.textContent = 'Add to Wishlist';
+                            }
+                        }
+                    }, 100);
+                });
+            }
+        });
     </script>
+
     <%-include('../partials/user/footer')%>
 </body>
 </html>

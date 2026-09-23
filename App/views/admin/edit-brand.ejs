@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/user/icons/favicon.png">
     <title>Edit Brand - Admin Dashboard</title>
     <link rel="stylesheet" href="/admin/css/add-brand.css">
     <link rel="stylesheet" href="/admin/css/partial.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
+    </head>
 <body>
     <%-include('../partials/admin/header')%>
     
@@ -39,11 +39,11 @@
             const brandName = nameInput.value.trim();
             
             if(brandName === '') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Please enter a brand name'
-                });
+                if (window.notyf) {
+                    window.notyf.error('Please enter a brand name');
+                } else {
+                    alert('Please enter a brand name');
+                }
                 return;
             }
             
@@ -59,28 +59,25 @@
                 const data = await response.json();
 
                 if(response.ok) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Brand updated successfully!',
-                        timer: 1500,
-                        showConfirmButton: false
-                    }).then(() => {
+                    if (window.notyf) {
+                        window.notyf.success('Brand updated successfully!');
+                    }
+                    setTimeout(() => {
                         window.location.href = '/admin/brands';
-                    });
+                    }, 1200);
                 } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: data.message || 'Failed to update brand'
-                    });
+                    if (window.notyf) {
+                        window.notyf.error(data.message || 'Failed to update brand');
+                    } else {
+                        alert(data.message || 'Failed to update brand');
+                    }
                 }
             } catch(error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Something went wrong'
-                });
+                if (window.notyf) {
+                    window.notyf.error('Something went wrong');
+                } else {
+                    alert('Something went wrong');
+                }
             }
         });
     </script>

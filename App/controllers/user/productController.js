@@ -63,62 +63,6 @@ exports.getHomepage = async (req, res, next) => {
 };
 
 
-// =========================================================CategoryProducts-GET===================================================//
-
-exports.getCategoryProductspage = async (req,res,next)=>{
-  try {
-   const categoryId = req.params.categoryId
-
-   // Fetch category details
-   const category = await Category.findOne({ _id: categoryId, isListed: true });
-    if (!category) {
-      return res.status(404).render('page-404');
-    }
-
-   const categoryOffer = await Offer.findOne({ 
-    categoryId,
-    isActive: true,
-    validFrom: { $lte: new Date() },
-    validTo: { $gte: new Date() }
-   });
-
-
-   const products = await Product.find({ category: categoryId, isListed: true })
-    .populate({
-      path: 'brand',
-      match: { isListed: true }, 
-    });
-
-    // Prepare category-level discount
-    const categoryDiscount = categoryOffer ? categoryOffer.categoryDiscount : 0;
-
-    const validProducts = products.filter(
-      (product) => product.brand && product.variants.some((variant) => variant.isListed)
-    );
-
-     const ListedProducts = validProducts.filter(product => product.variants.some(variant => variant.isListed))
-      .map(product => {
-        const productOffer = product.productDiscount || 0;
-        const maxDiscount = Math.max(productOffer, categoryDiscount);
-
-        
-        const discountedPrice = Math.round(product.actualPrice - (product.actualPrice * maxDiscount) / 100);
-
-        return {
-          ...product.toObject(),  
-          sellingPrice: discountedPrice, 
-          appliedDiscount: maxDiscount,  
-        };
-      });
-
- 
-   return res.render('categoryProducts',{products:ListedProducts,category})
-  } catch (error) {
-   next(error);
-  }
-     
- }
-
 
  // =======================================================Products-GET============================================================//
  exports.getProductspage = async (req, res, next) => {

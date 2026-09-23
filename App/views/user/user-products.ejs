@@ -3,142 +3,385 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/user/css/user-products.css" />
-  <!-- Add SweetAlert -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-   <!--Include AddtoCart Fn,AddtoWishlist Fn-->
-   <script src="/user/js/addToCart.js"></script>
-   <script src="/user/js/addToWishlist.js"></script>
+  <link rel="icon" type="image/png" href="/user/icons/favicon.png">
+  <title>PackSmart - Curated Travel Gear & Bags</title>
+  <!-- Tailwind CSS & Editorial Google Fonts -->
+  <link rel="stylesheet" href="/user/css/tailwind.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome & Notyf Toasts (Loaded via Header) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- Cart & Wishlist Async Operations -->
+  <script src="/user/js/addToCart.js"></script>
+  <script src="/user/js/addToWishlist.js"></script>
 </head>
-<body>
+<body class="bg-[#fafafa] text-neutral-900 font-sans antialiased min-h-screen flex flex-col">
   <%- include('../partials/user/header') %>
-  <div class="breadcrumb-container">
-    <div class="breadcrumb">
-      <a href="/">Home</a>
-      <span class="separator">></span>
-      <a href="/userproducts">Products</a>
+
+  <!-- Breadcrumb Navigation -->
+  <div class="breadcrumb-container w-full border-b border-neutral-200/70 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+      <nav class="breadcrumb flex items-center gap-2 text-xs sm:text-sm text-neutral-500 font-medium">
+        <a href="/" class="hover:text-neutral-950 transition-colors">Home</a>
+        <span class="separator text-neutral-300">/</span>
+        <a href="/userproducts" class="text-neutral-900 font-semibold pointer-events-none">Products</a>
+      </nav>
     </div>
   </div>
-  <% if (search) { %>
-    <div class="search-result">
-      <p>Showing results for: "<%= search %>"</p>
+
+  <!-- Page Header & Collection Banner (Compact Luxury Edition) -->
+  <section class="relative w-full bg-gradient-to-br from-[#faf8f5] via-[#f7f5f0] to-[#f2ede4] border-b border-stone-200/80 overflow-hidden">
+    <!-- Subtle Ambient Warm Glow -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+      <div class="absolute -top-24 -right-24 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl"></div>
+      <div class="absolute top-1/2 -left-20 w-72 h-72 bg-stone-500/5 rounded-full blur-3xl"></div>
     </div>
-  <% } %>
-  <div class="content-wrapper">
-    <div class="filter-container">
-      <h3 class="filter-heading">Filters</h3>
-      <form id="filter-form" action="/userproducts" method="GET">
-        <% if (search) { %>
-          <input type="hidden" name="search" value="<%= search %>">
-        <% } %>      
-        <!-- Sort Filter -->
-        <div class="filter-section">
-          <div class="sort-container">
-            <select id="sort-options" name="sort" onchange="handleSortChange(this)">
-              <option value="" disabled <%= !sort ? 'selected' : '' %>>Sort By</option>
-              <option value="aZ" <%= sort === 'aZ' ? 'selected' : '' %>>Name: A to Z</option>
-              <option value="zA" <%= sort === 'zA' ? 'selected' : '' %>>Name: Z to A</option>
-              <option value="priceLowToHigh" <%= sort === 'priceLowToHigh' ? 'selected' : '' %>>Price: Low to High</option>
-              <option value="priceHighToLow" <%= sort === 'priceHighToLow' ? 'selected' : '' %>>Price: High to Low</option>
-            </select>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-9">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+        
+        <!-- Left Editorial Narrative & Badges (7 cols) -->
+        <div class="lg:col-span-7 space-y-3.5 sm:space-y-4">
+          
+          <!-- Overline Tag -->
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-900 text-white text-[10px] font-mono tracking-[0.25em] uppercase font-semibold shadow-xs">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+            Heritage & Expedition Series
+          </div>
+
+          <!-- Main Title -->
+          <div class="space-y-1.5">
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-stone-950 font-display leading-tight">
+              Crafted for the Journey, <span class="font-serif italic font-normal text-stone-600">Engineered to Endure</span>
+            </h1>
+            <p class="text-xs sm:text-sm text-stone-600 font-light leading-relaxed max-w-lg">
+              Heavy-duty waxed canvas duffels, weatherproof commuter packs, and reinforced leather carryalls built for rugged horizons and city transit.
+            </p>
+          </div>
+
+          <!-- Compact 3 Micro-Features Strip -->
+          <div class="flex flex-wrap items-center gap-2 pt-0.5">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-stone-200/80 text-[11px] font-semibold text-stone-800 shadow-xs">
+              <span class="w-1 h-1 rounded-full bg-amber-500"></span> Waxed Canvas
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-stone-200/80 text-[11px] font-semibold text-stone-800 shadow-xs">
+              <span class="w-1 h-1 rounded-full bg-amber-500"></span> Full-Grain Leather
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-stone-200/80 text-[11px] font-semibold text-stone-800 shadow-xs">
+              <span class="w-1 h-1 rounded-full bg-amber-500"></span> Reinforced Hardware
+            </span>
+          </div>
+
+          <!-- Dynamic Category Navigation Quick-Pills & Search Result -->
+          <div class="pt-2 flex flex-col gap-2">
+            <% if (categories && categories.length > 0) { %>
+              <div class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-stone-900 font-display flex items-baseline gap-1.5">
+                  Explore <span class="font-serif italic font-normal text-stone-500 lowercase tracking-normal text-sm">by</span> Category
+                </span>
+                <span class="h-px w-8 bg-stone-300/80"></span>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <% categories.slice(0, 5).forEach(cat => { %>
+                  <% const isCatActive = category && (Array.isArray(category) ? category.includes(cat._id.toString()) : category === cat._id.toString()); %>
+                  <a href="<%= isCatActive ? '/userproducts' : '/userproducts?category=' + cat._id %>" 
+                     title="<%= isCatActive ? 'Click to clear category filter' : 'Filter by ' + cat.name %>"
+                     class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border shadow-xs transition-all duration-200 hover:scale-105 active:scale-95 <%= isCatActive ? 'bg-neutral-900 text-white border-neutral-900 shadow-sm' : 'bg-white hover:bg-neutral-900 text-neutral-700 hover:text-white border-neutral-200 hover:border-neutral-900' %>">
+                    <% if (isCatActive) { %>
+                      <span class="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block animate-pulse"></span>
+                    <% } %>
+                    <span><%= cat.name %></span>
+                    <% if (isCatActive) { %>
+                      <svg class="w-3 h-3 text-neutral-400 hover:text-white ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    <% } %>
+                  </a>
+                <% }) %>
+
+                <% if (search) { %>
+                  <div class="search-result inline-flex items-center gap-2 bg-amber-50 border border-amber-200/80 rounded-full px-3 py-1 text-xs text-amber-900">
+                    <span class="text-amber-700 font-medium">Filtered by:</span>
+                    <span class="font-bold text-stone-900">"<%= search %>"</span>
+                    <a href="/userproducts" class="ml-1 text-amber-700 hover:text-stone-900 transition" title="Clear search">
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </a>
+                  </div>
+                <% } %>
+              </div>
+            <% } %>
+          </div>
+
+        </div>
+
+        <!-- Right Featured Image Showcase (5 cols - Clear products-banner2.jpg) -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative w-full h-72 sm:h-80 lg:h-[360px] rounded-3xl overflow-hidden shadow-2xl shadow-stone-900/10 border border-stone-200/90 bg-stone-100 group">
+            <img src="/user/images/products-banner1.jpg" 
+                 alt="PackSmart Travel & Commuter Bags" 
+                 class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out">
+            
+            <!-- Top Floating Badge -->
+            <div class="absolute top-3.5 left-3.5 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold text-stone-900 shadow-sm flex items-center gap-1.5 border border-stone-100">
+              <span class="text-amber-600">✦</span> Signature Collection
+            </div>
+
+            <!-- Bottom Floating Pill Tag (Unobtrusive) -->
+            <div class="absolute bottom-3.5 right-3.5 bg-stone-950/85 backdrop-blur-md px-3.5 py-1.5 rounded-full text-[11px] font-medium text-stone-200 shadow-lg border border-white/10 flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+              Waxed Canvas & Leather
+            </div>
           </div>
         </div>
-        <!-- Availability Filter -->
-        <div class="filter-section">
-          <h4>Availability</h4>
-          <label>
-            <input type="checkbox" name="availability" value="inStock" <%= availability === 'inStock' ? 'checked' : '' %>>
-            In Stock
-          </label>
-        </div>
-        <!-- Price Range Filter -->
-        <div class="filter-section">
-          <h4>Price Range</h4>
-          <input type="number" name="minPrice" placeholder="Min Price" id="minPrice" value="<%= minPrice || '' %>">
-          <input type="number" name="maxPrice" placeholder="Max Price" id="maxPrice" value="<%= maxPrice || '' %>">
-        </div>
-        <!-- Category Filter -->
-        <div class="filter-section">
-          <h4>Categories</h4>
-          <% categories.forEach(categoryItem => { %>
-            <label>
-              <input type="checkbox" name="category" value="<%= categoryItem._id %>"
-                <%= category && (Array.isArray(category) ? category.includes(categoryItem._id.toString()) : category === categoryItem._id.toString()) ? 'checked' : '' %>>
-              <%= categoryItem.name %>
-            </label>
-          <% }) %>
-        </div>
-        <!-- Brand Filter -->
-        <div class="filter-section">
-          <h4>Brands</h4>
-          <% brands.forEach(brandItem => { %>
-            <label>
-              <input type="checkbox" name="brand" value="<%= brandItem._id %>"
-                <%= brand && (Array.isArray(brand) ? brand.includes(brandItem._id.toString()) : brand === brandItem._id.toString()) ? 'checked' : '' %>>
-              <%= brandItem.name %>
-            </label>
-          <% }) %>
-        </div>
-        <button type="submit" class="apply-filter-btn">Apply Filters</button>
-      </form>
+
+      </div>
     </div>
-    <div class="products-grid">
-      <% if (products.length > 0) { %>
-        <% products.forEach((product) => { %>
-          <!-- Check if the product has at least one listed variant -->
-          <% if (product.variants.some(v => v.isListed)) { %>
-            <div class="product-card">
-              <!-- Use the first listed variant -->
-              <% const listedVariant = product.variants.find(v => v.isListed); %>
-              <a href="/productdetail/<%= product._id %>?variantId=<%= listedVariant._id %>" class="product-link">
-                <div class="product-image">
-                  <img src="<%= listedVariant.images.length > 0 ? listedVariant.images[0] : '/default-image.jpg' %>" alt="<%= product.name %>">
-                  <% if (product.appliedDiscount > 0) { %>
-                    <div class="offer-badge"><%= product.appliedDiscount %>% OFF</div>
-                  <% } %>
-              </a>
-                <div class="product-wishlist">
-                  <i class="fas fa-heart wishlist-icon" 
-                     data-product="<%= product._id %>" 
-                     data-variant="<%= listedVariant._id %>"
-                     onclick="addToWishlist('<%= product._id %>', '<%= listedVariant._id %>')"></i>
+  </section>
+
+  <!-- Main Content Layout -->
+  <main class="content-wrapper flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    
+    <!-- Mobile Filter & Sort Toggle Button -->
+    <div class="lg:hidden flex items-center justify-between gap-3 mb-5 bg-white p-3.5 rounded-2xl border border-neutral-200/80 shadow-sm">
+      <button type="button" 
+              onclick="const el = document.getElementById('filter-sidebar-wrapper'); el.classList.toggle('hidden');" 
+              class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-neutral-800 hover:text-neutral-950 transition">
+        <svg class="w-4 h-4 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+        Filters & Sort
+      </button>
+      <span class="text-xs text-neutral-500 font-medium">
+        <%= products.filter(p => p.variants && p.variants.some(v => v.isListed)).length %> Available
+      </span>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-8 items-start w-full">
+      
+      <!-- Filter Sidebar Container -->
+      <aside id="filter-sidebar-wrapper" class="hidden lg:block w-full lg:w-72 xl:w-80 shrink-0">
+        <div class="filter-container bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-6 sticky top-24 space-y-6">
+          
+          <div class="flex items-center justify-between pb-4 border-b border-neutral-100">
+            <h3 class="filter-heading text-base font-bold text-neutral-900 font-display flex items-center gap-2">
+              <svg class="w-4 h-4 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+              Filter Selection
+            </h3>
+            <a href="/userproducts" class="text-xs font-semibold text-neutral-400 hover:text-neutral-950 transition flex items-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              Reset
+            </a>
+          </div>
+
+          <form id="filter-form" action="/userproducts" method="GET" class="space-y-6">
+            <% if (search) { %>
+              <input type="hidden" name="search" value="<%= search %>">
+            <% } %>
+
+            <!-- Sort Filter Section -->
+            <div class="filter-section pb-5 border-b border-neutral-100">
+              <label for="sort-options" class="block text-xs font-bold uppercase tracking-wider text-neutral-700 font-display mb-2.5">
+                Sort By
+              </label>
+              <div class="sort-container relative">
+                <select id="sort-options" name="sort" onchange="handleSortChange(this)"
+                        class="w-full appearance-none bg-neutral-50/70 hover:bg-neutral-100/60 border border-neutral-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-medium text-neutral-800 focus:bg-white focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition outline-none cursor-pointer pr-10">
+                  <option value="" disabled <%= !sort ? 'selected' : '' %>>Default Order</option>
+                  <option value="aZ" <%= sort === 'aZ' ? 'selected' : '' %>>Name: A to Z</option>
+                  <option value="zA" <%= sort === 'zA' ? 'selected' : '' %>>Name: Z to A</option>
+                  <option value="priceLowToHigh" <%= sort === 'priceLowToHigh' ? 'selected' : '' %>>Price: Low to High</option>
+                  <option value="priceHighToLow" <%= sort === 'priceHighToLow' ? 'selected' : '' %>>Price: High to Low</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-400">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                 </div>
-              </div>
-              <div class="product-details">
-                <h3 class="product-name"><%= product.name %></h3>
-                <div class="price-container">
-                  <span class="mrp">M.R.P₹<%= product.actualPrice %></span>
-                  <span class="selling-price">₹<%= product.sellingPrice %></span>
-                </div>
-                <div class="product-rating">★★★★☆</div>
-                <% const inCart = locals.cartProductIds && locals.cartProductIds.includes(`${product._id}_${listedVariant._id}`); %>
-                <button class="add-to-cart <%= inCart ? 'go-to-cart-active' : '' %>" onclick="addToCart('<%= product._id %>', '<%= listedVariant._id %>', this)">
-                  <%= inCart ? 'Go to Cart' : 'Add to Cart' %>
-                </button>
               </div>
             </div>
+
+            <!-- Availability Filter Section -->
+            <div class="filter-section pb-5 border-b border-neutral-100">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-neutral-700 font-display mb-3">
+                Availability
+              </h4>
+              <label class="flex items-center gap-3 text-xs sm:text-sm text-neutral-700 hover:text-neutral-950 cursor-pointer select-none">
+                <input type="checkbox" name="availability" value="inStock" <%= availability === 'inStock' ? 'checked' : '' %>
+                       class="w-4 h-4 rounded border-neutral-300 text-neutral-950 focus:ring-neutral-900/30 cursor-pointer">
+                <span>In Stock Only</span>
+              </label>
+            </div>
+
+            <!-- Price Range Filter Section -->
+            <div class="filter-section pb-5 border-b border-neutral-100">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-neutral-700 font-display mb-3">
+                Price Range (₹)
+              </h4>
+              <div class="grid grid-cols-2 gap-2.5">
+                <div class="relative">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs font-semibold pointer-events-none">₹</span>
+                  <input type="number" name="minPrice" placeholder="Min" id="minPrice" value="<%= minPrice || '' %>"
+                         class="w-full pl-6 pr-2.5 py-2 text-xs sm:text-sm bg-neutral-50/70 border border-neutral-200 rounded-xl focus:bg-white focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition outline-none">
+                </div>
+                <div class="relative">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs font-semibold pointer-events-none">₹</span>
+                  <input type="number" name="maxPrice" placeholder="Max" id="maxPrice" value="<%= maxPrice || '' %>"
+                         class="w-full pl-6 pr-2.5 py-2 text-xs sm:text-sm bg-neutral-50/70 border border-neutral-200 rounded-xl focus:bg-white focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition outline-none">
+                </div>
+              </div>
+            </div>
+
+            <!-- Categories Filter Section -->
+            <div class="filter-section pb-5 border-b border-neutral-100">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-neutral-700 font-display mb-3">
+                Categories
+              </h4>
+              <div class="space-y-2.5 max-h-48 overflow-y-auto pr-1">
+                <% categories.forEach(categoryItem => { %>
+                  <label class="flex items-center gap-3 text-xs sm:text-sm text-neutral-600 hover:text-neutral-950 cursor-pointer select-none py-0.5 transition-colors">
+                    <input type="checkbox" name="category" value="<%= categoryItem._id %>"
+                           <%= category && (Array.isArray(category) ? category.includes(categoryItem._id.toString()) : category === categoryItem._id.toString()) ? 'checked' : '' %>
+                           class="w-4 h-4 rounded border-neutral-300 text-neutral-950 focus:ring-neutral-900/30 cursor-pointer">
+                    <span class="truncate"><%= categoryItem.name %></span>
+                  </label>
+                <% }) %>
+              </div>
+            </div>
+
+            <!-- Brands Filter Section -->
+            <div class="filter-section pb-5 border-b border-neutral-100">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-neutral-700 font-display mb-3">
+                Brands
+              </h4>
+              <div class="space-y-2.5 max-h-48 overflow-y-auto pr-1">
+                <% brands.forEach(brandItem => { %>
+                  <label class="flex items-center gap-3 text-xs sm:text-sm text-neutral-600 hover:text-neutral-950 cursor-pointer select-none py-0.5 transition-colors">
+                    <input type="checkbox" name="brand" value="<%= brandItem._id %>"
+                           <%= brand && (Array.isArray(brand) ? brand.includes(brandItem._id.toString()) : brand === brandItem._id.toString()) ? 'checked' : '' %>
+                           class="w-4 h-4 rounded border-neutral-300 text-neutral-950 focus:ring-neutral-900/30 cursor-pointer">
+                    <span class="truncate"><%= brandItem.name %></span>
+                  </label>
+                <% }) %>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" 
+                    class="apply-filter-btn w-full py-3 px-4 bg-neutral-950 hover:bg-neutral-800 active:scale-[0.99] text-white text-xs sm:text-sm font-semibold rounded-xl transition-all duration-200 shadow-sm flex items-center justify-center gap-2">
+              <svg class="w-4 h-4 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+              Apply Filters
+            </button>
+          </form>
+        </div>
+      </aside>
+
+      <!-- Products Grid Section -->
+      <section class="products-container flex-1 min-w-0 w-full">
+        <div class="products-grid grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-6">
+          <% if (products.length > 0) { %>
+            <% products.forEach((product) => { %>
+              <!-- Check if the product has at least one listed variant -->
+              <% if (product.variants.some(v => v.isListed)) { %>
+                <% const listedVariant = product.variants.find(v => v.isListed); %>
+                <div class="product-card group relative flex flex-col justify-between bg-white rounded-2xl border border-neutral-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                  
+                  <!-- Card Header: Image & Floating Badges -->
+                  <div class="relative">
+                    <a href="/productdetail/<%= product._id %>?variantId=<%= listedVariant._id %>" class="product-link block">
+                      <div class="product-image relative aspect-square w-full overflow-hidden bg-neutral-50/70 flex items-center justify-center p-4">
+                        <img src="<%= listedVariant.images.length > 0 ? listedVariant.images[0] : '/default-image.jpg' %>" 
+                             alt="<%= product.name %>"
+                             class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
+                        
+                        <!-- Offer Discount Badge -->
+                        <% if (product.appliedDiscount > 0) { %>
+                          <div class="offer-badge absolute top-2.5 left-2.5 bg-rose-600 text-white text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full shadow-md uppercase tracking-wider">
+                            <%= product.appliedDiscount %>% OFF
+                          </div>
+                        <% } %>
+                      </div>
+                    </a>
+
+                    <!-- Wishlist Floating Action -->
+                    <div class="product-wishlist absolute top-2.5 right-2.5 z-10">
+                      <button type="button" aria-label="Add to wishlist" 
+                              class="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-sm hover:shadow hover:scale-110 active:scale-95 transition-all duration-200">
+                        <i class="fas fa-heart wishlist-icon text-neutral-300 text-sm sm:text-base cursor-pointer" 
+                           data-product="<%= product._id %>" 
+                           data-variant="<%= listedVariant._id %>"
+                           onclick="addToWishlist('<%= product._id %>', '<%= listedVariant._id %>')"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Card Body: Details & Action -->
+                  <div class="product-details p-3.5 sm:p-5 flex flex-col flex-grow justify-between border-t border-neutral-100 bg-white">
+                    <div>
+                      <a href="/productdetail/<%= product._id %>?variantId=<%= listedVariant._id %>" class="block">
+                        <h3 class="product-name text-xs sm:text-sm font-semibold text-neutral-900 mb-1.5 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] font-display group-hover:text-neutral-950 leading-snug transition-colors">
+                          <%= product.name %>
+                        </h3>
+                      </a>
+                      
+                      <div class="price-container flex flex-wrap items-baseline gap-1.5 sm:gap-2 mb-1.5">
+                        <span class="selling-price text-sm sm:text-base font-bold text-neutral-950 font-display">₹<%= product.sellingPrice %></span>
+                        <% if (product.actualPrice && product.actualPrice > product.sellingPrice) { %>
+                          <span class="mrp text-[11px] sm:text-xs text-neutral-400 line-through">M.R.P ₹<%= product.actualPrice %></span>
+                        <% } else if (product.actualPrice) { %>
+                          <span class="mrp text-[11px] sm:text-xs text-neutral-400 line-through">M.R.P ₹<%= product.actualPrice %></span>
+                        <% } %>
+                      </div>
+                      
+                      <div class="product-rating text-amber-400 text-xs mb-3 flex items-center gap-1">
+                        <span>★★★★☆</span>
+                        <span class="text-[10px] text-neutral-400 font-sans ml-0.5">(4.0)</span>
+                      </div>
+                    </div>
+
+                    <% const inCart = locals.cartProductIds && locals.cartProductIds.includes(`${product._id}_${listedVariant._id}`); %>
+                    <button class="add-to-cart w-full py-2 sm:py-2.5 px-3 rounded-xl text-xs sm:text-sm font-semibold tracking-wide transition-all duration-200 shadow-sm <%= inCart ? 'go-to-cart-active bg-neutral-950 text-white hover:bg-neutral-800' : 'bg-neutral-900 text-white hover:bg-neutral-800 active:scale-[0.98]' %>" 
+                            onclick="addToCart('<%= product._id %>', '<%= listedVariant._id %>', this)">
+                      <%= inCart ? 'Go to Cart' : 'Add to Cart' %>
+                    </button>
+                  </div>
+                </div>
+              <% } %>
+            <% }) %>
+          <% } else { %>
+            <!-- Premium Empty State -->
+            <div class="col-span-full py-16 sm:py-20 px-4 text-center bg-white rounded-2xl border border-dashed border-neutral-200/90 shadow-sm">
+              <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-400">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+              </div>
+              <h3 class="font-display text-lg font-bold text-neutral-900 mb-1">No products found</h3>
+              <p class="text-xs sm:text-sm text-neutral-500 max-w-sm mx-auto mb-6">
+                We couldn't find any items matching your selected criteria. Try adjusting your filters or search query.
+              </p>
+              <a href="/userproducts" 
+                 class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-neutral-950 text-white text-xs font-semibold hover:bg-neutral-800 transition shadow-sm">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                Clear All Filters
+              </a>
+            </div>
           <% } %>
-        <% }) %>
-      <% } else { %>
-        <p>No products found.</p>
-      <% } %>
+        </div>
+      </section>
+
     </div>
-  </div>
+  </main>
+
   <%- include('../partials/user/footer') %>
 
+  <!-- Preserve Exact Client Filtering Logic -->
   <script>
-
     function handleSortChange(selectElement) {
       const form = selectElement.form;
       const minPrice = document.getElementById('minPrice');
       const maxPrice = document.getElementById('maxPrice');
 
       // Remove minPrice and maxPrice fields from the URL if they are empty
-      if (minPrice.value.trim() === '') {
+      if (minPrice && minPrice.value.trim() === '') {
         minPrice.name = '';
       }
-      if (maxPrice.value.trim() === '') {
+      if (maxPrice && maxPrice.value.trim() === '') {
         maxPrice.name = '';
       }
 
@@ -147,17 +390,17 @@
     }
 
     // Existing submit event listener for "Apply Filters"
-  document.getElementById('filter-form').addEventListener('submit', function(event) {
-    const minPrice = document.getElementById('minPrice');
-    const maxPrice = document.getElementById('maxPrice');
+    document.getElementById('filter-form').addEventListener('submit', function(event) {
+      const minPrice = document.getElementById('minPrice');
+      const maxPrice = document.getElementById('maxPrice');
 
-    if (minPrice.value.trim() === '') {
-      minPrice.name = '';
-    }
-    if (maxPrice.value.trim() === '') {
-      maxPrice.name = '';
-    }
-  });
+      if (minPrice && minPrice.value.trim() === '') {
+        minPrice.name = '';
+      }
+      if (maxPrice && maxPrice.value.trim() === '') {
+        maxPrice.name = '';
+      }
+    });
   </script>
 </body>
 </html>
